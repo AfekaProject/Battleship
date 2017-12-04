@@ -1,13 +1,13 @@
 package afeka.battleship;
 
 
-public class Tile {
+public class TileView extends {
 
     enum status {Hit, Miss, None , Placed}
 
     private status currentStatus;
 
-    public Tile(status currentStatus) {
+    public TileView(status currentStatus) {
         this.currentStatus = currentStatus;
     }
 

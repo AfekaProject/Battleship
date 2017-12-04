@@ -1,28 +1,26 @@
 package afeka.battleship;
 
-
-
 public class Board {
 
-
-
-    private Tile [] boardMatrix;
+    private TileView[] boardMatrix;
 
     public Board (int size){
-        boardMatrix = new Tile[size];
+        boardMatrix = new TileView[size];
         for (int i = 0 ; i <size ; i++){
-            boardMatrix[i] = new Tile(Tile.status.None);
+            boardMatrix[i] = new TileView(TileView.status.None);
         }
     }
 
 
-    public void setTileInPosition(int i ,Tile.status status) {
+    public void setTileInPosition(int i ,TileView.status status) {
         this.boardMatrix[i].setStatus(status);
     }
 
-    public Tile getTileInPosition (int i){
+    public TileView getTileInPosition (int i){
         return boardMatrix[i];
     }
 
-
+    public int getSize(){
+        return boardMatrix.length;
+    }
 }
