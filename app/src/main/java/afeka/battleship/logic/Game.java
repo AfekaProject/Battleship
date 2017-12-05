@@ -1,7 +1,9 @@
-package afeka.battleship;
+package afeka.battleship.logic;
 
 
-import android.widget.GridView;
+import afeka.battleship.Model.Board;
+import afeka.battleship.Model.Fleet;
+import afeka.battleship.logic.ComputerPlayer;
 
 public class Game {
 
@@ -25,5 +27,11 @@ public class Game {
 
     }
 
+    public Board getbPlayerToShow() {
+        return playerShips.getLogicBoard();
+    }
 
+    public Board getbComputerToShow() {
+        return bComputerToShow;
+    }
 }

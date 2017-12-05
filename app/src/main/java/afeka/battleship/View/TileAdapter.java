@@ -1,18 +1,20 @@
-package afeka.battleship;
+package afeka.battleship.View;
 
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import afeka.battleship.Model.Board;
+
+
 public class TileAdapter extends BaseAdapter {
 
     private Context context;
     private Board mBoard;
 
-    public TileAdapter(Context context, Board mBoard) {
+    public TileAdapter(Context context) {
         this.context = context;
-        this.mBoard = mBoard;
     }
 
     public void setmBoard(Board mBoard) {
@@ -26,7 +28,7 @@ public class TileAdapter extends BaseAdapter {
 
     @Override
     public Object getItem(int position) {
-        return mBoard.getTileInPosition(position);
+        return mBoard.getTile(position);
     }
 
     @Override
@@ -44,7 +46,7 @@ public class TileAdapter extends BaseAdapter {
             tileView = (TileView) view;
         }
 
-        tileView.text.setText(mBoard.getTileInPosition(i).getStatus().toString());
+        tileView.text.setText(mBoard.getTile(i).getStatus().toString());
 
             return tileView;
     }

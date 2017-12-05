@@ -1,8 +1,8 @@
-package afeka.battleship;
+package afeka.battleship.Model;
 
 public class Board {
 
-    enum tileStatus {Hit, Miss, None , Placed}
+    public enum TileStatus {HIT, MISS, NONE, PLACED}
     private Tile[] boardMatrix;
 
     public Board (int size){
@@ -13,11 +13,11 @@ public class Board {
     }
 
 
-    public void setTileInPosition(int i ,tileStatus status) {
+    public void setTile(int i , TileStatus status) {
         this.boardMatrix[i].setStatus(status);
     }
 
-    public Tile getTileInPosition (int i){
+    public Tile getTile(int i){
         return boardMatrix[i];
     }
 
