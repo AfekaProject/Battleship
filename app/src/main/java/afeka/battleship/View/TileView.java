@@ -14,11 +14,12 @@ public class TileView extends LinearLayout {
     public TileView(Context context) {
         super(context);
         //put here setting for how to view the tile in grid
+        text = new TextView(context);
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         text.setLayoutParams(layoutParams);
         text.setTextAlignment(TEXT_ALIGNMENT_CENTER);
         text.setGravity(Gravity.CENTER_VERTICAL);
-        text.setTextSize(50);
+        text.setTextSize(20);
         text.setTextColor(Color.BLACK);
         setBackgroundColor(Color.LTGRAY);
         //alinge color or add image (change to img VIew insted of textView
