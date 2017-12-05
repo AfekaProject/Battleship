@@ -17,6 +17,8 @@ public class Board {
         this.boardMatrix[i].setStatus(status);
     }
 
+
+    
     public Tile getTile(int i){
         return boardMatrix[i];
     }
