@@ -2,21 +2,22 @@ package afeka.battleship;
 
 public class Board {
 
-    private TileView[] boardMatrix;
+    enum tileStatus {Hit, Miss, None , Placed}
+    private Tile[] boardMatrix;
 
     public Board (int size){
-        boardMatrix = new TileView[size];
+        boardMatrix = new Tile[size];
         for (int i = 0 ; i <size ; i++){
-            boardMatrix[i] = new TileView(TileView.status.None);
+            boardMatrix[i] = new Tile();
         }
     }
 
 
-    public void setTileInPosition(int i ,TileView.status status) {
+    public void setTileInPosition(int i ,tileStatus status) {
         this.boardMatrix[i].setStatus(status);
     }
 
-    public TileView getTileInPosition (int i){
+    public Tile getTileInPosition (int i){
         return boardMatrix[i];
     }
 

@@ -19,8 +19,8 @@ public class Fleet {
         for (int i =0 ; i<diff*5 ; i++){
             int temp =r.nextInt(100);
             // if the tile is empty
-            if (logicBoard.getTileInPosition(temp).getStatus().equals(TileView.status.None)){
-                logicBoard.setTileInPosition(temp , TileView.status.Placed);
+            if (logicBoard.getTileInPosition(temp).getStatus().equals(Board.tileStatus.None)){
+                logicBoard.setTileInPosition(temp , Board.tileStatus.Placed);
 
             }
 

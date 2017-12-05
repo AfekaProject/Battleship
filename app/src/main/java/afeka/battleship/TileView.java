@@ -1,28 +1,19 @@
 package afeka.battleship;
 
+import android.content.Context;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-public class TileView extends {
+public class TileView extends LinearLayout {
 
-    enum status {Hit, Miss, None , Placed}
+    TextView text;
 
-    private status currentStatus;
-
-    public TileView(status currentStatus) {
-        this.currentStatus = currentStatus;
+    public TileView(Context context) {
+        super(context);
+        //put here setting for how to view the tile in grid
+        //alinge color or add image (change to img VIew insted of textView
+        addView(text);
     }
-
-
-
-    public status getStatus() {
-        return currentStatus;
-    }
-
-    public void setStatus(status status) {
-        this.currentStatus = status;
-    }
-
-
-
 
 
 }

@@ -17,7 +17,7 @@ public class GameActivity extends AppCompatActivity {
         game = new Game(1);
         mainGrid = (GridView)findViewById(R.id.gridview);
 
-        mainGrid.setAdapter(new TileAdapter());
+       // mainGrid.setAdapter(new TileAdapter());
 
     }
 

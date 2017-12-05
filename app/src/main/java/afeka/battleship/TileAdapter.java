@@ -1,6 +1,5 @@
 package afeka.battleship;
 
-
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +12,10 @@ public class TileAdapter extends BaseAdapter {
 
     public TileAdapter(Context context, Board mBoard) {
         this.context = context;
+        this.mBoard = mBoard;
+    }
+
+    public void setmBoard(Board mBoard) {
         this.mBoard = mBoard;
     }
 
@@ -35,8 +38,14 @@ public class TileAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         TileView tileView;
         if (view == null){
-            tileView = new TileView()
+            tileView = new TileView(context);
+        }
+        else{
+            tileView = (TileView) view;
         }
 
+        tileView.text.setText(mBoard.getTileInPosition(i).getStatus().toString());
+
+            return tileView;
     }
 }
