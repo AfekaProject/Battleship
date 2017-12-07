@@ -2,28 +2,24 @@ package afeka.battleship.logic;
 
 
 import afeka.battleship.Model.Board;
-import afeka.battleship.Model.Fleet;
-import afeka.battleship.logic.ComputerPlayer;
 
 public class Game {
 
-    public static final int BOARD_SIZE = 100;
+    public static final int BOARD_SIZE = 10;
     private ComputerPlayer cpu;
     private int difficult;
     private Board bPlayerToShow;
     private Board bComputerToShow;
-    private Fleet playerShips;
-    private Fleet computerShips;
-
-
+    private LogicBoard playerLogicBoard;
+    private LogicBoard cpuLogicBoard;
 
 
     public Game (int diff){
         this.difficult = diff;
         bPlayerToShow = new Board(BOARD_SIZE);
-        bComputerToShow = new Board( BOARD_SIZE);
-        playerShips = new Fleet(diff);
-        computerShips = new Fleet (diff);
+        bComputerToShow = new Board(BOARD_SIZE);
+        playerLogicBoard = new LogicBoard(diff);
+        cpuLogicBoard = new LogicBoard (diff);
 
     }
 
@@ -34,4 +30,11 @@ public class Game {
     public Board getbComputerToShow() {
         return bComputerToShow;
     }
+
+    public void generateSheeps() {
+        //need to be changed!!
+
+
+    }
+
 }
