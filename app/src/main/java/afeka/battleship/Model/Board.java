@@ -3,7 +3,7 @@ package afeka.battleship.Model;
 public class Board {
     public final int SIZE = 10;
 
-    public enum TileStatus {HIT, MISS, NONE, PLACED}
+
     private Tile[][] boardMatrix;
 
 
@@ -24,11 +24,13 @@ public class Board {
 
     
     public Tile getTile(int i){
-        int row,col;
-        row = i % size;
-        col = i / size;
-
-        return boardMatrix[row][col];
+        return boardMatrix[positionToX(i)][positionToY(i)];
+    }
+    private int positionToX(int position){ //convert position to x
+        return position % size;
+    }
+    private int positionToY(int position){ //convert position to y
+        return position / size;
     }
 
     public int getSize(){

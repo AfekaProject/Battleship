@@ -4,14 +4,33 @@ public class Tile {
     public enum status {NONE,HIT,MISS,PLACED}
     private int x;
     private int y;
-    private boolean isHit;
+ //   private boolean isHit;
     private Ship ship;
+
+    private status status;
 
     public Tile(int x , int y){
         this.x = x;
         this.y = y;
-        isHit = false;
+     //   isHit = false;
+        status = status.NONE;
 
+    }
+    @Override
+    public String toString() {
+        switch (status) {
+            case NONE:
+                return "";
+            case PLACED:
+                return "";
+            case HIT:
+                return "X";
+            case MISS:
+                return "~";
+
+            default:
+                return "";
+        }
     }
     public Ship getShip() {
         return ship;
@@ -21,19 +40,36 @@ public class Tile {
         this.ship = ship;
     }
 
+    public Tile.status getStatus() {
+        return status;
+    }
+
 
     public boolean isHit() {
-        return isHit;
+        if(status.equals(status.HIT))
+            return true;
+        else
+            return false;
     }
 
-    public void setHit(boolean hit) {
-        isHit = hit;
+    public void setHit() {
+        status = status.HIT;
+        ship.setHit(); //update ship's hit counter
     }
 
-    public void setHitTileInShip() {
+    public void setMiss() {
+        status = status.MISS;
+    }
+
+    public void setPlaced() {
+        status = status.PLACED;
+    }
+
+
+  /*  public void setHitTileInShip() {
         isHit = true;
         ship.setHit();
-    }
+    }*/
 }
     /*
     private Board.TileStatus status;
@@ -69,4 +105,4 @@ public class Tile {
                 return "";
         }
     }*/
-}
+
