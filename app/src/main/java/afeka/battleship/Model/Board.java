@@ -29,7 +29,7 @@ public class Board {
         this.shipsAlive = shipsAlive;
     }
 
-    public boolean aShipdrowned(){
+    public boolean isWin(){
         shipsAlive--;
         return (shipsAlive==0);
     }

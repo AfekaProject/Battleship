@@ -54,27 +54,22 @@ public class Game {
             currentBoard = bComputer;
             currentTile = bComputer.getTile(position);
         }
-                if (currentTile.getStatus().equals(Tile.Status.NONE)) { //current tile has nothing
-                    currentTile.setMiss(); //change current tile - miss
-                    lastTurnStatus = GameStatus.MISS;
-                    toggleTurn();
-                }
-                else if(currentTile.getStatus().equals(Tile.Status.PLACED)){ //current tile has ship
-                    if (currentTile.setHit())
-                        if (currentBoard.aShipdrowned());
-                            lastTurnStatus = GameStatus.WIN;
-
-                    lastTurnStatus = GameStatus.HIT;
-
-                }
-                else if(currentTile.getStatus().equals(Tile.Status.HIT)){  //current tile is hit
-                    lastTurnStatus = GameStatus.WRONG_MOVE;
-
-                }else{ //current tile is miss
-                    lastTurnStatus = GameStatus.WRONG_MOVE;
-                }
-
-            return lastTurnStatus;
+        if (currentTile.getStatus().equals(Tile.Status.NONE)) { //current tile has nothing
+            currentTile.setMiss(); //change current tile - miss
+            lastTurnStatus = GameStatus.MISS;
+            toggleTurn();
+        }
+        else if(currentTile.getStatus().equals(Tile.Status.PLACED)){ //current tile has ship
+            lastTurnStatus = GameStatus.HIT;
+            if (currentTile.setHit())
+                if (currentBoard.isWin())
+                    lastTurnStatus = GameStatus.WIN;
+        }
+        else if(currentTile.getStatus().equals(Tile.Status.HIT))  //current tile is hit
+            lastTurnStatus = GameStatus.WRONG_MOVE;
+        else //current tile is miss
+            lastTurnStatus = GameStatus.WRONG_MOVE;
+        return lastTurnStatus;
     }
 
     public GameStatus computerPlay(){

@@ -12,14 +12,14 @@ import afeka.battleship.logic.Game;
 
 public class GameActivity extends AppCompatActivity {
 
-    private GridView mainGrid;
-    private Button buttonSwitch;
     private Game game;
-    private TextView currentPlayer;
-    private TextView statusGameToShow;
-    private Game.GameStatus currentGameStatus;
-    private Game.Players boardToView = Game.Players.PLAYER;
+    private GridView mainGrid;
     private TileAdapter viewBoard;
+    private Game.Players boardToView = Game.Players.PLAYER;
+    private TextView currentPlayer;
+    private Game.GameStatus currentGameStatus;
+    private TextView statusGameToShow;
+    private Button buttonSwitch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,66 +40,18 @@ public class GameActivity extends AppCompatActivity {
 
         mainGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-
-                currentGameStatus = game.playerPlay(position);
-                massageStatus(currentGameStatus, Game.Players.PLAYER);
-                viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER),Game.Players.PLAYER);
-                ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
-                enableGrid();
-
-
+            public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        pause(1);
-                        while(game.getCurrentTurn().equals(Game.Players.COMPUTER)){
-                            currentPlayer.setText(R.string.computerTurn);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    viewBoard.setmBoard(game.getBoard(Game.Players.COMPUTER),Game.Players.COMPUTER);
-                                    ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
-                                }
-                            });
-                            currentGameStatus=game.computerPlay();
-                            massageStatus(currentGameStatus, Game.Players.COMPUTER);
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    viewBoard.setmBoard(game.getBoard(Game.Players.COMPUTER),Game.Players.COMPUTER);
-                                    ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
-
-                                }
-                            });
-
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    viewBoard.setmBoard(game.getBoard(Game.Players.COMPUTER),Game.Players.COMPUTER);
-                                    ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
-
-                                }
-                            });
-
-                            statusGameToShow.setText("");
-                            currentPlayer.setText(R.string.playerTurn);
-
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER),Game.Players.PLAYER);
-                                    ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
-                                    enableGrid();
-                                }
-                            });
+                        playPlayer(position);
+                        if (currentGameStatus.equals(Game.GameStatus.MISS)) {
+                            playComputer();
                         }
 
                     }
                 });
                 t.start();
-
             }
         });
     }
@@ -109,6 +61,45 @@ public class GameActivity extends AppCompatActivity {
             mainGrid.setEnabled(false);
         else
             mainGrid.setEnabled(true);
+    }
+
+    private void playPlayer(final int position){
+        currentGameStatus = game.playerPlay(position);
+        //massageStatus(currentGameStatus, Game.Players.PLAYER);
+        updateBoard(Game.Players.PLAYER);
+        pause(1);
+        //statusGameToShow.setText("");
+    }
+
+    private void playComputer(){
+        enableGrid();
+        pause(2);
+        currentPlayer.setText(R.string.computerTurn);
+        updateBoard(Game.Players.COMPUTER);
+        do {
+            currentGameStatus=game.computerPlay();
+           // massageStatus(currentGameStatus, Game.Players.COMPUTER);
+            updateBoard(Game.Players.COMPUTER);
+            pause(1);
+            //statusGameToShow.setText("");
+            pause(1);
+        } while(game.getCurrentTurn().equals(Game.Players.COMPUTER));
+        currentPlayer.setText(R.string.playerTurn);
+        updateBoard(Game.Players.PLAYER);
+        enableGrid();
+    }
+
+    private void updateBoard(final Game.Players p) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                if (p.equals(Game.Players.PLAYER))
+                    viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER),Game.Players.PLAYER);
+                else
+                    viewBoard.setmBoard(game.getBoard(Game.Players.COMPUTER),Game.Players.COMPUTER);
+                ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
+            }
+        });
     }
 
     private void massageStatus(Game.GameStatus status, Game.Players turn) {
@@ -124,6 +115,8 @@ public class GameActivity extends AppCompatActivity {
                 statusGameToShow.setText(R.string.computerMiss);
         } else if (status.equals(Game.GameStatus.WRONG_MOVE))
             statusGameToShow.setText(R.string.playerWrong);
+        else
+            statusGameToShow.setText("tesing");
     }
 
     public void pause(int i){ //stop for i sec the stimulate game
