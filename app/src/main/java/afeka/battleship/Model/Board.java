@@ -19,6 +19,8 @@ public class Board {
         generateShips(shipsAlive);
     }
 
+
+
     public int getShipsAlive() {
         return shipsAlive;
     }
@@ -35,7 +37,6 @@ public class Board {
         int row,col;
         row = i % BOARD_SIZE;
         col = i / BOARD_SIZE;
-
         return boardMatrix[row][col];
     }
 

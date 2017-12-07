@@ -2,7 +2,6 @@ package afeka.battleship.Model;
 
 public class Ship {
 
-
     private int size;
     private int hitsCounter;
     private int id;
@@ -28,7 +27,6 @@ public class Ship {
         return hitsCounter;
     }
 
-
     public boolean isDrowned() {
         if (hitsCounter >= size)
             return true;
@@ -36,8 +34,11 @@ public class Ship {
             return false;
     }
 
-    public void setHit(){
+    public boolean setHit(){
         hitsCounter++;
+        return isDrowned();
+
+
     }
 
 }

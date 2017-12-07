@@ -5,18 +5,20 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import afeka.battleship.Model.Board;
-
+import afeka.battleship.logic.Game;
 
 public class TileAdapter extends BaseAdapter {
 
     private Context context;
     private Board mBoard;
+    private Game.Players playerToView;
 
     public TileAdapter(Context context) {
         this.context = context;
     }
 
-    public void setmBoard(Board mBoard) {
+    public void setmBoard(Board mBoard,Game.Players playerToView) {
+        this.playerToView = playerToView;
         this.mBoard = mBoard;
     }
 
@@ -46,7 +48,11 @@ public class TileAdapter extends BaseAdapter {
             tileView = (TileView) view;
         }
 
-        tileView.text.setText(mBoard.getTile(i).toString());
+        String text = mBoard.getTile(i).toString();
+        if (playerToView.equals(Game.Players.COMPUTER) && text.contains("S"))
+            text = "";
+
+        tileView.text.setText(text);
 
             return tileView;
     }

@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
@@ -13,10 +14,13 @@ import afeka.battleship.logic.Game;
 public class GameActivity extends AppCompatActivity {
 
     private GridView mainGrid;
+    private Button buttonSwitch;
     private Game game;
     private TextView currentPlayer;
     private TextView statusGameToShow;
     private Game.GameStatus currentGameStatus;
+    private Game.Players boardToView = Game.Players.PLAYER;
+    private TileAdapter viewBoard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,9 +28,12 @@ public class GameActivity extends AppCompatActivity {
         setContentView(R.layout.activity_game);
 
         game = new Game(3);
+        int difficulty =getIntent().getIntExtra("Difficulty",3);
+        game = new Game(difficulty);
         mainGrid = findViewById(R.id.gridView);
-        TileAdapter viewBoard = new TileAdapter(getApplicationContext());
-        viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER));
+        buttonSwitch = findViewById(R.id.button_switchBoard);
+        viewBoard = new TileAdapter(getApplicationContext());
+        viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER),Game.Players.PLAYER);
         mainGrid.setAdapter(viewBoard);
         currentPlayer = findViewById(R.id.playerText);
         statusGameToShow = findViewById(R.id.statusText);
@@ -48,7 +55,7 @@ public class GameActivity extends AppCompatActivity {
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                    while(game.getWhosTurn().equals(Game.Players.COMPUTER)){
+                    while(game.getCurrentTurn().equals(Game.Players.COMPUTER)){
                             currentPlayer.setText(R.string.computerTurn);
                             currentGameStatus=game.computerPlay();
                             massageStatus(currentGameStatus, Game.Players.COMPUTER);
@@ -97,4 +104,19 @@ public class GameActivity extends AppCompatActivity {
         }
     }
 
+
+
+    public void switchBoard(View view) {
+        if (boardToView.equals(Game.Players.PLAYER)){
+            boardToView = Game.Players.COMPUTER;
+            buttonSwitch.setText(R.string.computerBoard);
+        }
+
+        else{
+            boardToView = Game.Players.PLAYER;
+            buttonSwitch.setText(R.string.playerBoard);
+        }
+        viewBoard.setmBoard(game.getBoard(boardToView), boardToView);
+        ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
+    }
 }

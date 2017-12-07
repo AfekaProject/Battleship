@@ -14,25 +14,25 @@ public class Game {
     private Board bPlayer;
     private Board bComputer;
     private GameStatus lastTurnStatus;
-    private Players whosTurn;
-
+    private Players CurrentTurn;
 
     public Game(int diff) {
         this.difficult = diff;
         cpu = new ComputerPlayer();
         bPlayer = new Board(difficult);
         bComputer = new Board(difficult);
-        whosTurn = Players.PLAYER;
+        CurrentTurn = Players.PLAYER;
     }
-    public Players getWhosTurn() {
-        return whosTurn;
+
+    public Players getCurrentTurn() {
+        return CurrentTurn;
     }
 
     private void toggleTurn(){
-         if(whosTurn == Players.PLAYER)
-             whosTurn = Players.COMPUTER;
+         if(CurrentTurn == Players.PLAYER)
+             CurrentTurn = Players.COMPUTER;
          else
-             whosTurn = Players.PLAYER;
+             CurrentTurn = Players.PLAYER;
     }
 
     public Board getBoard (Players t){
@@ -45,11 +45,10 @@ public class Game {
     public GameStatus playGame(int position) {
         Tile currentTile;
 
-        if(whosTurn == Players.PLAYER)
+        if(getCurrentTurn() == Players.PLAYER)
             currentTile = bPlayer.getTile(position);
         else
             currentTile = bComputer.getTile(position);
-
 
                 if (currentTile.getStatus().equals(Tile.Status.NONE)) { //current tile has nothing
                     currentTile.setMiss(); //change current tile - miss
@@ -61,7 +60,10 @@ public class Game {
                     lastTurnStatus = GameStatus.HIT;
 
                 }
-                else if(currentTile.getStatus().equals(Tile.Status.HIT) || currentTile.getStatus().equals(Tile.Status.MISS)  ) {  //current tile is hit
+                else if(currentTile.getStatus().equals(Tile.Status.HIT)){  //current tile is hit
+                    lastTurnStatus = GameStatus.WRONG_MOVE;
+
+                }else{ //current tile is miss
                     lastTurnStatus = GameStatus.WRONG_MOVE;
                 }
 

@@ -15,8 +15,23 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void clickStart(View view) {
+        int difficulty;
+        switch (view.getId()) {
+            case R.id.button_easy:
+                difficulty = 3;
+                break;
+            case R.id.button_medium:
+                difficulty = 2;
+                break;
+            case R.id.button_hard:
+                difficulty = 1;
+                break;
+            default:
+                difficulty = 3;
+                break;
+        }
         Intent i = new Intent(this,GameActivity.class);
-        i.putExtra("Difficulty", 3);
+        i.putExtra("Difficulty", difficulty);
         startActivity(i);
 
     }
