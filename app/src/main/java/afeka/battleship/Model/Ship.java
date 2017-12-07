@@ -1,21 +1,20 @@
 package afeka.battleship.Model;
 
-
 public class Ship {
 
 
     private int size;
     private int hitsCounter;
 
-
-    public Ship(int size){
-        this.size = size;
-        hitsCounter = 0; //not sure if to set in the constructor
-    }
-
     public int getSize() {
         return size;
     }
+
+    public Ship(int size){
+        this.size = size;
+        hitsCounter = 0;
+    }
+
 
     public int getHitsCounter() {
         return hitsCounter;

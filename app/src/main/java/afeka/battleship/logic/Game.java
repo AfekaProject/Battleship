@@ -1,7 +1,7 @@
 package afeka.battleship.logic;
 
-
 import afeka.battleship.Model.Board;
+import afeka.battleship.Model.Fleet;
 import afeka.battleship.Model.Tile;
 
 public class Game {
@@ -13,39 +13,22 @@ public class Game {
     public static final int BOARD_SIZE = 10;
     private ComputerPlayer cpu;
     private int difficult;
-    private Board boardPlayer;
-    private Board boardComputer;
+    private Fleet fPlayer;
+    private Fleet fComputer;
     private gameStatus lastTurnStatus;
         private turn whosTurn;
 
 
     public Game(int diff) {
         this.difficult = diff;
-        boardPlayer = new Board(BOARD_SIZE);
-        boardComputer = new Board(BOARD_SIZE);
+        fPlayer = new Fleet(difficult);
+        fComputer = new Fleet(difficult);
         whosTurn = turn.PLAYER;
-        // playerLogicBoard = new LogicBoard(diff);
-        //  cpuLogicBoard = new LogicBoard (diff);
-
     }
     public turn getWhosTurn() {
         return whosTurn;
     }
 
-    public Board getbPlayerToShow() {
-        return playerShips.getLogicBoard();
-    }
-
-    public Board getbComputerToShow() {
-        return bComputerToShow;
-    }
-
-
-    public void generateSheeps() {
-        //need to be changed!!
-
-
-    }
     private void toggleTurn(){
          if(whosTurn == turn.PLAYER)
              whosTurn = turn.COMPUTER;
@@ -57,21 +40,21 @@ public class Game {
         Tile currentTile;
 
         if(whosTurn == turn.PLAYER)
-            currentTile = boardPlayer.getTile(position);
+            currentTile = fPlayer.getBoard().getTile(position);
         else
-            currentTile = boardComputer.getTile(position);
+            currentTile = fComputer.getBoard().getTile(position);
 
 
-                if (currentTile.getStatus().equals(Tile.status.NONE)) { //current tile has nothing
+                if (currentTile.getStatus().equals(Tile.Status.NONE)) { //current tile has nothing
                     currentTile.setMiss(); //change current tile - miss
                     lastTurnStatus = gameStatus.MISS;
                     toggleTurn();
                 }
-                else if(currentTile.getStatus().equals(Tile.status.PLACED)){ //current tile has ship
+                else if(currentTile.getStatus().equals(Tile.Status.PLACED)){ //current tile has ship
                     currentTile.setHit();
                     lastTurnStatus = gameStatus.HIT;
                 }
-                else if(currentTile.getStatus().equals(Tile.status.HIT)){  //current tile is hit
+                else if(currentTile.getStatus().equals(Tile.Status.HIT)){  //current tile is hit
                     lastTurnStatus = gameStatus.WRONG_MOVE;
 
                 }else{ //current tile is miss
@@ -86,7 +69,7 @@ public class Game {
     }
 
     public void computerPlay(){
-        playGame(cpu.playTurn(boardComputer));
+        playGame(cpu.playTurn(fComputer.getBoard()));
     }
     public void playerPlay(int position){
         playGame(position);

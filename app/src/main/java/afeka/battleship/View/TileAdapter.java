@@ -1,7 +1,6 @@
 package afeka.battleship.View;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -43,11 +42,9 @@ public class TileAdapter extends BaseAdapter {
         TileView tileView;
 
         if (view == null){
-            Log.e("Tile Adapter", "Not RECYCLED");
             tileView = new TileView(context);
         }
         else{
-            Log.e("Tile Adapter", "RECYCLED-- YAY!!!!!");
             tileView = (TileView) view;
         }
 

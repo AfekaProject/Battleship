@@ -1,13 +1,13 @@
 package afeka.battleship.Model;
 
 public class Tile {
-    public enum status {NONE,HIT,MISS,PLACED}
+    public enum Status {NONE,HIT,MISS,PLACED}
     private int x;
     private int y;
  //   private boolean isHit;
     private Ship ship;
 
-    private status status;
+    private Status status;
 
     public Tile(int x , int y){
         this.x = x;
@@ -40,7 +40,7 @@ public class Tile {
         this.ship = ship;
     }
 
-    public Tile.status getStatus() {
+    public Status getStatus() {
         return status;
     }
 
@@ -61,37 +61,44 @@ public class Tile {
         status = status.MISS;
     }
 
-    public void setPlaced() {
+    public void setPlaced(Ship ship) {
+        setShip(ship);
         status = status.PLACED;
     }
 
+    public boolean isFreeToClick(){
+        return (status.equals(Status.PLACED) || status.equals(Status.NONE));
+    }
 
+    public boolean isPlaced(){
+        return status.equals(Status.PLACED);
+    }
   /*  public void setHitTileInShip() {
         isHit = true;
         ship.setHit();
     }*/
 }
     /*
-    private Board.TileStatus status;
+    private Board.TileStatus Status;
 
     Tile(){
         this(Board.TileStatus.NONE);
     }
 
-    private Tile (Board.TileStatus status){
-        setStatus(status);
+    private Tile (Board.TileStatus Status){
+        setStatus(Status);
     }
     public Board.TileStatus getStatus() {
-        return status;
+        return Status;
     }
 
-    void setStatus(Board.TileStatus status) {
-        this.status = status;
+    void setStatus(Board.TileStatus Status) {
+        this.Status = Status;
     }
 
     @Override
     public String toString() {
-        switch (status) {
+        switch (Status) {
             case NONE:
                 return "";
             case PLACED:

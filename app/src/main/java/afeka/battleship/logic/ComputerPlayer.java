@@ -6,7 +6,7 @@ import afeka.battleship.Model.Board;
 
 public class ComputerPlayer {
 
-    public void think() {
+    private void think() {
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {
@@ -15,19 +15,17 @@ public class ComputerPlayer {
     }
 
     public int playTurn(Board board) {
-        //need to change
+        int x,y;
         think();
 
         Random random = new Random();
 
-        int positionToPlay = random.nextInt(9);
+        do{
+            x = random.nextInt(Board.BOARD_SIZE);
+            y = random.nextInt(Board.BOARD_SIZE);
+        } while (!board.getBoardMatrix()[x][y].isFreeToClick());
 
-        while(board.getTile(positionToPlay).getStatus() != Board.TileStatus.NONE) {
+        return (x*Board.BOARD_SIZE)+y;
 
-            positionToPlay = random.nextInt(9);
-
-        }
-
-        return positionToPlay;
     }
 }

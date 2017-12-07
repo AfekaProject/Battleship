@@ -3,12 +3,13 @@ package afeka.battleship;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.TextView;
 
 import afeka.battleship.View.TileAdapter;
 import afeka.battleship.logic.Game;
-import android.widget.AdapterView;
+
 public class GameActivity extends AppCompatActivity {
 
     private GridView mainGrid;
@@ -20,64 +21,37 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        game = new Game(1);
+        game = new Game(3);
         mainGrid = findViewById(R.id.gridView);
         TileAdapter viewBoard = new TileAdapter(getApplicationContext());
-        viewBoard.setmBoard(game.getbPlayerToShow());
+        //viewBoard.setmBoard(game.);
         mainGrid.setAdapter(viewBoard);
-    //    currentPlayer = findViewById(R.id.playerText);
-    //    currentPlayer.setText("Your Turn");
+        currentPlayer = findViewById(R.id.playerText);
+        currentPlayer.setText("Your Turn");
 
         mainGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-                ((TileAdapter)mainGrid.getAdapter()).notifyDataSetChanged();
+                ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
 
 
-                    if(game.getWhosTurn().equals(Game.turn.PLAYER)) {
-                        ((TextView)findViewById(R.id.playerText)).setText("Your Turn");
-                        game.playGame(position);
-                    }else {
-                        ((TextView)findViewById(R.id.playerText)).setText("Computer's Turn");
-                        game.computerPlay();
-                    }
+                if (game.getWhosTurn().equals(Game.turn.PLAYER)) {
+                    ((TextView) findViewById(R.id.playerText)).setText("Your Turn");
+                    game.playGame(position);
+                } else {
+                    ((TextView) findViewById(R.id.playerText)).setText("Computer's Turn");
+                    game.computerPlay();
+                }
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        game.playComputer();
-
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                          //      Toast.makeText(getApplicationContext(),"Computer Finihsed his turn",Toast.LENGTH_LONG).show();
-                                ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
-                                ((TextView)findViewById(R.id.playerText)).setText("Player's Turn");
-                             //   ((ProgressBar)findViewById(R.id.progressBar)).setVisibility(View.INVISIBLE);
-
-                            }
-                        });
+                        game.computerPlay();
                     }
                 });
-
-                t.start();
-
-
-
-
-
-
-
-
             }
+
+
         });
-
-
-        }
-
-
-
-
+    }
 }
