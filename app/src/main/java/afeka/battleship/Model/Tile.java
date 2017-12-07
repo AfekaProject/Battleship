@@ -4,15 +4,13 @@ public class Tile {
     public enum status {NONE,HIT,MISS,PLACED}
     private int x;
     private int y;
- //   private boolean isHit;
+    private boolean isHit;
     private Ship ship;
-    private status status;
 
     public Tile(int x , int y){
         this.x = x;
         this.y = y;
-     //   isHit = false;
-        status = status.NONE;
+        isHit = false;
 
     }
     public Ship getShip() {
@@ -23,35 +21,19 @@ public class Tile {
         this.ship = ship;
     }
 
-    public status setStatus() {
-        return status;
-    }
 
     public boolean isHit() {
-        if(status.equals(status.HIT))
-            return true;
-        else
-            return false;
+        return isHit;
     }
 
-    public void setHit() {
-        status = status.HIT;
-        ship.setHit(); //update ship's hit counter
+    public void setHit(boolean hit) {
+        isHit = hit;
     }
 
-    public void setMiss() {
-        status = status.MISS;
-    }
-
-    public void setPlaced() {
-        status = status.PLACED;
-    }
-
-
-  /*  public void setHitTileInShip() {
+    public void setHitTileInShip() {
         isHit = true;
         ship.setHit();
-    }*/
+    }
 }
     /*
     private Board.TileStatus status;

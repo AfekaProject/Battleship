@@ -1,16 +1,17 @@
 package afeka.battleship.Model;
 
 public class Board {
+    public final int SIZE = 10;
 
     public enum TileStatus {HIT, MISS, NONE, PLACED}
     private Tile[][] boardMatrix;
-    private int size;
 
-    public Board (int size){
-        this.size = size;
-        boardMatrix = new Tile[size][size];
-        for (int i = 0 ; i <size ; i++){
-            for(int j=0 ; j <size ; j++)
+
+    public Board (int diff){
+
+        boardMatrix = new Tile[SIZE][SIZE];
+        for (int i = 0 ; i <SIZE ; i++){
+            for(int j=0 ; j <SIZE ; j++)
             boardMatrix[i][j]= new Tile(i,j);
         }
     }
@@ -31,6 +32,10 @@ public class Board {
     }
 
     public int getSize(){
-        return (int) Math.sqrt((double)boardMatrix.length);
+        return (int) Math.sqrt(boardMatrix.length);
+    }
+
+    private void generateShips (){
+
     }
 }

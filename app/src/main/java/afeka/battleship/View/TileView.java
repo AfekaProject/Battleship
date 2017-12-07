@@ -4,10 +4,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.view.Gravity;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
+import android.widget.FrameLayout;
 import android.widget.TextView;
 
-public class TileView extends LinearLayout {
+public class TileView extends FrameLayout {
 
     TextView text;
 
@@ -21,10 +21,13 @@ public class TileView extends LinearLayout {
         text.setGravity(Gravity.CENTER_VERTICAL);
         text.setTextSize(20);
         text.setTextColor(Color.BLACK);
-        setBackgroundColor(Color.LTGRAY);
+        setBackgroundColor(Color.BLUE);
         //alinge color or add image (change to img VIew insted of textView
         addView(text);
+
+
     }
+
 
 
 }
