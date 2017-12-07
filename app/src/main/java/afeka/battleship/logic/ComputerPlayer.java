@@ -15,7 +15,7 @@ public class ComputerPlayer {
     }
 
     public int playTurn(Board board) {
-
+        //need to change
         think();
 
         Random random = new Random();

@@ -6,6 +6,7 @@ public class Tile {
     private int y;
  //   private boolean isHit;
     private Ship ship;
+
     private status status;
 
     public Tile(int x , int y){
@@ -15,6 +16,22 @@ public class Tile {
         status = status.NONE;
 
     }
+    @Override
+    public String toString() {
+        switch (status) {
+            case NONE:
+                return "";
+            case PLACED:
+                return "";
+            case HIT:
+                return "X";
+            case MISS:
+                return "~";
+
+            default:
+                return "";
+        }
+    }
     public Ship getShip() {
         return ship;
     }
@@ -23,9 +40,10 @@ public class Tile {
         this.ship = ship;
     }
 
-    public status setStatus() {
+    public Tile.status getStatus() {
         return status;
     }
+
 
     public boolean isHit() {
         if(status.equals(status.HIT))
@@ -87,4 +105,4 @@ public class Tile {
                 return "";
         }
     }*/
-}
+
