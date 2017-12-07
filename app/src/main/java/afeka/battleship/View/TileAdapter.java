@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-
 import afeka.battleship.Model.Board;
 
 
@@ -15,7 +14,6 @@ public class TileAdapter extends BaseAdapter {
 
     public TileAdapter(Context context) {
         this.context = context;
-
     }
 
     public void setmBoard(Board mBoard) {

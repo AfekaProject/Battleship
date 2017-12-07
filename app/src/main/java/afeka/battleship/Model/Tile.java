@@ -4,7 +4,6 @@ public class Tile {
     public enum Status {NONE,HIT,MISS,PLACED}
     private int x;
     private int y;
- //   private boolean isHit;
     private Ship ship;
 
     private Status status;
@@ -12,7 +11,6 @@ public class Tile {
     public Tile(int x , int y){
         this.x = x;
         this.y = y;
-     //   isHit = false;
         status = status.NONE;
 
     }
@@ -22,7 +20,7 @@ public class Tile {
             case NONE:
                 return "";
             case PLACED:
-                return "";
+                return ("S"+ship.getId());
             case HIT:
                 return "X";
             case MISS:

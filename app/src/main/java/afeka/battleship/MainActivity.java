@@ -16,7 +16,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void clickStart(View view) {
         Intent i = new Intent(this,GameActivity.class);
-        i.putExtra("Difficulty", "Easy");
+        i.putExtra("Difficulty", 3);
         startActivity(i);
 
     }

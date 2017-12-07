@@ -1,75 +1,78 @@
 package afeka.battleship.logic;
 
 import afeka.battleship.Model.Board;
-import afeka.battleship.Model.Fleet;
 import afeka.battleship.Model.Tile;
 
 public class Game {
 
-    public enum gameStatus {HIT, MISS, WRONG_MOVE, WIN}
+    public enum GameStatus {HIT, MISS, WRONG_MOVE, WIN}
 
-    public enum turn {PLAYER, COMPUTER}
+    public enum Turn {PLAYER, COMPUTER}
 
-    public static final int BOARD_SIZE = 10;
     private ComputerPlayer cpu;
     private int difficult;
-    private Fleet fPlayer;
-    private Fleet fComputer;
-    private gameStatus lastTurnStatus;
-        private turn whosTurn;
+    private Board bPlayer;
+    private Board bComputer;
+    private GameStatus lastTurnStatus;
+    private Turn whosTurn;
 
 
     public Game(int diff) {
         this.difficult = diff;
-        fPlayer = new Fleet(difficult);
-        fComputer = new Fleet(difficult);
-        whosTurn = turn.PLAYER;
+        cpu = new ComputerPlayer();
+        bPlayer = new Board(difficult);
+        bComputer = new Board(difficult);
+        whosTurn = Turn.PLAYER;
     }
-    public turn getWhosTurn() {
+    public Turn getWhosTurn() {
         return whosTurn;
     }
 
     private void toggleTurn(){
-         if(whosTurn == turn.PLAYER)
-             whosTurn = turn.COMPUTER;
+         if(whosTurn == Turn.PLAYER)
+             whosTurn = Turn.COMPUTER;
          else
-             whosTurn = turn.PLAYER;
+             whosTurn = Turn.PLAYER;
     }
 
-    public gameStatus playGame(int position) {
+    public Board getBoard (Turn t){
+        if (t.equals(Turn.PLAYER))
+            return bPlayer;
+        else
+            return bComputer;
+    }
+
+    public GameStatus playGame(int position) {
         Tile currentTile;
 
-        if(whosTurn == turn.PLAYER)
-            currentTile = fPlayer.getBoard().getTile(position);
+        if(whosTurn == Turn.PLAYER)
+            currentTile = bPlayer.getTile(position);
         else
-            currentTile = fComputer.getBoard().getTile(position);
+            currentTile = bComputer.getTile(position);
 
 
                 if (currentTile.getStatus().equals(Tile.Status.NONE)) { //current tile has nothing
                     currentTile.setMiss(); //change current tile - miss
-                    lastTurnStatus = gameStatus.MISS;
+                    lastTurnStatus = GameStatus.MISS;
                     toggleTurn();
                 }
                 else if(currentTile.getStatus().equals(Tile.Status.PLACED)){ //current tile has ship
                     currentTile.setHit();
-                    lastTurnStatus = gameStatus.HIT;
+                    lastTurnStatus = GameStatus.HIT;
                 }
                 else if(currentTile.getStatus().equals(Tile.Status.HIT)){  //current tile is hit
-                    lastTurnStatus = gameStatus.WRONG_MOVE;
+                    lastTurnStatus = GameStatus.WRONG_MOVE;
 
                 }else{ //current tile is miss
-                    lastTurnStatus = gameStatus.WRONG_MOVE;
+                    lastTurnStatus = GameStatus.WRONG_MOVE;
                 }
-
-
-
 
             return lastTurnStatus;
 
     }
 
     public void computerPlay(){
-        playGame(cpu.playTurn(fComputer.getBoard()));
+        playGame(cpu.playTurn(bComputer));
     }
     public void playerPlay(int position){
         playGame(position);

@@ -5,6 +5,7 @@ public class Ship {
 
     private int size;
     private int hitsCounter;
+    private int id;
 
     public int getSize() {
         return size;
@@ -15,6 +16,13 @@ public class Ship {
         hitsCounter = 0;
     }
 
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public int getHitsCounter() {
         return hitsCounter;
