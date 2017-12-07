@@ -12,51 +12,89 @@ import afeka.battleship.logic.Game;
 
 public class GameActivity extends AppCompatActivity {
 
-    public GridView mainGrid;
+    private GridView mainGrid;
     private Game game;
     private TextView currentPlayer;
+    private TextView statusGameToShow;
+    private Game.GameStatus currentGameStatus;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
-        //int  difficulty = savedInstanceState.getInt("Difficulty");
-        int  difficulty = 3;
-        game = new Game(difficulty);
+
+        game = new Game(3);
         mainGrid = findViewById(R.id.gridView);
         TileAdapter viewBoard = new TileAdapter(getApplicationContext());
-        viewBoard.setmBoard(game.getBoard(Game.Turn.PLAYER));
+        viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER));
         mainGrid.setAdapter(viewBoard);
-        ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
         currentPlayer = findViewById(R.id.playerText);
-        currentPlayer.setText("Your Turn");
+        statusGameToShow = findViewById(R.id.statusText);
+
+        currentPlayer.setText(R.string.playerTurn);
 
         mainGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-//                game.playerPlay(position);
+
+                    currentGameStatus = game.playerPlay(position);
+                    massageStatus(currentGameStatus, Game.Players.PLAYER);
+                    ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
 
 
-                ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
-/*
-
-                if (game.getWhosTurn().equals(Game.Turn.PLAYER)) {
-                    ((TextView) findViewById(R.id.playerText)).setText("Your Turn");
-                    game.playGame(position);
-                } else {
-                    ((TextView) findViewById(R.id.playerText)).setText("Computer's Turn");
-                    game.computerPlay();
-                }
+                enableGrid();
+                pause(3);
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        game.computerPlay();
+                    while(game.getWhosTurn().equals(Game.Players.COMPUTER)){
+                            currentPlayer.setText(R.string.computerTurn);
+                            currentGameStatus=game.computerPlay();
+                            massageStatus(currentGameStatus, Game.Players.COMPUTER);
+                            statusGameToShow.setText("");
+
                     }
-                });*/
+                        currentPlayer.setText(R.string.playerTurn);
+                    }
+                });
+                t.start();
+                enableGrid();
+
             }
 
 
         });
     }
+
+    private void enableGrid(){
+        if(mainGrid.isEnabled())
+            mainGrid.setEnabled(false);
+        else
+            mainGrid.setEnabled(true);
+    }
+
+    private void massageStatus(Game.GameStatus status, Game.Players turn) {
+        if (status.equals(Game.GameStatus.HIT)) {
+            if (turn.equals(Game.Players.PLAYER))
+                statusGameToShow.setText(R.string.playerHit);
+            else
+                statusGameToShow.setText(R.string.computerHit);
+        } else if (status.equals(Game.GameStatus.MISS)) {
+            if (turn.equals(Game.Players.PLAYER))
+                statusGameToShow.setText(R.string.playerMiss);
+            else
+                statusGameToShow.setText(R.string.computerMiss);
+        } else if (status.equals(Game.GameStatus.WRONG_MOVE))
+            statusGameToShow.setText(R.string.playerWrong);
+    }
+
+    public void pause(int i){ //stop for i sec the stimulate game
+        try {
+            Thread.sleep(i*1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

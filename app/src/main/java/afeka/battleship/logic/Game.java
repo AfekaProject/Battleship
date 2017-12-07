@@ -7,14 +7,14 @@ public class Game {
 
     public enum GameStatus {HIT, MISS, WRONG_MOVE, WIN}
 
-    public enum Turn {PLAYER, COMPUTER}
+    public enum Players {PLAYER, COMPUTER}
 
     private ComputerPlayer cpu;
     private int difficult;
     private Board bPlayer;
     private Board bComputer;
     private GameStatus lastTurnStatus;
-    private Turn whosTurn;
+    private Players whosTurn;
 
 
     public Game(int diff) {
@@ -22,21 +22,21 @@ public class Game {
         cpu = new ComputerPlayer();
         bPlayer = new Board(difficult);
         bComputer = new Board(difficult);
-        whosTurn = Turn.PLAYER;
+        whosTurn = Players.PLAYER;
     }
-    public Turn getWhosTurn() {
+    public Players getWhosTurn() {
         return whosTurn;
     }
 
     private void toggleTurn(){
-         if(whosTurn == Turn.PLAYER)
-             whosTurn = Turn.COMPUTER;
+         if(whosTurn == Players.PLAYER)
+             whosTurn = Players.COMPUTER;
          else
-             whosTurn = Turn.PLAYER;
+             whosTurn = Players.PLAYER;
     }
 
-    public Board getBoard (Turn t){
-        if (t.equals(Turn.PLAYER))
+    public Board getBoard (Players t){
+        if (t.equals(Players.PLAYER))
             return bPlayer;
         else
             return bComputer;
@@ -45,7 +45,7 @@ public class Game {
     public GameStatus playGame(int position) {
         Tile currentTile;
 
-        if(whosTurn == Turn.PLAYER)
+        if(whosTurn == Players.PLAYER)
             currentTile = bPlayer.getTile(position);
         else
             currentTile = bComputer.getTile(position);
@@ -59,11 +59,9 @@ public class Game {
                 else if(currentTile.getStatus().equals(Tile.Status.PLACED)){ //current tile has ship
                     currentTile.setHit();
                     lastTurnStatus = GameStatus.HIT;
-                }
-                else if(currentTile.getStatus().equals(Tile.Status.HIT)){  //current tile is hit
-                    lastTurnStatus = GameStatus.WRONG_MOVE;
 
-                }else{ //current tile is miss
+                }
+                else if(currentTile.getStatus().equals(Tile.Status.HIT) || currentTile.getStatus().equals(Tile.Status.MISS)  ) {  //current tile is hit
                     lastTurnStatus = GameStatus.WRONG_MOVE;
                 }
 
@@ -71,11 +69,11 @@ public class Game {
 
     }
 
-    public void computerPlay(){
-        playGame(cpu.playTurn(bComputer));
+    public GameStatus computerPlay(){
+        return playGame(cpu.playTurn(bComputer));
     }
-    public void playerPlay(int position){
-        playGame(position);
+    public GameStatus playerPlay(int position){
+        return playGame(position);
     }
 
 
