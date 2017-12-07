@@ -43,20 +43,27 @@ public class Game {
     }
 
     public GameStatus playGame(int position) {
+        Board currentBoard;
         Tile currentTile;
 
-        if(getCurrentTurn() == Players.PLAYER)
+        if(getCurrentTurn() == Players.PLAYER) {
+            currentBoard = bPlayer;
             currentTile = bPlayer.getTile(position);
-        else
+        }
+        else{
+            currentBoard = bComputer;
             currentTile = bComputer.getTile(position);
-
+        }
                 if (currentTile.getStatus().equals(Tile.Status.NONE)) { //current tile has nothing
                     currentTile.setMiss(); //change current tile - miss
                     lastTurnStatus = GameStatus.MISS;
                     toggleTurn();
                 }
                 else if(currentTile.getStatus().equals(Tile.Status.PLACED)){ //current tile has ship
-                    currentTile.setHit();
+                    if (currentTile.setHit())
+                        if (currentBoard.aShipdrowned());
+                            lastTurnStatus = GameStatus.WIN;
+
                     lastTurnStatus = GameStatus.HIT;
 
                 }
@@ -68,7 +75,6 @@ public class Game {
                 }
 
             return lastTurnStatus;
-
     }
 
     public GameStatus computerPlay(){

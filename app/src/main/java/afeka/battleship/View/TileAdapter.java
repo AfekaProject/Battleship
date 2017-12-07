@@ -49,7 +49,7 @@ public class TileAdapter extends BaseAdapter {
         }
 
         String text = mBoard.getTile(i).toString();
-        if (playerToView.equals(Game.Players.COMPUTER) && text.contains("S"))
+        if (playerToView.equals(Game.Players.PLAYER) && text.contains("S"))
             text = "";
 
         tileView.text.setText(text);

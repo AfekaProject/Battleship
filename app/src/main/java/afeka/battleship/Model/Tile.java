@@ -50,9 +50,9 @@ public class Tile {
             return false;
     }
 
-    public void setHit() {
+    public boolean setHit() {
         status = status.HIT;
-        ship.setHit(); //update ship's hit counter
+        return ship.setHit(); //update ship's hit counter
     }
 
     public void setMiss() {

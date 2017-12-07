@@ -7,7 +7,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-
 import afeka.battleship.View.TileAdapter;
 import afeka.battleship.logic.Game;
 
@@ -27,7 +26,6 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        game = new Game(3);
         int difficulty =getIntent().getIntExtra("Difficulty",3);
         game = new Game(difficulty);
         mainGrid = findViewById(R.id.gridView);
@@ -44,33 +42,65 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 
-
-                    currentGameStatus = game.playerPlay(position);
-                    massageStatus(currentGameStatus, Game.Players.PLAYER);
-                    ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
-
-
+                currentGameStatus = game.playerPlay(position);
+                massageStatus(currentGameStatus, Game.Players.PLAYER);
+                viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER),Game.Players.PLAYER);
+                ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
                 enableGrid();
-                pause(3);
+
+
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                    while(game.getCurrentTurn().equals(Game.Players.COMPUTER)){
+                        pause(1);
+                        while(game.getCurrentTurn().equals(Game.Players.COMPUTER)){
                             currentPlayer.setText(R.string.computerTurn);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    viewBoard.setmBoard(game.getBoard(Game.Players.COMPUTER),Game.Players.COMPUTER);
+                                    ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
+                                }
+                            });
                             currentGameStatus=game.computerPlay();
                             massageStatus(currentGameStatus, Game.Players.COMPUTER);
-                            statusGameToShow.setText("");
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    viewBoard.setmBoard(game.getBoard(Game.Players.COMPUTER),Game.Players.COMPUTER);
+                                    ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
 
-                    }
-                        currentPlayer.setText(R.string.playerTurn);
+                                }
+                            });
+
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    viewBoard.setmBoard(game.getBoard(Game.Players.COMPUTER),Game.Players.COMPUTER);
+                                    ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
+
+                                }
+                            });
+
+                            statusGameToShow.setText("");
+                            currentPlayer.setText(R.string.playerTurn);
+
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER),Game.Players.PLAYER);
+                                    ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
+                                    enableGrid();
+                                }
+                            });
+                        }
+
                     }
                 });
                 t.start();
-                enableGrid();
 
             }
-
-
         });
     }
 
@@ -103,8 +133,6 @@ public class GameActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
-
-
 
     public void switchBoard(View view) {
         if (boardToView.equals(Game.Players.PLAYER)){

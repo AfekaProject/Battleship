@@ -29,6 +29,11 @@ public class Board {
         this.shipsAlive = shipsAlive;
     }
 
+    public boolean aShipdrowned(){
+        shipsAlive--;
+        return (shipsAlive==0);
+    }
+
     public Tile[][] getBoardMatrix() {
         return boardMatrix;
     }
