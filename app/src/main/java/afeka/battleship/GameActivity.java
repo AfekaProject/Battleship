@@ -43,7 +43,6 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
                 playPlayer(position);
-
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -55,8 +54,6 @@ public class GameActivity extends AppCompatActivity {
                     }
                 });
                 t.start();
-
-
             }
         });
     }
@@ -68,12 +65,11 @@ public class GameActivity extends AppCompatActivity {
             mainGrid.setEnabled(true);
     }
 
-    private void playPlayer(final int position){
+    private void playPlayer(int position){
         currentGameStatus = game.playerPlay(position);
         updateBoard(Game.Players.PLAYER);
         if(currentGameStatus.equals(Game.GameStatus.WIN)) {
             winEndGame(Game.Players.PLAYER);
-            //return;
          }else {
             massageStatus(currentGameStatus, Game.Players.PLAYER);
 
@@ -155,10 +151,7 @@ public class GameActivity extends AppCompatActivity {
                 } else if (status.equals(Game.GameStatus.WRONG_MOVE))
                     statusGameToShow.setText(R.string.playerWrong);
             }
-
-
         });
-
     }
 
     private void winEndGame(Game.Players whoWin){

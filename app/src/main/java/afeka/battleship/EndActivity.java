@@ -26,6 +26,8 @@ public class EndActivity extends AppCompatActivity {
         winLoseText = findViewById(R.id.winLoseTitle);
         setWinLoseText(whoWin);
 
+  //      whoWin = getIntent().getExtras().getString("WhoWin");
+  //      difficulty = getIntent().getExtras().getInt("Difficulty");
 
 
     }

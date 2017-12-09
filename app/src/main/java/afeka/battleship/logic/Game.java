@@ -1,7 +1,5 @@
 package afeka.battleship.logic;
 
-import android.util.Log;
-
 import afeka.battleship.Model.Board;
 import afeka.battleship.Model.Tile;
 
@@ -63,17 +61,16 @@ public class Game {
         }
         else if(currentTile.getStatus().equals(Tile.Status.PLACED)){ //current tile has ship
             lastTurnStatus = GameStatus.HIT;
-            if (currentTile.setHit())
+            if (currentTile.setHit())       // return if a ship got drowned
                 if (currentBoard.isWin())
                     lastTurnStatus = GameStatus.WIN;
 
            }
         else if(currentTile.getStatus().equals(Tile.Status.HIT))  //current tile is hit
             lastTurnStatus = GameStatus.WRONG_MOVE;
-        else //current tile is miss
+        else                      //current tile is miss
             lastTurnStatus = GameStatus.WRONG_MOVE;
 
-        Log.e("Status game", lastTurnStatus.toString());
         return lastTurnStatus;
     }
 

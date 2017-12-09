@@ -1,35 +1,39 @@
 package afeka.battleship.Model;
 
 public class Tile {
-    public enum Status {NONE,HIT,MISS,PLACED}
+    public enum Status {NONE, HIT, MISS, PLACED, DROWNED}
+
     private int x;
     private int y;
     private Ship ship;
 
     private Status status;
 
-    public Tile(int x , int y){
+    public Tile(int x, int y) {
         this.x = x;
         this.y = y;
         status = status.NONE;
 
     }
+
     @Override
     public String toString() {
         switch (status) {
             case NONE:
                 return "";
             case PLACED:
-                return ("S"+ship.getId());
+                return ("S" + ship.getId());
             case HIT:
                 return "X";
             case MISS:
                 return "~";
-
+            case DROWNED:
+                return "D";
             default:
                 return "";
         }
     }
+
     public Ship getShip() {
         return ship;
     }
@@ -44,7 +48,7 @@ public class Tile {
 
 
     public boolean isHit() {
-        if(status.equals(status.HIT))
+        if (status.equals(status.HIT))
             return true;
         else
             return false;
@@ -64,50 +68,16 @@ public class Tile {
         status = status.PLACED;
     }
 
-    public boolean isFreeToClick(){
+    public void setDrowned() {
+        status = Status.DROWNED;
+    }
+
+    public boolean isFreeToClick() {
         return (status.equals(Status.PLACED) || status.equals(Status.NONE));
     }
 
-    public boolean isPlaced(){
+    public boolean isPlaced() {
         return status.equals(Status.PLACED);
     }
-  /*  public void setHitTileInShip() {
-        isHit = true;
-        ship.setHit();
-    }*/
 }
-    /*
-    private Board.TileStatus Status;
-
-    Tile(){
-        this(Board.TileStatus.NONE);
-    }
-
-    private Tile (Board.TileStatus Status){
-        setStatus(Status);
-    }
-    public Board.TileStatus getStatus() {
-        return Status;
-    }
-
-    void setStatus(Board.TileStatus Status) {
-        this.Status = Status;
-    }
-
-    @Override
-    public String toString() {
-        switch (Status) {
-            case NONE:
-                return "";
-            case PLACED:
-                return "";
-            case HIT:
-                return "X";
-            case MISS:
-                return "~";
-
-            default:
-                return "";
-        }
-    }*/
 

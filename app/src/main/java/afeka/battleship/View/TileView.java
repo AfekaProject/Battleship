@@ -2,11 +2,11 @@ package afeka.battleship.View;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.support.annotation.ColorInt;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
+import afeka.battleship.R;
 
 public class TileView extends FrameLayout {
 
@@ -22,7 +22,7 @@ public class TileView extends FrameLayout {
         text.setGravity(Gravity.CENTER_VERTICAL);
         text.setTextSize(20);
         text.setTextColor(Color.BLACK);
-        setBackgroundColor(Color.parseColor("#0345dd"));
+        text.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         //alinge color or add image (change to img VIew insted of textView
         addView(text);
 

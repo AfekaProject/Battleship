@@ -4,18 +4,19 @@ import java.util.Random;
 
 public class Board {
     public static final int BOARD_SIZE = 10;
+
     private Tile[][] boardMatrix;
     private int shipsAlive;
 
     public Board (int diff){
         boardMatrix = new Tile[BOARD_SIZE][BOARD_SIZE];
         setShipsAlive(diff*3);
-
         for (int i = 0; i < BOARD_SIZE; i++){
             for(int j = 0; j < BOARD_SIZE; j++)
                 boardMatrix[i][j]= new Tile(i,j);
         }
-        generateShips(diff*3);
+        generateShips(getShipsAlive());
+
 
     }
 
@@ -88,6 +89,7 @@ public class Board {
             x = firstX;
             y = firstY;
             for (int k = 0; k < ship.getSize() && okToPlace; k++) {
+                ship.addTile(boardMatrix[x][y]);
                 boardMatrix[x][y].setPlaced(ship);
                 if (direction == 1)
                     x++;

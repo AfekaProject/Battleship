@@ -49,11 +49,20 @@ public class TileAdapter extends BaseAdapter {
         }
 
         String text = mBoard.getTile(i).toString();
-        if (playerToView.equals(Game.Players.PLAYER) && text.contains("S"))
-            text = "";
+
+        //disable this line to view enemy ship for debug
+        //text = hideShips(text);
 
         tileView.text.setText(text);
 
             return tileView;
+    }
+
+    private String hideShips (String text){
+         if (playerToView.equals(Game.Players.PLAYER) && text.contains("S"))
+             return "";
+         return text;
+
+
     }
 }
