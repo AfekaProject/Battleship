@@ -27,7 +27,7 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        int difficulty =getIntent().getIntExtra("Difficulty",3);
+        difficulty =getIntent().getIntExtra("Difficulty",3);
         game = new Game(difficulty);
         mainGrid = findViewById(R.id.gridView);
         buttonSwitch = findViewById(R.id.button_switchBoard);
@@ -43,6 +43,7 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
                 playPlayer(position);
+
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -54,6 +55,8 @@ public class GameActivity extends AppCompatActivity {
                     }
                 });
                 t.start();
+
+
             }
         });
     }
@@ -67,20 +70,28 @@ public class GameActivity extends AppCompatActivity {
 
     private void playPlayer(final int position){
         currentGameStatus = game.playerPlay(position);
+        updateBoard(Game.Players.PLAYER);
         if(currentGameStatus.equals(Game.GameStatus.WIN)) {
             winEndGame(Game.Players.PLAYER);
-            return;
+            //return;
          }else {
-            //massageStatus(currentGameStatus, Game.Players.PLAYER);
-            updateBoard(Game.Players.PLAYER);
-            pause(1);
-            //statusGameToShow.setText("");
+            massageStatus(currentGameStatus, Game.Players.PLAYER);
+
         }
     }
 
     private void playComputer(){
-        enableGrid();
         pause(2);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                statusGameToShow.setText("");
+
+            }
+        });
+        enableGrid();
+
         currentPlayer.setText(R.string.computerTurn);
         updateBoard(Game.Players.COMPUTER);
         do {
@@ -89,11 +100,19 @@ public class GameActivity extends AppCompatActivity {
                 winEndGame(Game.Players.PLAYER);
                 break;
             }
-           // massageStatus(currentGameStatus, Game.Players.COMPUTER);
+
             updateBoard(Game.Players.COMPUTER);
-            pause(1);
-            //statusGameToShow.setText("");
-            pause(1);
+            massageStatus(currentGameStatus, Game.Players.COMPUTER);
+            pause(2);
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+
+                     statusGameToShow.setText("");
+
+                }
+            });
+
         } while(game.getCurrentTurn().equals(Game.Players.COMPUTER));
         currentPlayer.setText(R.string.playerTurn);
         updateBoard(Game.Players.PLAYER);
@@ -114,29 +133,42 @@ public class GameActivity extends AppCompatActivity {
     }
 
 
-    private void massageStatus(Game.GameStatus status, Game.Players turn) {
-        if (status.equals(Game.GameStatus.HIT)) {
-            if (turn.equals(Game.Players.PLAYER))
-                statusGameToShow.setText(R.string.playerHit);
-            else
-                statusGameToShow.setText(R.string.computerHit);
-        } else if (status.equals(Game.GameStatus.MISS)) {
-            if (turn.equals(Game.Players.PLAYER))
-                statusGameToShow.setText(R.string.playerMiss);
-            else
-                statusGameToShow.setText(R.string.computerMiss);
-        } else if (status.equals(Game.GameStatus.WRONG_MOVE))
-            statusGameToShow.setText(R.string.playerWrong);
+    private void massageStatus(final Game.GameStatus status,final Game.Players turn) {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (status.equals(Game.GameStatus.HIT))
+
+                {
+                    if (turn.equals(Game.Players.PLAYER))
+                        statusGameToShow.setText(R.string.playerHit);
+                    else
+                        statusGameToShow.setText(R.string.computerHit);
+                } else if (status.equals(Game.GameStatus.MISS))
+
+                {
+                    if (turn.equals(Game.Players.PLAYER))
+                        statusGameToShow.setText(R.string.playerMiss);
+                    else
+                        statusGameToShow.setText(R.string.computerMiss);
+                } else if (status.equals(Game.GameStatus.WRONG_MOVE))
+                    statusGameToShow.setText(R.string.playerWrong);
+            }
+
+
+        });
+
     }
 
     private void winEndGame(Game.Players whoWin){
 
         Intent i = new Intent(this,EndActivity.class);
-      /*  Bundle bundle = new Bundle();
-        bundle.putString("whoWin",whoWin.toString());
-        bundle.putInt("DIFFICULTY",difficulty);
+        Bundle bundle = new Bundle();
+        bundle.putString("WhoWin",whoWin.toString());
+        bundle.putInt("Difficulty",difficulty);
 
-        i.putExtra("WIN+DIFF",bundle);*/
+        i.putExtra("WIN+DIFF",bundle);
         startActivity(i);
     }
 

@@ -4,21 +4,19 @@ import java.util.Random;
 
 public class Board {
     public static final int BOARD_SIZE = 10;
-
     private Tile[][] boardMatrix;
     private int shipsAlive;
 
     public Board (int diff){
         boardMatrix = new Tile[BOARD_SIZE][BOARD_SIZE];
-      //  setShipsAlive(diff*3);
-        setShipsAlive(1);
+        setShipsAlive(diff*3);
+
         for (int i = 0; i < BOARD_SIZE; i++){
             for(int j = 0; j < BOARD_SIZE; j++)
                 boardMatrix[i][j]= new Tile(i,j);
         }
-        //generateShips(1);
-        setShipsAlive(1);
-        generateShipCheck();
+        generateShips(diff*3);
+
     }
 
 

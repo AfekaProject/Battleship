@@ -10,7 +10,7 @@
     <string name="newGameButton">NEW GAME</string>
     <string name="playerTurn">Your Turn</string>
     <string name="playerHit">HIT! you have one more turn!"</string>
-    <string name="playerMiss">miss..</string>
+    <string name="playerMiss">You miss</string>
     <string name="playerWrong">Wrong move , try another spot</string>
     <string name="computerHit">Computer HIT and has one more turn!"</string>
     <string name="computerMiss">Computer miss</string>

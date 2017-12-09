@@ -72,6 +72,8 @@ public class Game {
             lastTurnStatus = GameStatus.WRONG_MOVE;
         else //current tile is miss
             lastTurnStatus = GameStatus.WRONG_MOVE;
+
+        Log.e("Status game", lastTurnStatus.toString());
         return lastTurnStatus;
     }
 
