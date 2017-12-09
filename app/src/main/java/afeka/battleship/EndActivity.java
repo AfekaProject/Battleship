@@ -3,6 +3,7 @@ package afeka.battleship;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 
@@ -17,8 +18,8 @@ public class EndActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end);
 
-        whoWin = getIntent().getExtras().getString("WhoWin");
-        difficulty = getIntent().getExtras().getInt("Difficulty");
+  //      whoWin = getIntent().getExtras().getString("WhoWin");
+  //      difficulty = getIntent().getExtras().getInt("Difficulty");
 
 
 

@@ -17,7 +17,8 @@ public class Board {
                 boardMatrix[i][j]= new Tile(i,j);
         }
         //generateShips(1);
-        generateShipCeck();
+        setShipsAlive(1);
+        generateShipCheck();
     }
 
 
@@ -50,7 +51,7 @@ public class Board {
         return boardMatrix.length*boardMatrix[0].length;
     }
 
-    private void generateShipCeck(){
+    private void generateShipCheck(){
         Ship ship = new Ship(1);
         ship.setId(0);
         boardMatrix[0][0].setPlaced(ship);

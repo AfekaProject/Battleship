@@ -67,8 +67,7 @@ public class Game {
                 if (currentBoard.isWin())
                     lastTurnStatus = GameStatus.WIN;
 
-            Log.e("status",lastTurnStatus.toString());
-        }
+           }
         else if(currentTile.getStatus().equals(Tile.Status.HIT))  //current tile is hit
             lastTurnStatus = GameStatus.WRONG_MOVE;
         else //current tile is miss

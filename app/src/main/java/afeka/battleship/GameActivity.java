@@ -69,6 +69,7 @@ public class GameActivity extends AppCompatActivity {
         currentGameStatus = game.playerPlay(position);
         if(currentGameStatus.equals(Game.GameStatus.WIN)) {
             winEndGame(Game.Players.PLAYER);
+            return;
          }else {
             //massageStatus(currentGameStatus, Game.Players.PLAYER);
             updateBoard(Game.Players.PLAYER);
