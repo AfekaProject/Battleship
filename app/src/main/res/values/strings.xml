@@ -1,9 +1,13 @@
 <resources>
     <string name="app_name">Battleship</string>
     <string name="app_title">Battle Kids</string>
+    <string name="win_title">YOU WIN!!!</string>
+    <string name="lose_title">YOU LOSE</string>
     <string name="easyButton">Easy</string>
     <string name="mediumButton">Medium</string>
     <string name="hardButton">Hard</string>
+    <string name="mainButton">Main</string>
+    <string name="newGameButton">NEW GAME</string>
     <string name="playerTurn">Your Turn</string>
     <string name="playerHit">HIT! you have one more turn!"</string>
     <string name="playerMiss">miss..</string>

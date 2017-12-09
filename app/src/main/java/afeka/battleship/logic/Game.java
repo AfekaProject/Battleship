@@ -1,5 +1,7 @@
 package afeka.battleship.logic;
 
+import android.util.Log;
+
 import afeka.battleship.Model.Board;
 import afeka.battleship.Model.Tile;
 
@@ -64,6 +66,8 @@ public class Game {
             if (currentTile.setHit())
                 if (currentBoard.isWin())
                     lastTurnStatus = GameStatus.WIN;
+
+            Log.e("status",lastTurnStatus.toString());
         }
         else if(currentTile.getStatus().equals(Tile.Status.HIT))  //current tile is hit
             lastTurnStatus = GameStatus.WRONG_MOVE;

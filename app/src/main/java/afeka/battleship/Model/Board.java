@@ -10,13 +10,14 @@ public class Board {
 
     public Board (int diff){
         boardMatrix = new Tile[BOARD_SIZE][BOARD_SIZE];
-        setShipsAlive(diff*3);
-
+      //  setShipsAlive(diff*3);
+        setShipsAlive(1);
         for (int i = 0; i < BOARD_SIZE; i++){
             for(int j = 0; j < BOARD_SIZE; j++)
                 boardMatrix[i][j]= new Tile(i,j);
         }
-        generateShips(shipsAlive);
+        //generateShips(1);
+        generateShipCeck();
     }
 
 
@@ -49,6 +50,11 @@ public class Board {
         return boardMatrix.length*boardMatrix[0].length;
     }
 
+    private void generateShipCeck(){
+        Ship ship = new Ship(1);
+        ship.setId(0);
+        boardMatrix[0][0].setPlaced(ship);
+    }
     private void generateShips (int numOfShips) {
 
         int direction, x, y, firstX, firstY;

@@ -1,5 +1,5 @@
 package afeka.battleship;
-
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,14 +12,15 @@ import afeka.battleship.logic.Game;
 
 public class GameActivity extends AppCompatActivity {
 
-    private Game game;
     private GridView mainGrid;
-    private TileAdapter viewBoard;
-    private Game.Players boardToView = Game.Players.PLAYER;
-    private TextView currentPlayer;
-    private Game.GameStatus currentGameStatus;
-    private TextView statusGameToShow;
     private Button buttonSwitch;
+    private Game game;
+    private TextView currentPlayer;
+    private TextView statusGameToShow;
+    private Game.GameStatus currentGameStatus;
+    private Game.Players boardToView = Game.Players.PLAYER;
+    private TileAdapter viewBoard;
+    private int difficulty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +42,11 @@ public class GameActivity extends AppCompatActivity {
         mainGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
+                playPlayer(position);
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-                        playPlayer(position);
+
                         if (currentGameStatus.equals(Game.GameStatus.MISS)) {
                             playComputer();
                         }
@@ -65,10 +67,14 @@ public class GameActivity extends AppCompatActivity {
 
     private void playPlayer(final int position){
         currentGameStatus = game.playerPlay(position);
-        //massageStatus(currentGameStatus, Game.Players.PLAYER);
-        updateBoard(Game.Players.PLAYER);
-        pause(1);
-        //statusGameToShow.setText("");
+        if(currentGameStatus.equals(Game.GameStatus.WIN)) {
+            winEndGame(Game.Players.PLAYER);
+         }else {
+            //massageStatus(currentGameStatus, Game.Players.PLAYER);
+            updateBoard(Game.Players.PLAYER);
+            pause(1);
+            //statusGameToShow.setText("");
+        }
     }
 
     private void playComputer(){
@@ -78,6 +84,10 @@ public class GameActivity extends AppCompatActivity {
         updateBoard(Game.Players.COMPUTER);
         do {
             currentGameStatus=game.computerPlay();
+            if(currentGameStatus.equals(Game.GameStatus.WIN)) {
+                winEndGame(Game.Players.PLAYER);
+                break;
+            }
            // massageStatus(currentGameStatus, Game.Players.COMPUTER);
             updateBoard(Game.Players.COMPUTER);
             pause(1);
@@ -102,6 +112,7 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
+
     private void massageStatus(Game.GameStatus status, Game.Players turn) {
         if (status.equals(Game.GameStatus.HIT)) {
             if (turn.equals(Game.Players.PLAYER))
@@ -115,9 +126,20 @@ public class GameActivity extends AppCompatActivity {
                 statusGameToShow.setText(R.string.computerMiss);
         } else if (status.equals(Game.GameStatus.WRONG_MOVE))
             statusGameToShow.setText(R.string.playerWrong);
-        else
-            statusGameToShow.setText("tesing");
     }
+
+    private void winEndGame(Game.Players whoWin){
+
+        Intent i = new Intent(this,EndActivity.class);
+      /*  Bundle bundle = new Bundle();
+        bundle.putString("whoWin",whoWin.toString());
+        bundle.putInt("DIFFICULTY",difficulty);
+
+        i.putExtra("WIN+DIFF",bundle);*/
+        startActivity(i);
+    }
+
+
 
     public void pause(int i){ //stop for i sec the stimulate game
         try {
