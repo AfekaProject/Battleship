@@ -56,10 +56,9 @@ public class TileAdapter extends BaseAdapter {
                 tileView.img.setImageResource(R.drawable.img_empty);
                 break;
             case PLACED:
-                if (playerToView.equals(Game.Players.PLAYER))
-                    tileView.img.setImageResource(R.drawable.img_empty);
-                else
-                    tileView.img.setImageResource(R.drawable.img_hit);
+                tileView.img.setImageResource(R.drawable.img_goldfish);
+                //disable this line to view enemy ship for debug
+                //hideShips(tileView);
                 break;
             case HIT:
                 tileView.img.setImageResource(R.drawable.img_hit);
@@ -68,27 +67,19 @@ public class TileAdapter extends BaseAdapter {
                 tileView.img.setImageResource(R.drawable.img_miss);
                 break;
             case DROWNED:
-                tileView.img.setImageResource(R.drawable.img_dead_fish);
+                tileView.img.setImageResource(R.drawable.img_deadfish);
                 break;
             default:
                 tileView.img.setImageResource(R.drawable.img_empty);
                 break;
         }
-       // String text = mBoard.getTile(i).toString();
-
-        //disable this line to view enemy ship for debug
-  //      text = hideShips(text);
-
-        //tileView.text.setText(text);
-
             return tileView;
     }
 
-    private String hideShips (String text){
-         if (playerToView.equals(Game.Players.PLAYER) && text.contains("S"))
-             return "";
-         return text;
-
-
+    private void hideShips (TileView tileView){
+        if (playerToView.equals(Game.Players.PLAYER))
+            tileView.img.setImageResource(R.drawable.img_empty);
+        else
+            tileView.img.setImageResource(R.drawable.img_hit);
     }
 }

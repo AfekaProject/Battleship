@@ -17,4 +17,5 @@
     <string name="computerTurn">Computer turn</string>
     <string name="playerBoard">Your Board</string>
     <string name="computerBoard">Enemy Board</string>
+    <string name="drowned">A group got Drowned</string>
 </resources>

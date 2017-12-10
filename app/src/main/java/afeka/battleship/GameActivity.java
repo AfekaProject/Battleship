@@ -1,5 +1,6 @@
 package afeka.battleship;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +22,7 @@ public class GameActivity extends AppCompatActivity {
     private Game.Players boardToView = Game.Players.PLAYER;
     private TileAdapter viewBoard;
     private int difficulty;
+    private MediaPlayer playSound;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -135,21 +137,26 @@ public class GameActivity extends AppCompatActivity {
             public void run() {
 
                 if (status.equals(Game.GameStatus.HIT))
-
                 {
+                    playSound =  MediaPlayer.create(getApplicationContext(), R.raw.pop);
                     if (turn.equals(Game.Players.PLAYER))
                         statusGameToShow.setText(R.string.playerHit);
                     else
                         statusGameToShow.setText(R.string.computerHit);
-                } else if (status.equals(Game.GameStatus.MISS))
-
-                {
+                }
+                else if (status.equals(Game.GameStatus.MISS)) {
+                    playSound =  MediaPlayer.create(getApplicationContext(), R.raw.blup);
                     if (turn.equals(Game.Players.PLAYER))
                         statusGameToShow.setText(R.string.playerMiss);
                     else
                         statusGameToShow.setText(R.string.computerMiss);
-                } else if (status.equals(Game.GameStatus.WRONG_MOVE))
+                } else if (status.equals(Game.GameStatus.DROWN)){
+                    playSound =  MediaPlayer.create(getApplicationContext(), R.raw.splash);
+                    statusGameToShow.setText(R.string.drowned);
+                }
+                else if (status.equals(Game.GameStatus.WRONG_MOVE))
                     statusGameToShow.setText(R.string.playerWrong);
+                playSound.start();
             }
         });
     }

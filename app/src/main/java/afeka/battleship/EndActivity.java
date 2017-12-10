@@ -1,18 +1,15 @@
 package afeka.battleship;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-
 import afeka.battleship.logic.Game;
 
 
 public class EndActivity extends AppCompatActivity {
-    private Bundle savedInstanceState;
-    private String whoWin;
     private int difficulty;
     private TextView winLoseText;
 
@@ -21,22 +18,23 @@ public class EndActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end);
         Bundle bundle = getIntent().getBundleExtra("WIN+DIFF");
-        whoWin = bundle.getString("WhoWin");
+        String whoWin = bundle.getString("WhoWin");
         difficulty = bundle.getInt("Difficulty");
         winLoseText = findViewById(R.id.winLoseTitle);
         setWinLoseText(whoWin);
-
-  //      whoWin = getIntent().getExtras().getString("WhoWin");
-  //      difficulty = getIntent().getExtras().getInt("Difficulty");
-
-
     }
 
     public void setWinLoseText(String whoWin){
-        if(whoWin.equals(Game.Players.PLAYER.toString()))
+        MediaPlayer endSound;
+        if(whoWin.equals(Game.Players.PLAYER.toString())){
             winLoseText.setText(R.string.win_title);
-        else
+            endSound = MediaPlayer.create(this,R.raw.win);
+        }
+        else{
             winLoseText.setText(R.string.lose_title);
+            endSound = MediaPlayer.create(this,R.raw.loser);
+        }
+        endSound.start();
 
     }
 

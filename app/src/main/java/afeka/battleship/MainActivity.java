@@ -1,27 +1,28 @@
 package afeka.battleship;
 
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 
 public class MainActivity extends AppCompatActivity {
     private int difficulty;
     private ImageView playButton;
+    private MediaPlayer selectSound;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         playButton = findViewById(R.id.play_button);
         playButton.setVisibility(View.INVISIBLE);
-
+        selectSound = MediaPlayer.create(this,R.raw.click);
     }
 
 
     public void clickStart(View view) {
-
+        selectSound.start();
         switch (view.getId()) {
             case R.id.easy_button:
                 difficulty = 3;

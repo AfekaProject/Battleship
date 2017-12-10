@@ -5,8 +5,7 @@ import afeka.battleship.Model.Tile;
 
 public class Game {
 
-    public enum GameStatus {HIT, MISS, WRONG_MOVE, WIN}
-
+    public enum GameStatus {HIT, MISS, WRONG_MOVE,DROWN, WIN}
     public enum Players {PLAYER, COMPUTER}
 
     private ComputerPlayer cpu;
@@ -61,9 +60,11 @@ public class Game {
         }
         else if(currentTile.getStatus().equals(Tile.Status.PLACED)){ //current tile has ship
             lastTurnStatus = GameStatus.HIT;
-            if (currentTile.setHit())       // return if a ship got drowned
+            if (currentTile.setHit()) {// return if a ship got drowned
+                lastTurnStatus = GameStatus.DROWN;
                 if (currentBoard.isWin())
                     lastTurnStatus = GameStatus.WIN;
+            }
 
            }
         else if(currentTile.getStatus().equals(Tile.Status.HIT))  //current tile is hit
