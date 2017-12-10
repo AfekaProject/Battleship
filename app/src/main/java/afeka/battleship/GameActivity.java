@@ -22,7 +22,9 @@ public class GameActivity extends AppCompatActivity {
     private Game.Players boardToView = Game.Players.PLAYER;
     private TileAdapter viewBoard;
     private int difficulty;
-    private MediaPlayer playSound;
+    private MediaPlayer playSoundHit;
+    private MediaPlayer playSoundMiss;
+    private MediaPlayer playSoundDrown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +40,9 @@ public class GameActivity extends AppCompatActivity {
         mainGrid.setAdapter(viewBoard);
         currentPlayer = findViewById(R.id.playerText);
         statusGameToShow = findViewById(R.id.statusText);
+        playSoundHit=  MediaPlayer.create(getApplicationContext(), R.raw.pop);
+        playSoundMiss=  MediaPlayer.create(getApplicationContext(), R.raw.blup);
+        playSoundDrown=  MediaPlayer.create(getApplicationContext(), R.raw.splash);
 
         currentPlayer.setText(R.string.playerTurn);
 
@@ -61,10 +66,16 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void enableGrid(){
-        if(mainGrid.isEnabled())
-            mainGrid.setEnabled(false);
-        else
-            mainGrid.setEnabled(true);
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+
+                if (mainGrid.isEnabled())
+                    mainGrid.setEnabled(false);
+                else
+                    mainGrid.setEnabled(true);
+            }
+        });
     }
 
     private void playPlayer(int position){
@@ -138,25 +149,25 @@ public class GameActivity extends AppCompatActivity {
 
                 if (status.equals(Game.GameStatus.HIT))
                 {
-                    playSound =  MediaPlayer.create(getApplicationContext(), R.raw.pop);
+                    playSoundHit.start();
                     if (turn.equals(Game.Players.PLAYER))
                         statusGameToShow.setText(R.string.playerHit);
                     else
                         statusGameToShow.setText(R.string.computerHit);
                 }
                 else if (status.equals(Game.GameStatus.MISS)) {
-                    playSound =  MediaPlayer.create(getApplicationContext(), R.raw.blup);
+                    playSoundMiss.start();
                     if (turn.equals(Game.Players.PLAYER))
                         statusGameToShow.setText(R.string.playerMiss);
                     else
                         statusGameToShow.setText(R.string.computerMiss);
                 } else if (status.equals(Game.GameStatus.DROWN)){
-                    playSound =  MediaPlayer.create(getApplicationContext(), R.raw.splash);
+                    playSoundDrown.start();
                     statusGameToShow.setText(R.string.drowned);
                 }
                 else if (status.equals(Game.GameStatus.WRONG_MOVE))
                     statusGameToShow.setText(R.string.playerWrong);
-                playSound.start();
+
             }
         });
     }

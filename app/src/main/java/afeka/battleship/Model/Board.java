@@ -50,11 +50,6 @@ public class Board {
         return boardMatrix.length*boardMatrix[0].length;
     }
 
-    private void generateShipCheck(){
-        Ship ship = new Ship(1);
-        ship.setId(0);
-        boardMatrix[0][0].setPlaced(ship);
-    }
     private void generateShips (int numOfShips) {
 
         int direction, x, y, firstX, firstY;

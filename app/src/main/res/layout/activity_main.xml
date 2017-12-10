@@ -8,34 +8,32 @@
     android:background="@drawable/mainbackground"
     tools:context="afeka.battleship.MainActivity">
 
+    <ImageView
+        android:id="@+id/easy_button"
+        android:layout_width="120dp"
+        android:layout_height="120dp"
+        android:layout_above="@+id/medium_button"
+        android:layout_alignStart="@+id/medium_button"
+        android:onClick="clickStart"
+        app:srcCompat="@drawable/easy" />
 
     <ImageView
         android:id="@+id/medium_button"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_above="@+id/hard_button"
         android:layout_centerHorizontal="true"
-         android:onClick="clickStart"
+        android:layout_centerVertical="true"
+        android:onClick="clickStart"
         app:srcCompat="@drawable/medium" />
 
     <ImageView
         android:id="@+id/hard_button"
         android:layout_width="120dp"
         android:layout_height="120dp"
-        android:layout_alignParentBottom="true"
+        android:layout_below="@id/medium_button"
         android:layout_alignStart="@+id/medium_button"
         android:onClick="clickStart"
         app:srcCompat="@drawable/hard" />
-
-    <ImageView
-        android:id="@+id/easy_button"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
-
-        android:layout_above="@+id/medium_button"
-        android:layout_alignStart="@+id/medium_button"
-        android:onClick="clickStart"
-        app:srcCompat="@drawable/easy" />
 
     <ImageView
         android:id="@+id/play_button"
@@ -45,7 +43,7 @@
         android:layout_alignParentEnd="true"
         android:layout_marginBottom="17dp"
         android:layout_marginEnd="15dp"
-        android:onClick="clicklPlay"
+        android:onClick="clickPlay"
         app:srcCompat="@drawable/start" />
 
 </RelativeLayout>
