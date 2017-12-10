@@ -1,4 +1,5 @@
 package afeka.battleship;
+
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.support.v7.app.AppCompatActivity;
@@ -25,6 +26,7 @@ public class GameActivity extends AppCompatActivity {
     private MediaPlayer playSoundHit;
     private MediaPlayer playSoundMiss;
     private MediaPlayer playSoundDrown;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

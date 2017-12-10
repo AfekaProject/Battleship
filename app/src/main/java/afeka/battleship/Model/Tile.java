@@ -73,7 +73,8 @@ public class Tile {
     }
 
     public boolean isFreeToClick() {
-        return (!status.equals(Status.HIT)  && !status.equals(Status.MISS));
+        return (!status.equals(Status.HIT)  && !status.equals(Status.MISS)
+                && !status.equals(Status.DROWNED));
     }
 
     public boolean isPlaced() {
