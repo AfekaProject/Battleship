@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.view.Gravity;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.ImageView;
 import android.widget.TextView;
 import afeka.battleship.R;
 
@@ -16,6 +17,8 @@ public class TileView extends FrameLayout {
         super(context);
         //put here setting for how to view the tile in grid
         text = new TextView(context);
+
+
         LayoutParams layoutParams = new LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         text.setLayoutParams(layoutParams);
         text.setTextAlignment(TEXT_ALIGNMENT_CENTER);

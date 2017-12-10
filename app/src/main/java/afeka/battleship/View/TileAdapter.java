@@ -51,7 +51,7 @@ public class TileAdapter extends BaseAdapter {
         String text = mBoard.getTile(i).toString();
 
         //disable this line to view enemy ship for debug
-        //text = hideShips(text);
+  //      text = hideShips(text);
 
         tileView.text.setText(text);
 
