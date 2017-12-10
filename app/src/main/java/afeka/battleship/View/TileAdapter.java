@@ -4,6 +4,8 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
+
 import afeka.battleship.Model.Board;
 import afeka.battleship.Model.Tile;
 import afeka.battleship.R;
@@ -14,6 +16,7 @@ public class TileAdapter extends BaseAdapter {
     private Context context;
     private Board mBoard;
     private Game.Players playerToView;
+    private int size;
 
     public TileAdapter(Context context) {
         this.context = context;
@@ -50,6 +53,11 @@ public class TileAdapter extends BaseAdapter {
             tileView = (TileView) view;
         }
         Tile.Status status = mBoard.getTile(i).getStatus();
+
+        size = viewGroup.getWidth()/10 - 15;
+
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(size,size);
+        tileView.img.setLayoutParams(layoutParams);
 
         switch (status) {
             case NONE:

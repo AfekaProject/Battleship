@@ -1,42 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/winLoseTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="26dp"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="40sp"
-        android:textStyle="bold"
-         />
 
-    <Button
-        android:id="@+id/button_newGame"
+    <ImageView
+        android:id="@+id/newGameButton"
         android:layout_width="162dp"
-        android:layout_height="71dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="172dp"
+        android:layout_height="90dp"
+        android:layout_above="@+id/mainButton"
+        android:layout_alignStart="@+id/mainButton"
+        android:layout_marginBottom="16dp"
         android:onClick="newGameClick"
-        android:text="@string/newGameButton" />
+        app:srcCompat="@drawable/newgamebutton" />
 
-    <Button
-        android:id="@+id/button_main"
+    <ImageView
+        android:id="@+id/mainButton"
         android:layout_width="162dp"
-        android:layout_height="71dp"
+        android:layout_height="90dp"
         android:layout_alignParentBottom="true"
-        android:layout_alignStart="@+id/button_newGame"
-        android:layout_marginBottom="67dp"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="50dp"
         android:onClick="mainClick"
-        android:text="@string/mainButton" />
+        app:srcCompat="@drawable/mainbutton" />
 
 
 </RelativeLayout>
