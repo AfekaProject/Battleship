@@ -96,12 +96,10 @@ public class GameActivity extends AppCompatActivity {
             public void run() {
 
                 statusGameToShow.setText("");
-
+                enableGrid();
+                currentPlayer.setText(R.string.computerTurn);
             }
         });
-        enableGrid();
-
-        currentPlayer.setText(R.string.computerTurn);
         updateBoard(Game.Players.COMPUTER);
         do {
             currentGameStatus=game.computerPlay();
@@ -123,7 +121,13 @@ public class GameActivity extends AppCompatActivity {
             });
 
         } while(game.getCurrentTurn().equals(Game.Players.COMPUTER));
-        currentPlayer.setText(R.string.playerTurn);
+        runOnUiThread(new Runnable() {
+                          @Override
+                          public void run() {
+
+                              currentPlayer.setText(R.string.playerTurn);
+                          }
+                      });
         updateBoard(Game.Players.PLAYER);
         enableGrid();
     }
