@@ -4,7 +4,7 @@ import java.util.Random;
 
 public class Board {
     public static final int BOARD_SIZE = 10;
-
+    private static final int[] SHIPS_SIZES = {4,3,2,4,3,2,5,3,1};
     private Tile[][] boardMatrix;
     private int shipsAlive;
 
@@ -56,7 +56,7 @@ public class Board {
         Random r = new Random();
         boolean okToPlace, readyToPlaced;
         for (int i = 0; i < numOfShips; i++) {
-            Ship ship = new Ship(r.nextInt(4)+1);
+            Ship ship = new Ship(SHIPS_SIZES[i]);
             ship.setId(i);
             direction = r.nextInt(2); // 1 = horizontal , 2 = vertical
             do {
@@ -83,7 +83,7 @@ public class Board {
             // the ship can be placed
             x = firstX;
             y = firstY;
-            for (int k = 0; k < ship.getSize() && okToPlace; k++) {
+            for (int k = 0; k < ship.getSize(); k++) {
                 ship.addTile(boardMatrix[x][y]);
                 boardMatrix[x][y].setPlaced(ship);
                 if (direction == 1)

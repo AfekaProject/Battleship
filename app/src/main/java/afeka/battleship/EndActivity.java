@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.RelativeLayout;
 
@@ -13,7 +12,6 @@ import afeka.battleship.logic.Game;
 
 
 public class EndActivity extends AppCompatActivity {
-    private Bundle savedInstanceState;
     private String whoWin;
     private int difficulty;
     private RelativeLayout relativeLayout;
@@ -27,11 +25,11 @@ public class EndActivity extends AppCompatActivity {
         difficulty = bundle.getInt("Difficulty");
         relativeLayout = findViewById(R.id.relativeLayout);
 
-        setBackgroundandSound();
+        setBackgroundAndSound();
 
 
     }
-    private void setBackgroundandSound(){
+    private void setBackgroundAndSound(){
 
         MediaPlayer endSound;
 

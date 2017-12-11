@@ -46,14 +46,6 @@ public class Tile {
         return status;
     }
 
-
-    public boolean isHit() {
-        if (status.equals(status.HIT))
-            return true;
-        else
-            return false;
-    }
-
     public boolean setHit() {
         status = status.HIT;
         return ship.setHit(); //update ship's hit counter
@@ -70,11 +62,6 @@ public class Tile {
 
     public void setDrowned() {
         status = Status.DROWNED;
-    }
-
-    public boolean isFreeToClick() {
-        return (!status.equals(Status.HIT)  && !status.equals(Status.MISS)
-                && !status.equals(Status.DROWNED));
     }
 
     public boolean isPlaced() {

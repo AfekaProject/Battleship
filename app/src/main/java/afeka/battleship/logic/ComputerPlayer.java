@@ -1,10 +1,18 @@
 package afeka.battleship.logic;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import afeka.battleship.Model.Board;
 
 public class ComputerPlayer {
+    private ArrayList<Integer> places;
+
+    public ComputerPlayer(){
+        places = new ArrayList<>();
+        for (int i= 0 ; i<Board.BOARD_SIZE*Board.BOARD_SIZE ; i++)
+            places.add(i);
+    }
 
     private void think() {
         try {
@@ -14,18 +22,12 @@ public class ComputerPlayer {
         }
     }
 
-    public int playTurn(Board board) {
-        int x,y;
+    public int playTurn() {
         think();
-
         Random random = new Random();
-
-        do{
-            x = random.nextInt(Board.BOARD_SIZE);
-            y = random.nextInt(Board.BOARD_SIZE);
-        } while (!board.getBoardMatrix()[x][y].isFreeToClick());
-
-        return (x*Board.BOARD_SIZE)+y;
-
+        int r = random.nextInt(places.size());
+        int temp = places.get(r);
+        places.remove(r);
+        return temp;
     }
 }

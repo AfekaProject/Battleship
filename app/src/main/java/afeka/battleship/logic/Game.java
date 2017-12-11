@@ -76,7 +76,7 @@ public class Game {
     }
 
     public GameStatus computerPlay(){
-        return playGame(cpu.playTurn(bComputer));
+        return playGame(cpu.playTurn());
     }
     public GameStatus playerPlay(int position){
         return playGame(position);
