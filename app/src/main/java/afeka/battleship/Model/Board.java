@@ -4,22 +4,21 @@ import java.util.Random;
 
 public class Board {
     public static final int BOARD_SIZE = 10;
-    private static final int[] SHIPS_SIZES = {4,3,2,4,3,2,5,3,1};
+    private static final int[] SHIPS_SIZES = {4, 3, 2, 4, 3, 2, 5, 3, 1};
     private Tile[][] boardMatrix;
     private int shipsAlive;
 
-    public Board (int diff){
+    public Board(int diff) {
         boardMatrix = new Tile[BOARD_SIZE][BOARD_SIZE];
-        setShipsAlive(diff*3);
-        for (int i = 0; i < BOARD_SIZE; i++){
-            for(int j = 0; j < BOARD_SIZE; j++)
-                boardMatrix[i][j]= new Tile(i,j);
+        setShipsAlive(diff * 3);
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            for (int j = 0; j < BOARD_SIZE; j++)
+                boardMatrix[i][j] = new Tile(i, j);
         }
         generateShips(getShipsAlive());
 
 
     }
-
 
 
     public int getShipsAlive() {
@@ -30,27 +29,27 @@ public class Board {
         this.shipsAlive = shipsAlive;
     }
 
-    public boolean isWin(){
+    public boolean isWin() {
         shipsAlive--;
-        return (shipsAlive==0);
+        return (shipsAlive == 0);
     }
 
     public Tile[][] getBoardMatrix() {
         return boardMatrix;
     }
 
-    public Tile getTile(int i){
-        int row,col;
+    public Tile getTile(int i) {
+        int row, col;
         row = i % BOARD_SIZE;
         col = i / BOARD_SIZE;
         return boardMatrix[row][col];
     }
 
-    public int getSize(){
-        return boardMatrix.length*boardMatrix[0].length;
+    public int getSize() {
+        return boardMatrix.length * boardMatrix[0].length;
     }
 
-    private void generateShips (int numOfShips) {
+    private void generateShips(int numOfShips) {
 
         int direction, x, y, firstX, firstY;
         Random r = new Random();

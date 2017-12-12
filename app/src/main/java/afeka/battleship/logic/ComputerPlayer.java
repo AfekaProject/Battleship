@@ -8,9 +8,9 @@ import afeka.battleship.Model.Board;
 public class ComputerPlayer {
     private ArrayList<Integer> places;
 
-    public ComputerPlayer(){
+    public ComputerPlayer() {
         places = new ArrayList<>();
-        for (int i= 0 ; i<Board.BOARD_SIZE*Board.BOARD_SIZE ; i++)
+        for (int i = 0; i < Board.BOARD_SIZE * Board.BOARD_SIZE; i++)
             places.add(i);
     }
 

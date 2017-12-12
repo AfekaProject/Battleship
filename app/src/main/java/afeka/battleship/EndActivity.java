@@ -20,41 +20,41 @@ public class EndActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_end);
-        Bundle bundle = getIntent().getBundleExtra("WIN+DIFF");
-        whoWin = bundle.getString("WhoWin");
-        difficulty = bundle.getInt("Difficulty");
+        Bundle bundle = getIntent().getBundleExtra(Game.END_BUNDLE);
+        whoWin = bundle.getString(Game.WHO_WIN);
+        difficulty = bundle.getInt(Game.DIFFICULTY);
         relativeLayout = findViewById(R.id.relativeLayout);
 
         setBackgroundAndSound();
 
 
     }
-    private void setBackgroundAndSound(){
+
+    private void setBackgroundAndSound() {
 
         MediaPlayer endSound;
 
-        if(whoWin.equals(Game.Players.PLAYER.toString())) {
+        if (whoWin.equals(Game.Players.PLAYER.toString())) {
             relativeLayout.setBackgroundResource(R.drawable.youwinbackground);
             endSound = MediaPlayer.create(this, R.raw.win);
-        }else {
+        } else {
             relativeLayout.setBackgroundResource(R.drawable.youlosebackground);
-            endSound = MediaPlayer.create(this,R.raw.loser);
+            endSound = MediaPlayer.create(this, R.raw.loser);
         }
-            endSound.start();
+        endSound.start();
     }
 
 
-
     public void newGameClick(View view) {
-        Intent i = new Intent(this,GameActivity.class);
-        i.putExtra("Difficulty",difficulty);
+        Intent i = new Intent(this, GameActivity.class);
+        i.putExtra(Game.DIFFICULTY, difficulty);
         startActivity(i);
         finish();
 
     }
 
     public void mainClick(View view) {
-        Intent i = new Intent(this,MainActivity.class);
+        Intent i = new Intent(this, MainActivity.class);
         startActivity(i);
         finish();
     }

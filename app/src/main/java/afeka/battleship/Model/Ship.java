@@ -1,22 +1,22 @@
 package afeka.battleship.Model;
 
-import java.util.ArrayList;
-
 public class Ship {
-
+    private final int INDEX_X = 0;
+    private final int INDEX_Y = 1;
     private int size;
-    private int hitsCounter;
+    private int liveCounter;
     private int id;
-    private ArrayList<Tile> tileList;
+    private int[][] tileIndex;
+
 
     public int getSize() {
         return size;
     }
 
-    public Ship(int size){
+    public Ship(int size) {
         this.size = size;
-        hitsCounter = 0;
-        tileList = new ArrayList<>();
+        liveCounter = 0;
+        tileIndex = new int[size][2];
     }
 
     public int getId() {
@@ -27,24 +27,25 @@ public class Ship {
         this.id = id;
     }
 
-    public void addTile (Tile t){
-        tileList.add(t);
+    public void addTile(Tile t) {
+        tileIndex[liveCounter][INDEX_X] = t.getX();
+        tileIndex[liveCounter][INDEX_Y] = t.getY();
+        liveCounter++;
     }
 
-    public boolean isDrowned() {
-        if (hitsCounter >= size){
-            for (int i=0 ; i<tileList.size() ; i++){
-                tileList.get(i).setDrowned();
+    public boolean isDrowned(Board board) {
+        if (liveCounter == 0) {
+            for (int i = 0; i < size; i++) {
+                board.getBoardMatrix()[tileIndex[i][INDEX_X]][tileIndex[i][INDEX_Y]].setDrowned();
             }
             return true;
-        }
-        else
+        } else
             return false;
     }
 
-    public boolean setHit(){
-        hitsCounter++;
-        return isDrowned();
+    public boolean setHit(Board board) {
+        liveCounter--;
+        return isDrowned(board);
 
 
     }

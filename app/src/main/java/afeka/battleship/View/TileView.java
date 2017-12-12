@@ -4,6 +4,7 @@ import android.content.Context;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+
 import afeka.battleship.R;
 
 public class TileView extends FrameLayout {
@@ -21,7 +22,6 @@ public class TileView extends FrameLayout {
         addView(img);
 
     }
-
 
 
 }

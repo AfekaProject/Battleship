@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
+
 import afeka.battleship.View.TileAdapter;
 import afeka.battleship.logic.Game;
 
@@ -33,18 +34,18 @@ public class GameActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game);
 
-        difficulty =getIntent().getIntExtra("Difficulty",3);
+        difficulty = getIntent().getIntExtra(Game.DIFFICULTY, 3);
         game = new Game(difficulty);
         mainGrid = findViewById(R.id.gridView);
         buttonSwitch = findViewById(R.id.button_switchBoard);
         viewBoard = new TileAdapter(getApplicationContext());
-        viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER),Game.Players.PLAYER);
+        viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER), Game.Players.PLAYER);
         mainGrid.setAdapter(viewBoard);
         currentPlayer = findViewById(R.id.playerText);
         statusGameToShow = findViewById(R.id.statusText);
-        playSoundHit=  MediaPlayer.create(getApplicationContext(), R.raw.pop);
-        playSoundMiss=  MediaPlayer.create(getApplicationContext(), R.raw.blup);
-        playSoundDrown=  MediaPlayer.create(getApplicationContext(), R.raw.splash);
+        playSoundHit = MediaPlayer.create(getApplicationContext(), R.raw.pop);
+        playSoundMiss = MediaPlayer.create(getApplicationContext(), R.raw.blup);
+        playSoundDrown = MediaPlayer.create(getApplicationContext(), R.raw.splash);
 
         currentPlayer.setText(R.string.playerTurn);
 
@@ -67,7 +68,7 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-    private void enableGrid(){
+    private void enableGrid() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -80,18 +81,18 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-    private void playPlayer(int position){
+    private void playPlayer(int position) {
         currentGameStatus = game.playerPlay(position);
         updateBoard(Game.Players.PLAYER);
-        if(currentGameStatus.equals(Game.GameStatus.WIN)) {
+        if (currentGameStatus.equals(Game.GameStatus.WIN)) {
             winEndGame(Game.Players.PLAYER);
-         }else {
+        } else {
             massageStatus(currentGameStatus, Game.Players.PLAYER);
 
         }
     }
 
-    private void playComputer(){
+    private void playComputer() {
         pause(2);
         runOnUiThread(new Runnable() {
             @Override
@@ -104,8 +105,8 @@ public class GameActivity extends AppCompatActivity {
         });
         updateBoard(Game.Players.COMPUTER);
         do {
-            currentGameStatus=game.computerPlay();
-            if(currentGameStatus.equals(Game.GameStatus.WIN)) {
+            currentGameStatus = game.computerPlay();
+            if (currentGameStatus.equals(Game.GameStatus.WIN)) {
                 winEndGame(Game.Players.PLAYER);
                 break;
             }
@@ -117,19 +118,19 @@ public class GameActivity extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                     statusGameToShow.setText("");
+                    statusGameToShow.setText("");
 
                 }
             });
 
-        } while(game.getCurrentTurn().equals(Game.Players.COMPUTER));
+        } while (game.getCurrentTurn().equals(Game.Players.COMPUTER));
         runOnUiThread(new Runnable() {
-                          @Override
-                          public void run() {
+            @Override
+            public void run() {
 
-                              currentPlayer.setText(R.string.playerTurn);
-                          }
-                      });
+                currentPlayer.setText(R.string.playerTurn);
+            }
+        });
         updateBoard(Game.Players.PLAYER);
         enableGrid();
     }
@@ -139,74 +140,68 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 if (p.equals(Game.Players.PLAYER))
-                    viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER),Game.Players.PLAYER);
+                    viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER), Game.Players.PLAYER);
                 else
-                    viewBoard.setmBoard(game.getBoard(Game.Players.COMPUTER),Game.Players.COMPUTER);
+                    viewBoard.setmBoard(game.getBoard(Game.Players.COMPUTER), Game.Players.COMPUTER);
                 ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
             }
         });
     }
 
 
-    private void massageStatus(final Game.GameStatus status,final Game.Players turn) {
+    private void massageStatus(final Game.GameStatus status, final Game.Players turn) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
 
-                if (status.equals(Game.GameStatus.HIT))
-                {
+                if (status.equals(Game.GameStatus.HIT)) {
                     playSoundHit.start();
                     if (turn.equals(Game.Players.PLAYER))
                         statusGameToShow.setText(R.string.playerHit);
                     else
                         statusGameToShow.setText(R.string.computerHit);
-                }
-                else if (status.equals(Game.GameStatus.MISS)) {
+                } else if (status.equals(Game.GameStatus.MISS)) {
                     playSoundMiss.start();
                     if (turn.equals(Game.Players.PLAYER))
                         statusGameToShow.setText(R.string.playerMiss);
                     else
                         statusGameToShow.setText(R.string.computerMiss);
-                } else if (status.equals(Game.GameStatus.DROWN)){
+                } else if (status.equals(Game.GameStatus.DROWN)) {
                     playSoundDrown.start();
                     statusGameToShow.setText(R.string.drowned);
-                }
-                else if (status.equals(Game.GameStatus.WRONG_MOVE))
+                } else if (status.equals(Game.GameStatus.WRONG_MOVE))
                     statusGameToShow.setText(R.string.playerWrong);
 
             }
         });
     }
 
-    private void winEndGame(Game.Players whoWin){
+    private void winEndGame(Game.Players whoWin) {
 
-        Intent i = new Intent(this,EndActivity.class);
+        Intent i = new Intent(this, EndActivity.class);
         Bundle bundle = new Bundle();
-        bundle.putString("WhoWin",whoWin.toString());
-        bundle.putInt("Difficulty",difficulty);
+        bundle.putString(Game.WHO_WIN, whoWin.toString());
+        bundle.putInt(Game.DIFFICULTY, difficulty);
 
-        i.putExtra("WIN+DIFF",bundle);
+        i.putExtra(Game.END_BUNDLE, bundle);
         startActivity(i);
         finish();
     }
 
 
-
-    public void pause(int i){ //stop for i sec the stimulate game
+    public void pause(int i) { //stop for i sec the stimulate game
         try {
-            Thread.sleep(i*1000);
+            Thread.sleep(i * 1000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
     }
 
     public void switchBoard(View view) {
-        if (boardToView.equals(Game.Players.PLAYER)){
+        if (boardToView.equals(Game.Players.PLAYER)) {
             boardToView = Game.Players.COMPUTER;
             buttonSwitch.setText(R.string.computerBoard);
-        }
-
-        else{
+        } else {
             boardToView = Game.Players.PLAYER;
             buttonSwitch.setText(R.string.playerBoard);
         }

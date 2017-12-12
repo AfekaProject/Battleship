@@ -34,6 +34,14 @@ public class Tile {
         }
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public Ship getShip() {
         return ship;
     }
@@ -46,9 +54,9 @@ public class Tile {
         return status;
     }
 
-    public boolean setHit() {
+    public boolean setHit(Board board) {
         status = status.HIT;
-        return ship.setHit(); //update ship's hit counter
+        return ship.setHit(board); //update ship's hit counter
     }
 
     public void setMiss() {
@@ -68,4 +76,3 @@ public class Tile {
         return status.equals(Status.PLACED);
     }
 }
-

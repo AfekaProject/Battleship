@@ -9,6 +9,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
+import afeka.battleship.logic.Game;
+
 public class MainActivity extends AppCompatActivity {
     private int difficulty;
     private ImageView playButton;
@@ -24,12 +26,12 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         playButton = findViewById(R.id.play_button);
         playButton.setVisibility(View.INVISIBLE);
-        anim = AnimationUtils.loadAnimation(this,R.anim.blink);
+        anim = AnimationUtils.loadAnimation(this, R.anim.blink);
         easyButton = findViewById(R.id.easy_button);
         mediumButton = findViewById(R.id.medium_button);
         hardButton = findViewById(R.id.hard_button);
 
-        selectSound = MediaPlayer.create(this,R.raw.click);
+        selectSound = MediaPlayer.create(this, R.raw.click);
     }
 
 
@@ -65,14 +67,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clickPlay(View view) {
-        Intent i = new Intent(this,GameActivity.class);
-        i.putExtra("Difficulty", difficulty);
+        Intent i = new Intent(this, GameActivity.class);
+        i.putExtra(Game.DIFFICULTY, difficulty);
         startActivity(i);
 
     }
-
-
-
 
 
 }

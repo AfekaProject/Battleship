@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
+
 import afeka.battleship.Model.Board;
 import afeka.battleship.Model.Tile;
 import afeka.battleship.R;
@@ -20,7 +21,7 @@ public class TileAdapter extends BaseAdapter {
         this.context = context;
     }
 
-    public void setmBoard(Board mBoard,Game.Players playerToView) {
+    public void setmBoard(Board mBoard, Game.Players playerToView) {
         this.playerToView = playerToView;
         this.mBoard = mBoard;
     }
@@ -44,17 +45,16 @@ public class TileAdapter extends BaseAdapter {
     public View getView(int i, View view, ViewGroup viewGroup) {
         TileView tileView;
 
-        if (view == null){
+        if (view == null) {
             tileView = new TileView(context);
-        }
-        else{
+        } else {
             tileView = (TileView) view;
         }
         Tile.Status status = mBoard.getTile(i).getStatus();
 
-        int size = viewGroup.getWidth()/10 - 15;
+        int size = viewGroup.getWidth() / 10 - 15;
 
-        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(size,size);
+        FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(size, size);
         tileView.img.setLayoutParams(layoutParams);
 
         switch (status) {
@@ -79,10 +79,10 @@ public class TileAdapter extends BaseAdapter {
                 tileView.img.setImageResource(R.drawable.img_empty);
                 break;
         }
-            return tileView;
+        return tileView;
     }
 
-    private void hideShips (TileView tileView){
+    private void hideShips(TileView tileView) {
         if (playerToView.equals(Game.Players.PLAYER))
             tileView.img.setImageResource(R.drawable.img_empty);
         else
