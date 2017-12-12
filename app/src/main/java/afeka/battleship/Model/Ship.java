@@ -27,10 +27,6 @@ public class Ship {
         this.id = id;
     }
 
-    public int getHitsCounter() {
-        return hitsCounter;
-    }
-
     public void addTile (Tile t){
         tileList.add(t);
     }
