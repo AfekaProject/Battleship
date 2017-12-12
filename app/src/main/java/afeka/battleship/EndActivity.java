@@ -49,11 +49,13 @@ public class EndActivity extends AppCompatActivity {
         Intent i = new Intent(this,GameActivity.class);
         i.putExtra("Difficulty",difficulty);
         startActivity(i);
+        finish();
 
     }
 
     public void mainClick(View view) {
         Intent i = new Intent(this,MainActivity.class);
         startActivity(i);
+        finish();
     }
 }

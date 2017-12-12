@@ -64,7 +64,7 @@ public class TileAdapter extends BaseAdapter {
             case PLACED:
                 tileView.img.setImageResource(R.drawable.img_goldfish);
                 //disable this line to view enemy ship for debug
-                hideShips(tileView);
+                //hideShips(tileView);
                 break;
             case HIT:
                 tileView.img.setImageResource(R.drawable.img_hit);

@@ -187,6 +187,7 @@ public class GameActivity extends AppCompatActivity {
 
         i.putExtra("WIN+DIFF",bundle);
         startActivity(i);
+        finish();
     }
 
 
