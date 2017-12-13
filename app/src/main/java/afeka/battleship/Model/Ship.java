@@ -33,7 +33,7 @@ public class Ship {
         liveCounter++;
     }
 
-    public boolean isDrowned(Board board) {
+    private boolean isDrowned(Board board) {
         if (liveCounter == 0) {
             for (int i = 0; i < size; i++) {
                 board.getBoardMatrix()[tileIndex[i][INDEX_X]][tileIndex[i][INDEX_Y]].setDrowned();

@@ -4,6 +4,9 @@ import afeka.battleship.Model.Board;
 import afeka.battleship.Model.Tile;
 
 public class Game {
+    public static final boolean debug = false;      // enemy ships shown
+    public static final boolean aiWin = false;      // make the ai win
+
     public static final String DIFFICULTY = "Difficulty";
     public static final String WHO_WIN = "WhoWin";
     public static final String END_BUNDLE = "WinAndDif";
@@ -75,8 +78,8 @@ public class Game {
         return lastTurnStatus;
     }
 
-    public GameStatus computerPlay() {
-        return playGame(cpu.playTurn());
+    public GameStatus computerPlay(Board board) {
+        return playGame(cpu.playTurn(board));
     }
 
     public GameStatus playerPlay(int position) {

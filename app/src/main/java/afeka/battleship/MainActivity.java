@@ -70,7 +70,6 @@ public class MainActivity extends AppCompatActivity {
         Intent i = new Intent(this, GameActivity.class);
         i.putExtra(Game.DIFFICULTY, difficulty);
         startActivity(i);
-
     }
 
 

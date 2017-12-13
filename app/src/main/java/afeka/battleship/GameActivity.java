@@ -60,7 +60,6 @@ public class GameActivity extends AppCompatActivity {
                         if (currentGameStatus.equals(Game.GameStatus.MISS)) {
                             playComputer();
                         }
-
                     }
                 });
                 t.start();
@@ -85,7 +84,7 @@ public class GameActivity extends AppCompatActivity {
         currentGameStatus = game.playerPlay(position);
         updateBoard(Game.Players.PLAYER);
         if (currentGameStatus.equals(Game.GameStatus.WIN)) {
-            winEndGame(Game.Players.PLAYER);
+            winEndGame();
         } else {
             massageStatus(currentGameStatus, Game.Players.PLAYER);
 
@@ -105,10 +104,10 @@ public class GameActivity extends AppCompatActivity {
         });
         updateBoard(Game.Players.COMPUTER);
         do {
-            currentGameStatus = game.computerPlay();
+            currentGameStatus = game.computerPlay(game.getBoard(Game.Players.COMPUTER));
             if (currentGameStatus.equals(Game.GameStatus.WIN)) {
-                winEndGame(Game.Players.PLAYER);
-                break;
+                winEndGame();
+                return;
             }
 
             updateBoard(Game.Players.COMPUTER);
@@ -176,8 +175,8 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-    private void winEndGame(Game.Players whoWin) {
-
+    private void winEndGame() {
+        Game.Players whoWin = game.getCurrentTurn();
         Intent i = new Intent(this, EndActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(Game.WHO_WIN, whoWin.toString());

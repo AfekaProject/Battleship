@@ -9,11 +9,11 @@
     <string name="mainButton">Main</string>
     <string name="newGameButton">NEW GAME</string>
     <string name="playerTurn">Your Turn</string>
-    <string name="playerHit">HIT! Play again"</string>
-    <string name="playerMiss">You miss</string>
-    <string name="playerWrong">Wrong move , try another spot</string>
-    <string name="computerHit">Computer HIT and has one more turn!"</string>
-    <string name="computerMiss">Computer miss</string>
+    <string name="playerHit">HIT! \nPlay again</string>
+    <string name="playerMiss">You miss\n</string>
+    <string name="playerWrong">Wrong move \ntry another spot</string>
+    <string name="computerHit">Computer HIT \nand has one more turn!"</string>
+    <string name="computerMiss">Computer miss\n</string>
     <string name="computerTurn">Computer turn</string>
     <string name="playerBoard">Your Board</string>
     <string name="computerBoard">Enemy Board</string>
