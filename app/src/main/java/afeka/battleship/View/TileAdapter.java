@@ -3,6 +3,8 @@ package afeka.battleship.View;
 import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 
@@ -17,8 +19,10 @@ public class TileAdapter extends BaseAdapter {
     private Board mBoard;
     private Game.Players playerToView;
 
+
     public TileAdapter(Context context) {
         this.context = context;
+
     }
 
     public void setmBoard(Board mBoard, Game.Players playerToView) {
@@ -51,12 +55,9 @@ public class TileAdapter extends BaseAdapter {
             tileView = (TileView) view;
         }
         Tile.Status status = mBoard.getTile(i).getStatus();
-
         int size = viewGroup.getWidth() / 10 - 15;
-
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(size, size);
         tileView.img.setLayoutParams(layoutParams);
-
         switch (status) {
             case NONE:
                 tileView.img.setImageResource(R.drawable.img_empty);

@@ -1,15 +1,21 @@
 package afeka.battleship;
 
+import android.animation.Animator;
+import android.animation.AnimatorInflater;
 import android.content.Intent;
 import android.media.MediaPlayer;
+import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
 
+import afeka.battleship.Model.Board;
 import afeka.battleship.View.TileAdapter;
 import afeka.battleship.logic.Game;
 
@@ -27,6 +33,9 @@ public class GameActivity extends AppCompatActivity {
     private MediaPlayer playSoundHit;
     private MediaPlayer playSoundMiss;
     private MediaPlayer playSoundDrown;
+    private Animation slideUp;
+    private Animation bold;
+    private Vibrator v;
 
 
     @Override
@@ -46,14 +55,17 @@ public class GameActivity extends AppCompatActivity {
         playSoundHit = MediaPlayer.create(getApplicationContext(), R.raw.pop);
         playSoundMiss = MediaPlayer.create(getApplicationContext(), R.raw.blup);
         playSoundDrown = MediaPlayer.create(getApplicationContext(), R.raw.splash);
-
+        slideUp= AnimationUtils.loadAnimation(this,R.anim.slideup);
+        bold= AnimationUtils.loadAnimation(this,R.anim.bold);
+        v =  (Vibrator) getSystemService(this.VIBRATOR_SERVICE);
         currentPlayer.setText(R.string.playerTurn);
 
         mainGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
+            public void onItemClick(final AdapterView<?> adapterView, View view, final int position, long l) {
                 enableGrid();
                 playPlayer(position);
+                animateTile(view);
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -86,6 +98,7 @@ public class GameActivity extends AppCompatActivity {
     private void playPlayer(int position) {
         currentGameStatus = game.playerPlay(position);
         updateBoard(Game.Players.PLAYER);
+
         if (currentGameStatus.equals(Game.GameStatus.WIN)) {
             winEndGame();
         } else {
@@ -174,6 +187,17 @@ public class GameActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private void animateTile (View view){
+        if (currentGameStatus.equals(Game.GameStatus.MISS)){
+            view.startAnimation(slideUp);
+            v.vibrate(150);
+
+        }
+
+        else if (currentGameStatus.equals(Game.GameStatus.HIT))
+            view.startAnimation(bold);
     }
 
     private void winEndGame() {

@@ -20,8 +20,8 @@ public class TileView extends FrameLayout {
         img.setScaleType(ImageView.ScaleType.CENTER_CROP);
         img.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
         addView(img);
-
     }
+
 
 
 }
