@@ -33,7 +33,7 @@ public class Ship {
         liveCounter++;
     }
 
-    private boolean isDrowned(Board board) {
+    public boolean isDrowned(Board board) {
         if (liveCounter == 0) {
             for (int i = 0; i < size; i++) {
                 board.getBoardMatrix()[tileIndex[i][INDEX_X]][tileIndex[i][INDEX_Y]].setDrowned();
@@ -46,8 +46,18 @@ public class Ship {
     public boolean setHit(Board board) {
         liveCounter--;
         return isDrowned(board);
+    }
 
+    public Tile getTile (int i , Board board){
+        int[] index = new int [2];
+        index[INDEX_X] = tileIndex[i][INDEX_X];
+        index[INDEX_Y] = tileIndex[i][INDEX_Y];
+        return board.getBoardMatrix()[index[INDEX_X]][index[INDEX_Y]];
+    }
 
+    public void updateIndex (int i , Tile t){
+        tileIndex[i][INDEX_X] = t.getX();
+        tileIndex[i][INDEX_Y] = t.getY();
     }
 
 }

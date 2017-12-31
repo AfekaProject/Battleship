@@ -6,7 +6,6 @@ public class Tile {
     private int x;
     private int y;
     private Ship ship;
-
     private Status status;
 
     public Tile(int x, int y) {
@@ -74,5 +73,9 @@ public class Tile {
 
     public boolean isPlaced() {
         return status.equals(Status.PLACED);
+    }
+
+    public void setStatus(Status status){
+        this.status = status;
     }
 }

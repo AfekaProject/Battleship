@@ -52,6 +52,7 @@ public class GameActivity extends AppCompatActivity {
         mainGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, final int position, long l) {
+                enableGrid();
                 playPlayer(position);
                 Thread t = new Thread(new Runnable() {
                     @Override
@@ -60,9 +61,11 @@ public class GameActivity extends AppCompatActivity {
                         if (currentGameStatus.equals(Game.GameStatus.MISS)) {
                             playComputer();
                         }
+                        enableGrid();
                     }
                 });
                 t.start();
+
             }
         });
     }
@@ -98,7 +101,6 @@ public class GameActivity extends AppCompatActivity {
             public void run() {
 
                 statusGameToShow.setText("");
-                enableGrid();
                 currentPlayer.setText(R.string.computerTurn);
             }
         });
@@ -131,7 +133,6 @@ public class GameActivity extends AppCompatActivity {
             }
         });
         updateBoard(Game.Players.PLAYER);
-        enableGrid();
     }
 
     private void updateBoard(final Game.Players p) {
@@ -197,6 +198,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     public void switchBoard(View view) {
+        /*
         if (boardToView.equals(Game.Players.PLAYER)) {
             boardToView = Game.Players.COMPUTER;
             buttonSwitch.setText(R.string.computerBoard);
@@ -204,6 +206,10 @@ public class GameActivity extends AppCompatActivity {
             boardToView = Game.Players.PLAYER;
             buttonSwitch.setText(R.string.playerBoard);
         }
+        viewBoard.setmBoard(game.getBoard(boardToView), boardToView);
+        ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
+        */
+        game.getBoard(Game.Players.PLAYER).shuffleShips();
         viewBoard.setmBoard(game.getBoard(boardToView), boardToView);
         ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
     }
