@@ -30,10 +30,8 @@ public class MainActivity extends AppCompatActivity {
         easyButton = findViewById(R.id.easy_button);
         mediumButton = findViewById(R.id.medium_button);
         hardButton = findViewById(R.id.hard_button);
-
         selectSound = MediaPlayer.create(this, R.raw.click);
     }
-
 
     public void clickStart(View view) {
         selectSound.start();
@@ -60,10 +58,7 @@ public class MainActivity extends AppCompatActivity {
                 difficulty = 3;
                 break;
         }
-
         playButton.setVisibility(View.VISIBLE);
-
-
     }
 
     public void clickPlay(View view) {
@@ -71,6 +66,4 @@ public class MainActivity extends AppCompatActivity {
         i.putExtra(Game.DIFFICULTY, difficulty);
         startActivity(i);
     }
-
-
 }

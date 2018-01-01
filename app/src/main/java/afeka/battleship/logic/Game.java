@@ -5,7 +5,7 @@ import afeka.battleship.Model.Tile;
 
 public class Game {
     public static final boolean debug = true;      // enemy ships shown
-    public static final boolean aiWin = false;      // make the ai win
+    public static final boolean aiWin = true;      // make the ai win
 
     public static final String DIFFICULTY = "Difficulty";
     public static final String WHO_WIN = "WhoWin";

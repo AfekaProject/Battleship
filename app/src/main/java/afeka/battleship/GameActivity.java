@@ -1,7 +1,5 @@
 package afeka.battleship;
 
-import android.animation.Animator;
-import android.animation.AnimatorInflater;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
@@ -14,8 +12,6 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
 import android.widget.TextView;
-
-import afeka.battleship.Model.Board;
 import afeka.battleship.View.TileAdapter;
 import afeka.battleship.logic.Game;
 
@@ -37,7 +33,6 @@ public class GameActivity extends AppCompatActivity {
     private Animation bold;
     private Vibrator v;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +52,7 @@ public class GameActivity extends AppCompatActivity {
         playSoundDrown = MediaPlayer.create(getApplicationContext(), R.raw.splash);
         slideUp= AnimationUtils.loadAnimation(this,R.anim.slideup);
         bold= AnimationUtils.loadAnimation(this,R.anim.bold);
-        v =  (Vibrator) getSystemService(this.VIBRATOR_SERVICE);
+        v =  (Vibrator) getSystemService(VIBRATOR_SERVICE);
         currentPlayer.setText(R.string.playerTurn);
 
         mainGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -65,11 +60,10 @@ public class GameActivity extends AppCompatActivity {
             public void onItemClick(final AdapterView<?> adapterView, View view, final int position, long l) {
                 enableGrid();
                 playPlayer(position);
-                animateTile(view);
+                //animateTile(view);
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
-
                         if (currentGameStatus.equals(Game.GameStatus.MISS)) {
                             playComputer();
                         }
@@ -77,7 +71,6 @@ public class GameActivity extends AppCompatActivity {
                     }
                 });
                 t.start();
-
             }
         });
     }
@@ -103,7 +96,6 @@ public class GameActivity extends AppCompatActivity {
             winEndGame();
         } else {
             massageStatus(currentGameStatus, Game.Players.PLAYER);
-
         }
     }
 
@@ -112,7 +104,6 @@ public class GameActivity extends AppCompatActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
                 statusGameToShow.setText("");
                 currentPlayer.setText(R.string.computerTurn);
             }
@@ -124,24 +115,19 @@ public class GameActivity extends AppCompatActivity {
                 winEndGame();
                 return;
             }
-
             updateBoard(Game.Players.COMPUTER);
             massageStatus(currentGameStatus, Game.Players.COMPUTER);
             pause(2);
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-
                     statusGameToShow.setText("");
-
                 }
             });
-
         } while (game.getCurrentTurn().equals(Game.Players.COMPUTER));
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
                 currentPlayer.setText(R.string.playerTurn);
             }
         });
@@ -161,12 +147,10 @@ public class GameActivity extends AppCompatActivity {
         });
     }
 
-
     private void massageStatus(final Game.GameStatus status, final Game.Players turn) {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
                 if (status.equals(Game.GameStatus.HIT)) {
                     playSoundHit.start();
                     if (turn.equals(Game.Players.PLAYER))
@@ -184,7 +168,6 @@ public class GameActivity extends AppCompatActivity {
                     statusGameToShow.setText(R.string.drowned);
                 } else if (status.equals(Game.GameStatus.WRONG_MOVE))
                     statusGameToShow.setText(R.string.playerWrong);
-
             }
         });
     }
@@ -193,9 +176,7 @@ public class GameActivity extends AppCompatActivity {
         if (currentGameStatus.equals(Game.GameStatus.MISS)){
             view.startAnimation(slideUp);
             v.vibrate(150);
-
         }
-
         else if (currentGameStatus.equals(Game.GameStatus.HIT))
             view.startAnimation(bold);
     }
@@ -211,7 +192,6 @@ public class GameActivity extends AppCompatActivity {
         startActivity(i);
         finish();
     }
-
 
     public void pause(int i) { //stop for i sec the stimulate game
         try {

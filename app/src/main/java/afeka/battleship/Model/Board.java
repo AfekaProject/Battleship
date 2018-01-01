@@ -74,16 +74,16 @@ public class Board {
     public void shuffleShips (){
         int[] vector;
         Tile.Status status;
-        for (int i = 0 ; i < arrShip.length ; i++ ){
-            if (!arrShip[i].isDrowned(this)){
-                vector = findFreePlace(arrShip[i]);
-                for (int j = 0 ; j<arrShip[i].getSize();j++){
-                    status = arrShip[i].getTile(j,this).getStatus();
+        for (Ship anArrShip : arrShip) {
+            if (!anArrShip.isDrowned(this)) {
+                vector = findFreePlace(anArrShip);
+                for (int j = 0; j < anArrShip.getSize(); j++) {
+                    status = anArrShip.getTile(j, this).getStatus();
                     boardMatrix[vector[INDEX_X]][vector[INDEX_Y]].setStatus(status);
-                    boardMatrix[vector[INDEX_X]][vector[INDEX_Y]].setShip(arrShip[i]);
-                    arrShip[i].getTile(j,this).setShip(null);
-                    arrShip[i].getTile(j,this).setStatus(Tile.Status.NONE);
-                    arrShip[i].updateIndex(j ,boardMatrix[vector[INDEX_X]][vector[INDEX_Y]]);
+                    boardMatrix[vector[INDEX_X]][vector[INDEX_Y]].setShip(anArrShip);
+                    anArrShip.getTile(j, this).setShip(null);
+                    anArrShip.getTile(j, this).setStatus(Tile.Status.NONE);
+                    anArrShip.updateIndex(j, boardMatrix[vector[INDEX_X]][vector[INDEX_Y]]);
                     if (vector[INDEX_DIRECTION] == HORIZONTAL)
                         vector[INDEX_X]++;
                     else

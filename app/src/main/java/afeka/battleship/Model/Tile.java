@@ -11,7 +11,7 @@ public class Tile {
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
-        status = status.NONE;
+        status = Status.NONE;
 
     }
 
@@ -54,17 +54,17 @@ public class Tile {
     }
 
     public boolean setHit(Board board) {
-        status = status.HIT;
+        status = Status.HIT;
         return ship.setHit(board); //update ship's hit counter
     }
 
     public void setMiss() {
-        status = status.MISS;
+        status = Status.MISS;
     }
 
     public void setPlaced(Ship ship) {
         setShip(ship);
-        status = status.PLACED;
+        status = Status.PLACED;
     }
 
     public void setDrowned() {
