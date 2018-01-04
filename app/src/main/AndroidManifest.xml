@@ -25,7 +25,7 @@
             android:name=".EndActivity"
             android:screenOrientation="portrait" />
         <activity android:name=".ScoreActivity"
-            android:screenOrientation="portrait" ></activity>
+            android:screenOrientation="portrait" />
     </application>
 
 

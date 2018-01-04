@@ -9,7 +9,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
-
 import afeka.battleship.Model.Board;
 import afeka.battleship.Model.Tile;
 import afeka.battleship.R;
@@ -20,11 +19,13 @@ public class TileAdapter extends BaseAdapter {
     private Context context;
     private Board mBoard;
     private Game.Players playerToView;
-
+    private Animation slideUp;
+    private Animation bold;
 
     public TileAdapter(Context context) {
         this.context = context;
-
+        slideUp= AnimationUtils.loadAnimation(context,R.anim.slideup);
+        bold= AnimationUtils.loadAnimation(context,R.anim.bold);
     }
 
     public void setmBoard(Board mBoard, Game.Players playerToView) {
@@ -72,9 +73,17 @@ public class TileAdapter extends BaseAdapter {
                 break;
             case HIT:
                 tileView.img.setImageResource(R.drawable.img_hit);
+                if (tileView.i == 0){
+                    animateTile(tileView,status);
+                    tileView.i = 1;
+                }
                 break;
             case MISS:
                 tileView.img.setImageResource(R.drawable.img_miss);
+                if (tileView.i == 0){
+                    animateTile(tileView,status);
+                    tileView.i = 1;
+                }
                 break;
             case DROWNED:
                 tileView.img.setImageResource(R.drawable.img_deadfish);
@@ -85,6 +94,15 @@ public class TileAdapter extends BaseAdapter {
         }
 
         return tileView;
+    }
+
+    private void animateTile (View view , Tile.Status currentGameStatus){
+        if (currentGameStatus.equals(Tile.Status.MISS)){
+            view.startAnimation(slideUp);
+            //v.vibrate(150);
+        }
+        else if (currentGameStatus.equals(Tile.Status.HIT))
+            view.startAnimation(bold);
     }
 
     private void hideShips(TileView tileView) {
