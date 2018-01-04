@@ -60,7 +60,7 @@ public class GameActivity extends AppCompatActivity {
             public void onItemClick(final AdapterView<?> adapterView, View view, final int position, long l) {
                 enableGrid();
                 playPlayer(position);
-                //animateTile(view);
+                animateTile(view);
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -139,7 +139,6 @@ public class GameActivity extends AppCompatActivity {
             @Override
             public void run() {
                 currentPlayer.setText(R.string.playerTurn);
-
             }
         });
         updateBoard(Game.Players.PLAYER);
@@ -228,6 +227,4 @@ public class GameActivity extends AppCompatActivity {
         viewBoard.setmBoard(game.getBoard(boardToView), boardToView);
         ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
     }
-
-
 }

@@ -35,6 +35,7 @@
         android:scaleY="1"
         />
 
+
     <TextView
         android:id="@+id/statusText"
         android:layout_width="match_parent"
