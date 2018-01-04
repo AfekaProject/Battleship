@@ -109,6 +109,7 @@ public class GameActivity extends AppCompatActivity {
 
     private void playComputer() {
         pause(2);
+
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -120,6 +121,15 @@ public class GameActivity extends AppCompatActivity {
         updateBoard(Game.Players.COMPUTER);
         do {
             currentGameStatus = game.computerPlay(game.getBoard(Game.Players.COMPUTER));
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    int lastPosition =  game.getLastPosition();
+                    View view = mainGrid.getChildAt(lastPosition);
+                    animateTile(view);
+                }
+            });
+
             if (currentGameStatus.equals(Game.GameStatus.WIN)) {
                 winEndGame();
                 return;
@@ -143,6 +153,7 @@ public class GameActivity extends AppCompatActivity {
             public void run() {
 
                 currentPlayer.setText(R.string.playerTurn);
+
             }
         });
         updateBoard(Game.Players.PLAYER);
@@ -237,4 +248,6 @@ public class GameActivity extends AppCompatActivity {
         viewBoard.setmBoard(game.getBoard(boardToView), boardToView);
         ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
     }
+
+
 }

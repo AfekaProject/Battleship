@@ -7,6 +7,7 @@ import afeka.battleship.Model.Board;
 
 public class ComputerPlayer {
     private ArrayList<Integer> places;
+    private int lastPosition = -1;
 
     public ComputerPlayer() {
         places = new ArrayList<>();
@@ -16,7 +17,7 @@ public class ComputerPlayer {
 
     private void think() {
         try {
-            Thread.sleep(1000);
+            Thread.sleep(2000);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
@@ -31,6 +32,8 @@ public class ComputerPlayer {
         // make ai win (for debug)  disable for game
         if (Game.aiWin)
             temp = cpuAutoWin(board);
+
+        lastPosition = temp;
         return temp;
     }
 
@@ -44,5 +47,9 @@ public class ComputerPlayer {
                 i++;
         }
         return i;
+    }
+
+    public int getLastPosition(){
+        return lastPosition;
     }
 }

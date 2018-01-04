@@ -47,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
             case R.id.medium_button:
                 difficulty = 2;
                 mediumButton.startAnimation(anim);
+
                 hardButton.clearAnimation();
                 easyButton.clearAnimation();
                 break;

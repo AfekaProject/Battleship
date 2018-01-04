@@ -1,6 +1,8 @@
 package afeka.battleship.View;
 
 import android.content.Context;
+import android.nfc.Tag;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.animation.Animation;
@@ -81,6 +83,7 @@ public class TileAdapter extends BaseAdapter {
                 tileView.img.setImageResource(R.drawable.img_empty);
                 break;
         }
+
         return tileView;
     }
 
@@ -90,4 +93,5 @@ public class TileAdapter extends BaseAdapter {
         else
             tileView.img.setImageResource(R.drawable.img_goldfish);
     }
+
 }
