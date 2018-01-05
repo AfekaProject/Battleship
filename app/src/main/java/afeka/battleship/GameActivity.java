@@ -105,7 +105,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
     }
 
     private void playPlayer(int position) {
-      //  progressBar.setVisibility(View.VISIBLE);
         currentGameStatus = game.playerPlay(position);
         updateBoard(Game.Players.PLAYER);
 
@@ -134,7 +133,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                   // progressBar.setVisibility(View.VISIBLE);
                     int lastPosition =  game.getLastPosition();
                     View view = mainGrid.getChildAt(lastPosition);
                     animateTile(view);

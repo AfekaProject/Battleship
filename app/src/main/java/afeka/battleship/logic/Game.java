@@ -1,10 +1,7 @@
 package afeka.battleship.logic;
 
-import android.view.View;
-
 import afeka.battleship.Model.Board;
 import afeka.battleship.Model.Tile;
-import afeka.battleship.View.TileAdapter;
 
 public class Game {
     public static final boolean debug = true;      // enemy ships shown

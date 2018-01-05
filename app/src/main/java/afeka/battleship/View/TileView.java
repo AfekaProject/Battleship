@@ -3,13 +3,11 @@ package afeka.battleship.View;
 import android.content.Context;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-
 import afeka.battleship.R;
 
 public class TileView extends FrameLayout {
 
     ImageView img;
-    public  int i=0;
     public TileView(Context context) {
         super(context);
         //put here setting for how to view the tile in grid
