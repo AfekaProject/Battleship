@@ -20,4 +20,11 @@
     <string name="drowned">A group got Drowned</string>
     <string name="intentHit">Be careful! \nfish was hit!</string>
     <string name="title_activity_score">ScoreActivity</string>
+    <string name="nameTitle">Name</string>
+    <string name="scoreTitle">Score</string>
+    <string name="dateTitle">Date</string>
+    <string name="empty">empty</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

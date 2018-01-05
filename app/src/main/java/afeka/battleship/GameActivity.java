@@ -67,7 +67,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         progressBar.setVisibility(View.INVISIBLE);
         v =  (Vibrator) getSystemService(VIBRATOR_SERVICE);
         currentPlayer.setText(R.string.playerTurn);
-        
+
 
         mainGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -308,7 +308,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
                 countSensorEvent++;
                 if(countSensorEvent == 5 ) {
                     game.getBoard(Game.Players.PLAYER).setRandomHit();
-                    updateBoard(Game.Players.PLAYER); //only for checking!!
+                 //   updateBoard(Game.Players.PLAYER); //only for checking!!
                     statusGameToShow.setText(R.string.intentHit);
                     countSensorEvent = 0;
                 }

@@ -62,5 +62,16 @@
         android:onClick="mainClick"
         android:src="@drawable/mainbutton" />
 
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/blueFish"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="22dp"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:text="Name" />
+
 
 </RelativeLayout>

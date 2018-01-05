@@ -1,5 +1,6 @@
 package afeka.battleship;
 
+import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 
@@ -10,7 +11,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class ScoreActivity extends FragmentActivity implements OnMapReadyCallback {
+public class ScoreActivity extends FragmentActivity implements OnMapReadyCallback, HighScoreFragment.OnFragmentInteractionListener {
 
     private GoogleMap mMap;
 
@@ -20,7 +21,8 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_score);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+                .findFragmentById(R.id.mapFargment);
+        HighScoreFragment highScoreFragment = (HighScoreFragment) getSupportFragmentManager().findFragmentById(R.id.scoreTableFragment);
         mapFragment.getMapAsync(this);
     }
 
@@ -42,5 +44,10 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
