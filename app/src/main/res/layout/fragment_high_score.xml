@@ -7,246 +7,56 @@
     android:weightSum="1"
     tools:context="afeka.battleship.HighScoreFragment">
 
-    //title
 
-    <TableRow>
 
-        <TextView
+    <TableRow
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
-            android:layout_weight="0.2"
-            android:gravity="left"
-            android:padding="3dip"
-            android:text="@string/nameTitle"
-            android:textStyle="bold" />
+    <TextView
 
-        <TextView
-            android:layout_weight="0.2"
-            android:gravity="center"
-            android:padding="3dip"
-            android:text="@string/scoreTitle" />
+        android:layout_weight="0.2"
+        android:gravity="left"
+        android:padding="3dip"
+        android:text="@string/nameTitle"
+        android:textStyle="bold" />
 
-        <TextView
-            android:layout_weight="0.2"
-            android:gravity="left"
-            android:padding="3dip"
-            android:text="@string/dateTitle" />
-    </TableRow>
+    <TextView
+        android:layout_weight="0.2"
+        android:gravity="center"
+        android:padding="3dip"
+        android:text="@string/scoreTitle"
+        android:textStyle="bold" />
 
-    //1
+    <TextView
+        android:layout_weight="0.2"
+        android:gravity="left"
+        android:padding="3dip"
+        android:text="@string/dateTitle"
+        android:textStyle="bold" />
+</TableRow>
 
-    <TableRow android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/row1"
-            android:layout_height="match_parent"
-            android:layout_weight="0.08"
-            android:gravity="left"
-            android:padding="3dip"
-            android:text="@string/empty"
-            android:textAlignment="center" />
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".MainActivity" >
 
-        <TextView
+    <ListView
+        android:id="@+id/listView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:divider="#000000"
+        android:dividerHeight="2dp">
 
-            android:layout_weight="0.08"
-            android:gravity="center"
-            android:padding="3dip" />
+    </ListView>
 
-        <TextView
 
-            android:layout_weight="0.08"
-            android:gravity="left"
-            android:padding="3dip" />
-    </TableRow>
+    </RelativeLayout>
 
-    //2
 
-    <TableRow>
-
-        <TextView
-            android:id="@+id/row2"
-            android:layout_weight="0.08"
-            android:gravity="left"
-            android:padding="3dip"
-            android:text="@string/empty" />
-
-        <TextView
-
-            android:gravity="center"
-            android:padding="3dip" />
-
-        <TextView
-
-            android:gravity="left"
-            android:padding="3dip" />
-    </TableRow>
-
-    //3
-
-    <TableRow>
-
-        <TextView
-            android:id="@+id/row3"
-            android:gravity="left"
-            android:padding="3dip"
-            android:text="@string/empty" />
-
-        <TextView
-
-            android:gravity="center"
-            android:padding="3dip" />
-
-        <TextView
-
-            android:gravity="left"
-            android:padding="3dip" />
-    </TableRow>
-
-    //4
-
-    <TableRow>
-
-        <TextView
-            android:id="@+id/row4"
-            android:gravity="left"
-            android:padding="3dip"
-            android:text="@string/empty" />
-
-        <TextView
-
-            android:gravity="center"
-            android:padding="3dip" />
-
-        <TextView
-
-            android:gravity="left"
-            android:padding="3dip" />
-    </TableRow>
-
-    //5
-
-    <TableRow>
-
-        <TextView
-            android:id="@+id/row5"
-            android:gravity="left"
-            android:padding="3dip"
-            android:text="@string/empty" />
-
-        <TextView
-
-            android:gravity="center"
-            android:padding="3dip" />
-
-        <TextView
-
-            android:gravity="left"
-            android:padding="3dip" />
-    </TableRow>
-
-    //6
-
-    <TableRow>
-
-        <TextView
-            android:id="@+id/row6"
-            android:gravity="left"
-            android:padding="3dip"
-            android:text="@string/empty" />
-
-        <TextView
-
-            android:gravity="center"
-            android:padding="3dip" />
-
-        <TextView
-
-            android:gravity="left"
-            android:padding="3dip" />
-    </TableRow>
-
-    //7
-
-    <TableRow>
-
-        <TextView
-            android:id="@+id/row7"
-            android:gravity="left"
-            android:padding="3dip"
-            android:text="@string/empty" />
-
-        <TextView
-
-            android:gravity="center"
-            android:padding="3dip" />
-
-        <TextView
-
-            android:gravity="left"
-            android:padding="3dip" />
-    </TableRow>
-
-    //8
-
-    <TableRow>
-
-        <TextView
-            android:id="@+id/row8"
-            android:gravity="left"
-            android:padding="3dip"
-            android:text="@string/empty" />
-
-        <TextView
-
-            android:gravity="center"
-            android:padding="3dip" />
-
-        <TextView
-
-            android:gravity="left"
-            android:padding="3dip" />
-    </TableRow>
-
-    //9
-
-    <TableRow>
-
-        <TextView
-            android:id="@+id/row9"
-            android:gravity="left"
-            android:padding="3dip"
-            android:text="@string/empty" />
-
-        <TextView
-
-            android:gravity="center"
-            android:padding="3dip" />
-
-        <TextView
-
-            android:gravity="left"
-            android:padding="3dip" />
-    </TableRow>
-
-    //10
-
-    <TableRow>
-
-        <TextView
-            android:id="@+id/row10"
-            android:gravity="left"
-            android:padding="3dip"
-            android:text="@string/empty" />
-
-        <TextView
-
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:padding="3dip" />
-
-        <TextView
-
-            android:gravity="left"
-            android:padding="3dip" />
-    </TableRow>
 
 </TableLayout>
