@@ -1,41 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    tools:context=".ScoreActivity"
+xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+tools:context=".ScoreActivity"
     >
 
-    <LinearLayout
-        android:layout_width="match_parent"
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    >
+
+    <Button
+        android:id="@+id/scoreEasy"
+        android:layout_width="120dp"
         android:layout_height="wrap_content"
-        >
+        android:background="@color/blue"
+        android:text="@string/easyButton"
+        />
 
-        <Button
-            android:id="@+id/scoreEasy"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:background="@color/blue"
-            android:text="@string/easyButton"
-            />
+    <Button
+        android:id="@+id/scoreMedium"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:text="@string/mediumButton"
+        />
 
-        <Button
-            android:id="@+id/scoreMedium"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:background="@color/blue"
-            android:text="@string/mediumButton"
-            />
+    <Button
+        android:id="@+id/scoreHard"
+        android:layout_width="120dp"
+        android:layout_height="wrap_content"
+        android:background="@color/blue"
+        android:text="@string/hardButton"
+        />
 
-        <Button
-            android:id="@+id/scoreHard"
-            android:layout_width="120dp"
-            android:layout_height="wrap_content"
-            android:background="@color/blue"
-            android:text="@string/hardButton"
-            />
+</LinearLayout>
 
-    </LinearLayout>
+    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:map="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.SupportMapFragment"
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        tools:context="afeka.battleship.ScoreActivity" />
+
 
 </RelativeLayout>

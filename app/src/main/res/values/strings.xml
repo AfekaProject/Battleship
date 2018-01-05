@@ -19,4 +19,5 @@
     <string name="computerBoard">Enemy Board</string>
     <string name="drowned">A group got Drowned</string>
     <string name="intentHit">Be careful! \nfish was hit!</string>
+    <string name="title_activity_score">ScoreActivity</string>
 </resources>
