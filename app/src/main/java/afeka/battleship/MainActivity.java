@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import afeka.battleship.logic.Game;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         mediumButton = findViewById(R.id.medium_button);
         hardButton = findViewById(R.id.hard_button);
         selectSound = MediaPlayer.create(this, R.raw.click);
+
     }
 
     public void clickStart(View view) {
@@ -65,6 +67,11 @@ public class MainActivity extends AppCompatActivity {
     public void clickPlay(View view) {
         Intent i = new Intent(this, GameActivity.class);
         i.putExtra(Game.DIFFICULTY, difficulty);
+        startActivity(i);
+    }
+
+    public void clickHighScore(View view) {
+        Intent i = new Intent(this,ScoreActivity.class);
         startActivity(i);
     }
 }

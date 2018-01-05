@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import afeka.battleship.logic.Game;
 
+
 public class EndActivity extends AppCompatActivity {
     private String whoWin;
     private int difficulty;

@@ -20,7 +20,7 @@
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:layout_above="@id/redFish"
-            app:srcCompat="@drawable/bluefish"
+            android:src="@drawable/bluefish"
             android:visibility="invisible"
             />
 
@@ -29,7 +29,7 @@
             android:layout_width="wrap_content"
             android:layout_height="100dp"
             android:layout_above="@id/newGameButton"
-            app:srcCompat="@drawable/redfish"
+            android:src="@drawable/redfish"
             android:visibility="invisible"
             />
 
@@ -39,7 +39,7 @@
             android:layout_height="200dp"
             android:layout_above="@id/newGameButton"
             android:layout_marginBottom="10dp"
-            app:srcCompat="@drawable/lose_shark"
+            android:src="@drawable/lose_shark"
             android:visibility="invisible"
             />
 
@@ -50,7 +50,7 @@
         android:layout_above="@+id/mainButton"
         android:layout_centerHorizontal="true"
         android:onClick="newGameClick"
-        app:srcCompat="@drawable/newgamebutton" />
+        android:src="@drawable/newgamebutton" />
 
     <ImageView
         android:id="@+id/mainButton"
@@ -60,7 +60,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="30dp"
         android:onClick="mainClick"
-        app:srcCompat="@drawable/mainbutton" />
+        android:src="@drawable/mainbutton" />
 
 
 </RelativeLayout>
