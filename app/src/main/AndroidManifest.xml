@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="afeka.battleship">
-    <uses-permission android:name="android.permission.VIBRATE"/>
+
+    <uses-permission android:name="android.permission.VIBRATE" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_fish"
@@ -24,10 +26,17 @@
         <activity
             android:name=".EndActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".ScoreActivity"
+        <activity
+            android:name=".ScoreActivity"
             android:screenOrientation="portrait" />
+
+        <service
+            android:name=".GameService"
+            android:enabled="true"
+            android:exported="true"></service>
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
-
-
 
 </manifest>

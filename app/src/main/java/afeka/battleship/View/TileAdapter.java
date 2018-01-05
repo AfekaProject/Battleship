@@ -73,17 +73,17 @@ public class TileAdapter extends BaseAdapter {
                 break;
             case HIT:
                 tileView.img.setImageResource(R.drawable.img_hit);
-                if (tileView.i == 0){
+             /*   if (tileView.i == 0){
                     animateTile(tileView,status);
                     tileView.i = 1;
-                }
+                }*/
                 break;
             case MISS:
                 tileView.img.setImageResource(R.drawable.img_miss);
-                if (tileView.i == 0){
-                    animateTile(tileView,status);
-                    tileView.i = 1;
-                }
+            //    if (tileView.i == 0){
+              //      animateTile(tileView,status);
+                //    tileView.i = 1;
+              //  }
                 break;
             case DROWNED:
                 tileView.img.setImageResource(R.drawable.img_deadfish);

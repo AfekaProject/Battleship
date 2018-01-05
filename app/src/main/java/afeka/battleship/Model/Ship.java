@@ -60,4 +60,5 @@ public class Ship {
         tileIndex[i][INDEX_Y] = t.getY();
     }
 
+
 }

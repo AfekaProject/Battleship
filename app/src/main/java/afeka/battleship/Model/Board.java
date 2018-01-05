@@ -127,4 +127,26 @@ public class Board {
         return vector;
     }
 
+    public void setRandomHit(){
+        Random rand = new Random();
+        int index;
+        boolean flag = false;
+
+        if(shipsAlive > 0){
+           while(flag == false){
+               index = rand.nextInt(arrShip.length);
+               if(!arrShip[index].isDrowned(this)){
+                   for(int i=0 ; i<arrShip[index].getSize() && flag == false; i++){
+                       Tile tile = arrShip[index].getTile(i,this);
+                      if(tile.getStatus().equals(Tile.Status.PLACED)) {
+                          tile.setHit(this);
+                          flag = true;
+                      }
+
+                   }
+               }
+           }
+        }
+    }
+
 }

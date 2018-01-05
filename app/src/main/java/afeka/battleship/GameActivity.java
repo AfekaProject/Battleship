@@ -1,24 +1,32 @@
 package afeka.battleship;
 
+
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import afeka.battleship.View.TileAdapter;
 import afeka.battleship.logic.Game;
+import android.content.ServiceConnection;
+import android.os.IBinder;
+import android.content.ComponentName;
 
-public class GameActivity extends AppCompatActivity {
+public class GameActivity extends AppCompatActivity implements GameService.TimerListener, GameService.MySensorListener {
 
     private GridView mainGrid;
     private Button buttonSwitch;
+    private ProgressBar progressBar;
     private Game game;
     private TextView currentPlayer;
     private TextView statusGameToShow;
@@ -32,6 +40,9 @@ public class GameActivity extends AppCompatActivity {
     private Animation slideUp;
     private Animation bold;
     private Vibrator v;
+    private GameService.MyLocalBinder mBinder;
+    private boolean isBound = false;
+    private int countSensorEvent = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,15 +63,19 @@ public class GameActivity extends AppCompatActivity {
         playSoundDrown = MediaPlayer.create(getApplicationContext(), R.raw.splash);
         slideUp= AnimationUtils.loadAnimation(this,R.anim.slideup);
         bold= AnimationUtils.loadAnimation(this,R.anim.bold);
+        progressBar = findViewById(R.id.progressBar);
+        progressBar.setVisibility(View.INVISIBLE);
         v =  (Vibrator) getSystemService(VIBRATOR_SERVICE);
         currentPlayer.setText(R.string.playerTurn);
+
+
 
         mainGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> adapterView, View view, final int position, long l) {
                 enableGrid();
                 playPlayer(position);
-                //animateTile(view);
+                animateTile(view);
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -73,6 +88,7 @@ public class GameActivity extends AppCompatActivity {
                 t.start();
             }
         });
+
     }
 
     private void enableGrid() {
@@ -89,6 +105,7 @@ public class GameActivity extends AppCompatActivity {
     }
 
     private void playPlayer(int position) {
+      //  progressBar.setVisibility(View.VISIBLE);
         currentGameStatus = game.playerPlay(position);
         updateBoard(Game.Players.PLAYER);
 
@@ -107,6 +124,8 @@ public class GameActivity extends AppCompatActivity {
             public void run() {
                 statusGameToShow.setText("");
                 currentPlayer.setText(R.string.computerTurn);
+                progressBar.setVisibility(View.VISIBLE);
+
             }
         });
         updateBoard(Game.Players.COMPUTER);
@@ -115,9 +134,11 @@ public class GameActivity extends AppCompatActivity {
             runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
+                   // progressBar.setVisibility(View.VISIBLE);
                     int lastPosition =  game.getLastPosition();
                     View view = mainGrid.getChildAt(lastPosition);
                     animateTile(view);
+                    progressBar.setVisibility(View.INVISIBLE);
                 }
             });
 
@@ -132,12 +153,15 @@ public class GameActivity extends AppCompatActivity {
                 @Override
                 public void run() {
                     statusGameToShow.setText("");
+                    progressBar.setVisibility(View.VISIBLE);
                 }
             });
+
         } while (game.getCurrentTurn().equals(Game.Players.COMPUTER));
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                progressBar.setVisibility(View.INVISIBLE);
                 currentPlayer.setText(R.string.playerTurn);
 
             }
@@ -229,5 +253,69 @@ public class GameActivity extends AppCompatActivity {
         ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(this, GameService.class);
+        Log.d("On start", "binding to service...");
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (isBound) {
+            mBinder.DeleteTimerListener();
+            mBinder.DeleteSensorListener();
+            unbindService(mConnection);
+            isBound = false;
+    }
+    }
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.d("Service Connection", "bound to service");
+            mBinder = (GameService.MyLocalBinder)service;
+            mBinder.registerTimeListener(GameActivity.this);
+            mBinder.registerSensorListener(GameActivity.this);
+            Log.e("Service Connection", "registered as listener");
+            isBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+
+            isBound = false;
+        }
+    };
+
+
+    @Override
+    public void timePassed() { //shuffle player ships every 10 second
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                game.getBoard(Game.Players.PLAYER).shuffleShips();
+
+            }
+        });
+
+    }
+
+    @Override
+    public void moveChanged() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                countSensorEvent++;
+                if(countSensorEvent == 5 ) {
+                    game.getBoard(Game.Players.PLAYER).setRandomHit();
+                    updateBoard(Game.Players.PLAYER); //only for checking!!
+                    statusGameToShow.setText(R.string.intentHit);
+                    countSensorEvent = 0;
+                }
+            }
+        });
+    }
 }

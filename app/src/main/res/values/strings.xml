@@ -18,4 +18,5 @@
     <string name="playerBoard">Your Board</string>
     <string name="computerBoard">Enemy Board</string>
     <string name="drowned">A group got Drowned</string>
+    <string name="intentHit">Be careful! \nfish was hit!</string>
 </resources>
