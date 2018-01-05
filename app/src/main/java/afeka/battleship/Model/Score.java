@@ -23,7 +23,32 @@ public class Score {
         this(name, difficult, score , Calendar.getInstance().getTime(),location);
     }
 
+    public Score(String name, int difficult, int score) {
+        this.name = name;
+        this.difficult = difficult;
+        this.score = score;
+        this.date = Calendar.getInstance().getTime();
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public int getDifficult() {
+        return difficult;
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
     public Location getLocation(){
         return location;
     }
+
+
 }

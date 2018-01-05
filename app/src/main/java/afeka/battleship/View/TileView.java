@@ -7,7 +7,7 @@ import afeka.battleship.R;
 
 public class TileView extends FrameLayout {
 
-    ImageView img;
+    private ImageView img;
     public TileView(Context context) {
         super(context);
         //put here setting for how to view the tile in grid
@@ -19,8 +19,7 @@ public class TileView extends FrameLayout {
         addView(img);
     }
 
-
-
-
-
+    public ImageView getImg() {
+        return img;
+    }
 }

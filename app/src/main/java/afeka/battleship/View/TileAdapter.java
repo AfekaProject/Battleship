@@ -1,12 +1,8 @@
 package afeka.battleship.View;
 
 import android.content.Context;
-import android.nfc.Tag;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.FrameLayout;
 import afeka.battleship.Model.Board;
@@ -19,13 +15,9 @@ public class TileAdapter extends BaseAdapter {
     private Context context;
     private Board mBoard;
     private Game.Players playerToView;
-    private Animation slideUp;
-    private Animation bold;
 
     public TileAdapter(Context context) {
         this.context = context;
-        slideUp= AnimationUtils.loadAnimation(context,R.anim.slideup);
-        bold= AnimationUtils.loadAnimation(context,R.anim.bold);
     }
 
     public void setmBoard(Board mBoard, Game.Players playerToView) {
@@ -60,56 +52,40 @@ public class TileAdapter extends BaseAdapter {
         Tile.Status status = mBoard.getTile(i).getStatus();
         int size = viewGroup.getWidth() / 10 - 15;
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(size, size);
-        tileView.img.setLayoutParams(layoutParams);
+        tileView.getImg().setLayoutParams(layoutParams);
         switch (status) {
             case NONE:
-                tileView.img.setImageResource(R.drawable.img_empty);
+                tileView.getImg().setImageResource(R.drawable.img_empty);
                 break;
             case PLACED:
-                tileView.img.setImageResource(R.drawable.img_goldfish);
+                tileView.getImg().setImageResource(R.drawable.img_goldfish);
                 //disable this line to view enemy ship for debug
                 if (!Game.debug)
                     hideShips(tileView);
                 break;
             case HIT:
-                tileView.img.setImageResource(R.drawable.img_hit);
-             /*   if (tileView.i == 0){
-                    animateTile(tileView,status);
-                    tileView.i = 1;
-                }*/
+                tileView.getImg().setImageResource(R.drawable.img_hit);
+
                 break;
             case MISS:
-                tileView.img.setImageResource(R.drawable.img_miss);
-            //    if (tileView.i == 0){
-              //      animateTile(tileView,status);
-                //    tileView.i = 1;
-              //  }
+                tileView.getImg().setImageResource(R.drawable.img_miss);
                 break;
             case DROWNED:
-                tileView.img.setImageResource(R.drawable.img_deadfish);
+                tileView.getImg().setImageResource(R.drawable.img_deadfish);
                 break;
             default:
-                tileView.img.setImageResource(R.drawable.img_empty);
+                tileView.getImg().setImageResource(R.drawable.img_empty);
                 break;
         }
 
         return tileView;
     }
 
-    private void animateTile (View view , Tile.Status currentGameStatus){
-        if (currentGameStatus.equals(Tile.Status.MISS)){
-            view.startAnimation(slideUp);
-            //v.vibrate(150);
-        }
-        else if (currentGameStatus.equals(Tile.Status.HIT))
-            view.startAnimation(bold);
-    }
-
     private void hideShips(TileView tileView) {
         if (playerToView.equals(Game.Players.PLAYER))
-            tileView.img.setImageResource(R.drawable.img_empty);
+            tileView.getImg().setImageResource(R.drawable.img_empty);
         else
-            tileView.img.setImageResource(R.drawable.img_goldfish);
+            tileView.getImg().setImageResource(R.drawable.img_goldfish);
     }
 
 }

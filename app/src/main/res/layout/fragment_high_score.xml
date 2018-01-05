@@ -37,20 +37,23 @@
 </TableRow>
 
 
-    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <RelativeLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".MainActivity" >
+        tools:context=".afeka.battleship.HighScoreFragment" >
 
     <ListView
-        android:id="@+id/listView1"
+        android:id="@+id/scoreList"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentTop="true"
         android:divider="#000000"
-        android:dividerHeight="2dp">
+        android:dividerHeight="2dp"
+        >
+
+
 
     </ListView>
 

@@ -19,6 +19,7 @@ tools:context=".ScoreActivity"
         android:layout_height="wrap_content"
         android:background="@color/blue"
         android:text="@string/easyButton"
+        android:onClick="showScoreList"
         />
 
     <Button
@@ -27,6 +28,7 @@ tools:context=".ScoreActivity"
         android:layout_height="wrap_content"
         android:background="@color/blue"
         android:text="@string/mediumButton"
+        android:onClick="showScoreList"
         />
 
     <Button
@@ -35,6 +37,7 @@ tools:context=".ScoreActivity"
         android:layout_height="wrap_content"
         android:background="@color/blue"
         android:text="@string/hardButton"
+        android:onClick="showScoreList"
         />
 
 </LinearLayout>

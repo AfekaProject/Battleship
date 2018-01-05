@@ -7,16 +7,11 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
+import afeka.battleship.Model.Score;
+import afeka.battleship.View.ScoreAdapter;
 
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link HighScoreFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link HighScoreFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class HighScoreFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,19 +24,16 @@ public class HighScoreFragment extends Fragment {
 
     private OnFragmentInteractionListener mListener;
 
+    private ListView scoreList;
+    private ScoreAdapter scoreAdapter;
+    private Score[] scoreData;
+
     public HighScoreFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HighScoreFragment.
-     */
-    // TODO: Rename and change types and number of parameters
+
+
     public static HighScoreFragment newInstance(String param1, String param2) {
         HighScoreFragment fragment = new HighScoreFragment();
         Bundle args = new Bundle();
@@ -58,13 +50,21 @@ public class HighScoreFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        scoreData=test();
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_high_score, container, false);
+
+        View view =inflater.inflate(R.layout.fragment_high_score, container, false);
+        scoreList = view.findViewById(R.id.scoreList);
+        scoreAdapter = new ScoreAdapter(getContext(),scoreData);
+        scoreList.setAdapter(scoreAdapter);
+        scoreAdapter.notifyDataSetChanged();
+        return view;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -91,18 +91,18 @@ public class HighScoreFragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+
+    public Score[] test(){
+        Score[] arr = new Score[10];
+        for (int i = 0 ; i<arr.length ; i++){
+            arr[i] = new Score("id"+i,1,100);
+        }
+        return arr;
     }
 }

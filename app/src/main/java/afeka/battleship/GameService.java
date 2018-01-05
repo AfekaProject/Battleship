@@ -59,9 +59,6 @@ public class GameService extends Service implements SensorEventListener {
             SensorManager.getRotationMatrix(mR, null, mLastAccelerometer, mLastMagnetometer);
             SensorManager.getOrientation(mR, firstOrientation);
         }
-        else {
-            //keep playing without sensors
-        }
         clock();
     }
 

@@ -1,6 +1,5 @@
 package afeka.battleship;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
@@ -234,7 +233,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
     }
 
     public void switchBoard(View view) {
-        /*
+
         if (boardToView.equals(Game.Players.PLAYER)) {
             boardToView = Game.Players.COMPUTER;
             buttonSwitch.setText(R.string.computerBoard);
@@ -244,10 +243,13 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         }
         viewBoard.setmBoard(game.getBoard(boardToView), boardToView);
         ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
-        */
+
+
+        /*      code for shaffle test
         game.getBoard(Game.Players.PLAYER).shuffleShips();
         viewBoard.setmBoard(game.getBoard(boardToView), boardToView);
         ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
+        */
     }
 
     @Override
