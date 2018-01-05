@@ -67,8 +67,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         progressBar.setVisibility(View.INVISIBLE);
         v =  (Vibrator) getSystemService(VIBRATOR_SERVICE);
         currentPlayer.setText(R.string.playerTurn);
-
-
+        
 
         mainGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
