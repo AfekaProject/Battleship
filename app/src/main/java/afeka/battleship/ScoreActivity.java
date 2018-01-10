@@ -20,7 +20,7 @@ import java.util.ArrayList;
 import afeka.battleship.Model.Score;
 import afeka.battleship.logic.Game;
 
-public class ScoreActivity extends FragmentActivity implements OnMapReadyCallback, HighScoreFragment.OnFragmentInteractionListener {
+public class ScoreActivity extends FragmentActivity implements OnMapReadyCallback, HighScoreFragment.OnFragmentInteractionListener,GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
     private Score[] scoreList;
@@ -36,7 +36,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.mapFargment);
         mapFragment.getMapAsync(this);
         highScoreFragment = (HighScoreFragment) getSupportFragmentManager().findFragmentById(R.id.scoreTableFragment);
-
+        findViewById(R.id.scoreEasy).performClick();
 
 
 
@@ -57,9 +57,16 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
 
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-33.852, 151.211);
+        MarkerOptions m = new MarkerOptions().position(sydney).title("lala");
+        mMap.setOnMarkerClickListener(this);
         googleMap.addMarker(new MarkerOptions().position(sydney)
                 .title("Marker in Sydney"));
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        return false;
     }
 
     @Override
@@ -85,32 +92,43 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
         }
 
         difficultButtomMark();
-
+        //updateListView();
+        //updateMarkersOnMap();
 
     }
 
+    private void updateListView() {
+
+    }
+
+    private void updateMarkersOnMap (){
+        mMap.clear();
+        for (int i= 0 ; i< scoreList.length ; i++){
+           // Marker m = new MarkerOptions().
+        }
+    }
+
     private void difficultButtomMark(){
-        int darkBlue , lightBlue;
-        darkBlue = getResources().getColor(R.color.drakBlue);
-        lightBlue = getResources().getColor(R.color.blue);
+        int darkBlue = getResources().getColor(R.color.drakBlue);
+        int lightBlue = getResources().getColor(R.color.blue);
         switch(difficult){
-            case 3:
+            case 3:     //Easy
                findViewById(R.id.scoreEasy).setBackgroundColor(darkBlue);
                findViewById(R.id.scoreMedium).setBackgroundColor(lightBlue);
                findViewById(R.id.scoreHard).setBackgroundColor(lightBlue);
                 break;
-            case 2:
+            case 2:     //Medium
                 findViewById(R.id.scoreEasy).setBackgroundColor(lightBlue);
                 findViewById(R.id.scoreMedium).setBackgroundColor(darkBlue);
                 findViewById(R.id.scoreHard).setBackgroundColor(lightBlue);
                 break;
-
-            case 1:
+            case 1:     //Hard
                 findViewById(R.id.scoreEasy).setBackgroundColor(lightBlue);
                 findViewById(R.id.scoreMedium).setBackgroundColor(lightBlue);
                 findViewById(R.id.scoreHard).setBackgroundColor(darkBlue);
                 break;
         }
-
     }
+
+
 }
