@@ -310,9 +310,9 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-          /*      AlphaAnimation alphaAnim = new AlphaAnimation(1.0f,0.0f);
+                AlphaAnimation alphaAnim = new AlphaAnimation(1.0f,0.0f);
                 alphaAnim.setStartOffset(1000);
-                alphaAnim.setDuration(400);
+                alphaAnim.setDuration(300);
                 alphaAnim.setAnimationListener(new Animation.AnimationListener() {
 
                                                    @Override
@@ -330,7 +330,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
 
                                                    }
                                                });
-                statusGameToShow.setAnimation(alphaAnim); */
+                statusGameToShow.setAnimation(alphaAnim);
                    int index =  game.getBoard(Game.Players.PLAYER).setRandomHit();
                     updateBoard(Game.Players.PLAYER); //only for checking!!
 
