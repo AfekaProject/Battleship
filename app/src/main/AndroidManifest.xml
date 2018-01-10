@@ -26,6 +26,7 @@
         <activity
             android:name=".GameActivity"
             android:screenOrientation="portrait" />
+
         <activity
             android:name=".EndActivity"
             android:screenOrientation="portrait" />

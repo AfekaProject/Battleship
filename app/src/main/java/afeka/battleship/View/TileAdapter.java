@@ -10,6 +10,7 @@ import afeka.battleship.Model.Tile;
 import afeka.battleship.R;
 import afeka.battleship.logic.Game;
 
+
 public class TileAdapter extends BaseAdapter {
 
     private Context context;

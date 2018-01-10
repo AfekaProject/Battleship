@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
@@ -103,8 +104,10 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
     }
 
     private void playPlayer(int position) {
-        currentGameStatus = game.playerPlay(position);
-        updateBoard(Game.Players.PLAYER);
+
+
+            currentGameStatus = game.playerPlay(position);
+            updateBoard(Game.Players.PLAYER);
 
         if (currentGameStatus.equals(Game.GameStatus.WIN)) {
             winEndGame();
@@ -307,14 +310,42 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                countSensorEvent++;
-                if(countSensorEvent == 5 ) {
-                    game.getBoard(Game.Players.PLAYER).setRandomHit();
-                 //   updateBoard(Game.Players.PLAYER); //only for checking!!
-                    statusGameToShow.setText(R.string.intentHit);
-                    countSensorEvent = 0;
+          /*      AlphaAnimation alphaAnim = new AlphaAnimation(1.0f,0.0f);
+                alphaAnim.setStartOffset(1000);
+                alphaAnim.setDuration(400);
+                alphaAnim.setAnimationListener(new Animation.AnimationListener() {
+
+                                                   @Override
+                                                   public void onAnimationStart(Animation animation) {
+                                                       statusGameToShow.setText(R.string.intentHit);
+                                                   }
+
+                                                   @Override
+                                                   public void onAnimationEnd(Animation animation) {
+                                                       statusGameToShow.setText("");
+                                                   }
+
+                                                   @Override
+                                                   public void onAnimationRepeat(Animation animation) {
+
+                                                   }
+                                               });
+                statusGameToShow.setAnimation(alphaAnim); */
+                   int index =  game.getBoard(Game.Players.PLAYER).setRandomHit();
+                    updateBoard(Game.Players.PLAYER); //only for checking!!
+
+
+                if(index!= -1)
+                    currentGameStatus = game.playerPlay(index);
+
+                if (currentGameStatus.equals(Game.GameStatus.WIN)) {
+                   game.setCurrentTurn(Game.Players.COMPUTER);
+                    winEndGame();
                 }
+
             }
         });
+
+
     }
 }

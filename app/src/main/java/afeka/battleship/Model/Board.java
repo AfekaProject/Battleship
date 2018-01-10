@@ -127,9 +127,9 @@ public class Board {
         return vector;
     }
 
-    public void setRandomHit(){
+    public int setRandomHit(){
         Random rand = new Random();
-        int index;
+        int index= -1;
         boolean flag = false;
 
         if(shipsAlive > 0){
@@ -147,6 +147,7 @@ public class Board {
                }
            }
         }
+        return index;
     }
 
 }

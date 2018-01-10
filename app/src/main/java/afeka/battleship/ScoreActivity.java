@@ -1,5 +1,7 @@
 package afeka.battleship;
 
+import android.graphics.Color;
+import android.graphics.ColorFilter;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -82,7 +84,33 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
                 break;
         }
 
+        difficultButtomMark();
 
+
+    }
+
+    private void difficultButtomMark(){
+        int darkBlue , lightBlue;
+        darkBlue = getResources().getColor(R.color.drakBlue);
+        lightBlue = getResources().getColor(R.color.blue);
+        switch(difficult){
+            case 3:
+               findViewById(R.id.scoreEasy).setBackgroundColor(darkBlue);
+               findViewById(R.id.scoreMedium).setBackgroundColor(lightBlue);
+               findViewById(R.id.scoreHard).setBackgroundColor(lightBlue);
+                break;
+            case 2:
+                findViewById(R.id.scoreEasy).setBackgroundColor(lightBlue);
+                findViewById(R.id.scoreMedium).setBackgroundColor(darkBlue);
+                findViewById(R.id.scoreHard).setBackgroundColor(lightBlue);
+                break;
+
+            case 1:
+                findViewById(R.id.scoreEasy).setBackgroundColor(lightBlue);
+                findViewById(R.id.scoreMedium).setBackgroundColor(lightBlue);
+                findViewById(R.id.scoreHard).setBackgroundColor(darkBlue);
+                break;
+        }
 
     }
 }
