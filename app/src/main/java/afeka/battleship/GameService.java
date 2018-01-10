@@ -18,8 +18,8 @@ import java.util.TimerTask;
 public class GameService extends Service implements SensorEventListener {
 
     private final IBinder mBinder = new MyLocalBinder();
-    private final float SENSITIVE_OF_CHECKING = (float) 0.5;
-    private final int SENSOR_COUNTER = 6;
+    private final float SENSITIVE_OF_CHECKING = (float) 0.2;
+    private final int SENSOR_COUNTER = 5;
     private final int TIMER_PERIOD = 10000;
     private boolean isSensorExist = false;
     private int counterSamples = 0;

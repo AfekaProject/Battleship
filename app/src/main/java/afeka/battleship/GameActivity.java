@@ -2,6 +2,7 @@ package afeka.battleship;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -21,6 +22,8 @@ import afeka.battleship.logic.Game;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.content.ComponentName;
+
+import javax.xml.transform.Source;
 
 public class GameActivity extends AppCompatActivity implements GameService.TimerListener, GameService.MySensorListener {
 
@@ -299,6 +302,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
             @Override
             public void run() {
                 game.getBoard(Game.Players.PLAYER).shuffleShips();
+                updateBoard(Game.Players.PLAYER); //only for checking!!
 
             }
         });
@@ -310,39 +314,42 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                AlphaAnimation alphaAnim = new AlphaAnimation(1.0f,0.0f);
-                alphaAnim.setStartOffset(1000);
-                alphaAnim.setDuration(300);
-                alphaAnim.setAnimationListener(new Animation.AnimationListener() {
+                if(countSensorEvent == 3) {
+                    AlphaAnimation alphaAnim = new AlphaAnimation(1.0f, 0.0f);
+                    alphaAnim.setStartOffset(1000);
+                    alphaAnim.setDuration(300);
+                    alphaAnim.setAnimationListener(new Animation.AnimationListener() {
 
-                                                   @Override
-                                                   public void onAnimationStart(Animation animation) {
-                                                       statusGameToShow.setText(R.string.intentHit);
-                                                   }
+                        @Override
+                        public void onAnimationStart(Animation animation) {
+                            statusGameToShow.setText(R.string.intentHit);
+                            statusGameToShow.setTextColor(getResources().getColor(R.color.alarmRed));
 
-                                                   @Override
-                                                   public void onAnimationEnd(Animation animation) {
-                                                       statusGameToShow.setText("");
-                                                   }
+                        }
 
-                                                   @Override
-                                                   public void onAnimationRepeat(Animation animation) {
+                        @Override
+                        public void onAnimationEnd(Animation animation) {
+                            statusGameToShow.setTextColor(getResources().getColor(R.color.Black));
+                            statusGameToShow.setText("");
+                        }
 
-                                                   }
-                                               });
-                statusGameToShow.setAnimation(alphaAnim);
-                   int index =  game.getBoard(Game.Players.PLAYER).setRandomHit();
+                        @Override
+                        public void onAnimationRepeat(Animation animation) {
+
+                        }
+                    });
+                    statusGameToShow.setAnimation(alphaAnim);
+                    game.getBoard(Game.Players.PLAYER).setRandomHit();
                     updateBoard(Game.Players.PLAYER); //only for checking!!
 
 
-                if(index!= -1)
-                    currentGameStatus = game.playerPlay(index);
-
-                if (currentGameStatus.equals(Game.GameStatus.WIN)) {
-                   game.setCurrentTurn(Game.Players.COMPUTER);
-                    winEndGame();
+                    if (game.getBoard(Game.Players.PLAYER).checkIfLose()) {
+                        game.setCurrentTurn(Game.Players.COMPUTER);
+                        winEndGame();
+                    }
+                    countSensorEvent=0;
                 }
-
+                countSensorEvent++;
             }
         });
 

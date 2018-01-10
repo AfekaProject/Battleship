@@ -1,5 +1,7 @@
 package afeka.battleship.Model;
 
+import android.util.Log;
+
 import java.util.Random;
 
 public class Board {
@@ -35,6 +37,10 @@ public class Board {
 
     public boolean isWin() {
         shipsAlive--;
+        return (shipsAlive == 0);
+    }
+
+    public boolean checkIfLose(){
         return (shipsAlive == 0);
     }
 
@@ -127,7 +133,7 @@ public class Board {
         return vector;
     }
 
-    public int setRandomHit(){
+    public void setRandomHit(){
         Random rand = new Random();
         int index= -1;
         boolean flag = false;
@@ -140,15 +146,17 @@ public class Board {
                    for(int i=0 ; i<arrShip[index].getSize() && flag == false; i++){
                        tile = arrShip[index].getTile(i,this);
                       if(tile.getStatus().equals(Tile.Status.PLACED)) {
-                          tile.setHit(this);
+                         if(tile.setHit(this))
+                             shipsAlive--;
                           flag = true;
+
                       }
 
                    }
                }
            }
         }
-        return ;
+
     }
 
 }
