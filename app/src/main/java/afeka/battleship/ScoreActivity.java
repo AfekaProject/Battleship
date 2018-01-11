@@ -36,7 +36,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_score);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mapFargment);
+                .findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
         highScoreFragment = (HighScoreFragment) getSupportFragmentManager().findFragmentById(R.id.scoreTableFragment);
        markers = new Marker[10];

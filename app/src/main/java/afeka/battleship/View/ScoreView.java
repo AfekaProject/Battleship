@@ -48,9 +48,6 @@ public class ScoreView extends LinearLayout {
        // addView(date);
     }
 
-    public void setName(TextView name) {
-        this.name = name;
-    }
 
     public void setScore(TextView score) {
         this.score = score;

@@ -1,74 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
-xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="fill_parent"
-android:layout_height="fill_parent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@drawable/scorebackground"
-tools:context=".ScoreActivity"
+    tools:context=".ScoreActivity"
     >
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:weightSum="3"
-    android:id="@+id/linearLayout2">
-
-    <Button
-        android:id="@+id/scoreEasy"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_weight="1"
-        android:background="@color/blue"
-        android:onClick="showScoreList"
-        android:text="@string/easyButton" />
-
-    <Button
-        android:id="@+id/scoreMedium"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/blue"
-        android:layout_centerHorizontal="true"
-        android:layout_weight="1"
-        android:text="@string/mediumButton"
-        android:onClick="showScoreList"
-        />
-
-    <Button
-        android:id="@+id/scoreHard"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentRight="true"
-        android:background="@color/blue"
-        android:onClick="showScoreList"
-        android:layout_weight="1"
-        android:text="@string/hardButton" />
-
-</LinearLayout>
-
-    <fragment
-        android:id="@+id/tableFragment"
-        android:name="afeka.battleship.HighScoreFragment"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="270dp"
-        android:layout_margin="10dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/linearLayout2" />
+        android:layout_height="wrap_content"
+        android:weightSum="3"
+        android:id="@+id/difficultBar"
+        android:layout_alignParentTop="true">
+        <Button
+            android:id="@+id/scoreEasy"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
+            android:layout_weight="1"
+            android:background="@color/blue"
+            android:onClick="showScoreList"
+            android:text="@string/easyButton" />
+        <Button
+            android:id="@+id/scoreMedium"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/blue"
+            android:layout_centerHorizontal="true"
+            android:layout_weight="1"
+            android:text="@string/mediumButton"
+            android:onClick="showScoreList" />
 
-    <fragment xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:map="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/mapFargment"
-        android:name="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_width="300dp"
-        android:layout_height="220dp"
-        android:layout_marginTop="10dp"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        tools:context="afeka.battleship.ScoreActivity" />
-
+        <Button
+            android:id="@+id/scoreHard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentRight="true"
+            android:background="@color/blue"
+            android:onClick="showScoreList"
+            android:layout_weight="1"
+            android:text="@string/hardButton" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:id="@+id/listAndMap"
+        android:layout_below="@id/difficultBar">
+        <fragment
+            android:id="@+id/tableFragment"
+            android:name="afeka.battleship.HighScoreFragment"
+            android:layout_width="match_parent"
+            android:layout_height="270dp"
+            android:layout_weight="1"/>
+        <fragment
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            xmlns:tools="http://schemas.android.com/tools"
+            android:id="@+id/mapFragment"
+            android:name="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_width="300dp"
+            android:layout_height="220dp"
+            android:layout_marginTop="30dp"
+            android:layout_alignParentBottom="true"
+            android:layout_gravity="center_horizontal"
+            tools:context="afeka.battleship.ScoreActivity"
+            android:layout_weight="1" />
+    </LinearLayout>
 </RelativeLayout>
