@@ -4,10 +4,15 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
+
 import afeka.battleship.Model.Score;
 import afeka.battleship.View.ScoreAdapter;
 
@@ -23,7 +28,6 @@ public class HighScoreFragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
     private ListView scoreList;
     private ScoreAdapter scoreAdapter;
     private Score[] scoreData;
@@ -51,8 +55,25 @@ public class HighScoreFragment extends Fragment {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
         scoreData=test();
-
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        scoreList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+                view.getFocusables(position);
+                view.setSelected(true);
+
+            }
+
+        });
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -62,6 +83,7 @@ public class HighScoreFragment extends Fragment {
         View view =inflater.inflate(R.layout.fragment_high_score, container, false);
         scoreList = view.findViewById(R.id.scoreList);
         scoreAdapter = new ScoreAdapter(getContext(),scoreData);
+        scoreList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         scoreList.setAdapter(scoreAdapter);
         scoreAdapter.notifyDataSetChanged();
         return view;
@@ -74,6 +96,8 @@ public class HighScoreFragment extends Fragment {
         }
     }
 
+
+
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -83,6 +107,7 @@ public class HighScoreFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
+
     }
 
     @Override
@@ -105,4 +130,7 @@ public class HighScoreFragment extends Fragment {
         }
         return arr;
     }
+
+
+
 }

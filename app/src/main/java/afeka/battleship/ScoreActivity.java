@@ -109,7 +109,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
     }
 
     private void difficultButtomMark(){
-        int darkBlue = getResources().getColor(R.color.drakBlue);
+        int darkBlue = getResources().getColor(R.color.darkBlue);
         int lightBlue = getResources().getColor(R.color.blue);
         switch(difficult){
             case 3:     //Easy
