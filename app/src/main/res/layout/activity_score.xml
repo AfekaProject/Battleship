@@ -71,6 +71,4 @@ tools:context=".ScoreActivity"
         android:layout_centerHorizontal="true"
         tools:context="afeka.battleship.ScoreActivity" />
 
-
-
 </RelativeLayout>
