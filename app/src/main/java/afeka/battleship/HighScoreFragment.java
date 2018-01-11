@@ -36,8 +36,6 @@ public class HighScoreFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-
     public static HighScoreFragment newInstance(String param1, String param2) {
         HighScoreFragment fragment = new HighScoreFragment();
         Bundle args = new Bundle();
