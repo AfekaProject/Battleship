@@ -2,6 +2,7 @@ package afeka.battleship;
 
 import android.graphics.Color;
 import android.graphics.ColorFilter;
+import android.location.Location;
 import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import afeka.battleship.Model.Score;
 import afeka.battleship.logic.Game;
@@ -24,6 +26,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
 
     private GoogleMap mMap;
     private Score[] scoreList;
+    private Marker[] markers;
     private int difficult;
     private HighScoreFragment highScoreFragment;
 
@@ -36,7 +39,8 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.mapFargment);
         mapFragment.getMapAsync(this);
         highScoreFragment = (HighScoreFragment) getSupportFragmentManager().findFragmentById(R.id.scoreTableFragment);
-        findViewById(R.id.scoreEasy).performClick();
+       markers = new Marker[10];
+        scoreList = test();
 
 
 
@@ -54,18 +58,13 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-33.852, 151.211);
-        MarkerOptions m = new MarkerOptions().position(sydney).title("lala");
         mMap.setOnMarkerClickListener(this);
-        googleMap.addMarker(new MarkerOptions().position(sydney)
-                .title("Marker in Sydney"));
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        findViewById(R.id.scoreEasy).performClick();
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        Log.e("marker tag",marker.getTag().toString());
         return false;
     }
 
@@ -90,10 +89,10 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
                 this.difficult = 1;
                 break;
         }
-
+        scoreList=test();
         difficultButtomMark();
         //updateListView();
-        //updateMarkersOnMap();
+        updateMarkersOnMap();
 
     }
 
@@ -102,10 +101,31 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
     }
 
     private void updateMarkersOnMap (){
-        mMap.clear();
-        for (int i= 0 ; i< scoreList.length ; i++){
-           // Marker m = new MarkerOptions().
+        if (mMap!=null){
+            mMap.clear();
+            for (int i= 0 ; i< scoreList.length ; i++){
+                String name = scoreList[i].getName();
+                Location location = scoreList[i].getLocation();
+                LatLng convertLatLng = new LatLng(location.getLatitude(), location.getLongitude());
+                markers[i] = mMap.addMarker(new MarkerOptions().title(name).position(convertLatLng));
+                markers[i].setTag((Integer)i);
+            }
         }
+
+
+    }
+
+
+    public Score[] test(){
+        Score[] arr = new Score[10];
+        for (int i = 0 ; i<arr.length ; i++){
+            Random r = new Random();
+            Location l = new Location("dummy");
+            l.setLatitude(r.nextDouble()*30);
+            l.setLongitude(r.nextDouble()*30);
+            arr[i] = new Score("id"+i,1,100,l);
+        }
+        return arr;
     }
 
     private void difficultButtomMark(){
