@@ -9,16 +9,19 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.Marker;
+
+import java.util.ArrayList;
 import java.util.Random;
 import afeka.battleship.Model.Score;
 
 public class ScoreActivity extends FragmentActivity implements OnMapReadyCallback, HighScoreFragment.OnFragmentInteractionListener,GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
-    private Score[][] scoreList;
+    private ArrayList[] scoreList;
     private Marker[] markers;
-    private int difficult;
+    private int difficult=1;
     private HighScoreFragment highScoreFragment;
+    private Database database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,27 +31,25 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
-        highScoreFragment = (HighScoreFragment) getSupportFragmentManager().findFragmentById(R.id.tableFragment);
-
+        database = new Database(this);
 
         markers = new Marker[10];
-        scoreList = new Score[3][10];
+        scoreList = new ArrayList[3];
         initTables();
 
-
+        highScoreFragment = (HighScoreFragment) getSupportFragmentManager().findFragmentById(R.id.tableFragment);
+        if(highScoreFragment!=null)
+            highScoreFragment.showTable(scoreList[difficult-1]);
     }
 
-    private void initTables(){ //need to be changed!
-        int score =100;
+    private void initTables(){
+
         for(int i =0 ;i<scoreList.length; i++){
-            for(int j=0 ; j<scoreList[i].length; j++){
-                Random r = new Random();
-                Location l = new Location("dummy");
-                l.setLatitude(r.nextDouble()*30);
-                l.setLongitude(r.nextDouble()*30);
-               scoreList[i][j] = new Score("id"+i,i,score,l);
-            }
-            score+=score;
+
+            scoreList[i]=new ArrayList<>();
+
+            if(database.getScoreList(i).size()>0)
+            scoreList[i].addAll(database.getScoreList(i+1));
         }
     }
     /**

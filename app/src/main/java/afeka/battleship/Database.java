@@ -10,6 +10,7 @@ import android.os.AsyncTask;
 import android.provider.BaseColumns;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -45,7 +46,7 @@ public class Database extends SQLiteOpenHelper{
                     FeedScore.COLUMN_NAME_SCORE + " INTEGER," +
                     FeedScore.COLUMN_NAME_Date + " DATE," +
                     FeedScore.COLUMN_NAME_LATITUDE + " REAL," +
-                    FeedScore.COLUMN_NAME_LONGITUDE + "REAL," +
+                    FeedScore.COLUMN_NAME_LONGITUDE + " REAL" +
                      " );";
 
     private static final String SQL_DELETE_HIGHSCORE =
@@ -76,8 +77,8 @@ public class Database extends SQLiteOpenHelper{
         db.execSQL(DELETE_LAST);
     }
 
-    public Score [] getScoreList (int difficultList){
-        Score[] list = new Score[10];
+    public ArrayList<Score> getScoreList (int difficultList){
+        ArrayList<Score> list = new ArrayList<>();
         int i = 0;
         
         SQLiteDatabase db = getReadableDatabase();
@@ -104,7 +105,7 @@ public class Database extends SQLiteOpenHelper{
             Location l = new Location(name);
             l.setLatitude(latitude);
             l.setLongitude(longitude);
-            list[i] = new Score(name,difficult,score,date,l);
+            list.add(new Score(name,difficult,score,date,l));
         }
 
         return list;

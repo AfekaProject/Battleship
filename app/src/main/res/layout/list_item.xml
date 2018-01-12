@@ -17,7 +17,6 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:padding="5dp"
-            android:text="name"
             android:textAppearance="?android:attr/textAppearanceMedium">
 
         </TextView>
@@ -29,7 +28,6 @@
             android:layout_height="match_parent"
             android:padding="5dp"
             android:gravity="end"
-            android:text="score"
             android:textAppearance="?android:attr/textAppearanceMedium">
 
         </TextView>
@@ -42,7 +40,6 @@
             android:padding="5dp"
             android:gravity="end"
             android:textAlignment="center"
-            android:text="date"
             android:textAppearance="?android:attr/textAppearanceMedium">
 
         </TextView>

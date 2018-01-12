@@ -13,6 +13,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import afeka.battleship.Model.Score;
 import afeka.battleship.View.ScoreAdapter;
 
@@ -30,7 +32,7 @@ public class HighScoreFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ListView scoreList;
     private ScoreAdapter scoreAdapter;
-    private Score[] scoreData = null;
+    private ArrayList<Score> scoreData ;
 
     public HighScoreFragment() {
         // Required empty public constructor
@@ -69,7 +71,7 @@ public class HighScoreFragment extends Fragment {
                 view.setSelected(true);
 
                 if(scoreData!=null)
-                onButtonPressed(scoreData[position]);
+                onButtonPressed(scoreData.get(position));
 
             }
 
@@ -81,14 +83,14 @@ public class HighScoreFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-
+        scoreData=new ArrayList<>();
         View view =inflater.inflate(R.layout.fragment_high_score, container, false);
         scoreList = view.findViewById(R.id.scoreList);
-        scoreData=test();
+
         scoreAdapter = new ScoreAdapter(getContext(),scoreData);
         scoreList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         scoreList.setAdapter(scoreAdapter);
-        scoreAdapter.notifyDataSetChanged();
+        //scoreAdapter.notifyDataSetChanged();
         return view;
     }
 
@@ -134,9 +136,10 @@ public class HighScoreFragment extends Fragment {
         return arr;
     }
 
-    public void showTable(Score[]scores){
-
-       System.arraycopy(scores,0,scoreData,0,scores.length);
+    public void showTable(ArrayList<Score>scores){
+        if(scores.size()>0)
+        scoreData.addAll(0,scores);
+      // System.arraycopy(scores,0,scoreData,0,scores.size());
 
        scoreAdapter.notifyDataSetChanged();
 

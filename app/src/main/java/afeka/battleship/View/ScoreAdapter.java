@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.zip.Inflater;
 import android.view.LayoutInflater;
 import android.widget.TextView;
@@ -21,31 +22,27 @@ import afeka.battleship.R;
 public class ScoreAdapter extends BaseAdapter {
 
     private Context context;
-    private Score[] scoreList;
+    private ArrayList<Score> scoreList;
     private LayoutInflater inflater;
     private ViewHolder viewHolder;
     public ScoreAdapter(Context context) {
         this.context = context;
     }
 
-    public ScoreAdapter(Context context, Score[] scoreList) {
+    public ScoreAdapter(Context context, ArrayList<Score> scoreList) {
         this.context = context;
         this.scoreList = scoreList;
         inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
-    public void setScoreList(Score[] scoreList) {
-        this.scoreList = scoreList;
-    }
-
     @Override
     public int getCount() {
-        return scoreList.length;
+        return scoreList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        return scoreList[position];
+        return scoreList.get(position);
     }
 
     @Override
@@ -74,9 +71,11 @@ public class ScoreAdapter extends BaseAdapter {
         }
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
-        viewHolder.nameTextView.setText(scoreList[position].getName());
-        viewHolder.scoreTextView.setText(scoreList[position].getScore()+"");
-        viewHolder.dateTextView.setText(df.format(scoreList[position].getDate()));
+
+            viewHolder.nameTextView.setText(scoreList.get(position).getName());
+            viewHolder.scoreTextView.setText(scoreList.get(position).getScore() + "");
+            viewHolder.dateTextView.setText(df.format(scoreList.get(position).getDate()));
+
         //do what you want with itemLayout;
         return convertView;
 
