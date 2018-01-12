@@ -56,23 +56,9 @@ public class ScoreAdapter extends BaseAdapter {
     @SuppressLint("SetTextI18n")
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
-   /*     ScoreView scoreView;
-        if (convertView== null) {
-            scoreView = new ScoreView(context);
-        } else {
-            scoreView = (ScoreView) convertView;
-        }
 
-        scoreView.getName().setText(scoreList[position].getName());
-        scoreView.getScore().setText(scoreList[position].getScore()+"");
-        String date = scoreList[position].getDate()+"."+(scoreList[position].getDate().getMonth()+1);
-        scoreView.getDate().setText(date);
 
-        return scoreView;
-        */
-        View itemLayout;
         if (convertView == null) {
-            //convertView = inflater.inflate(R.layout.list_item, null, false);
             convertView = inflater.inflate(R.layout.list_item,
                     parent, false);
             viewHolder = new ViewHolder();
@@ -89,7 +75,7 @@ public class ScoreAdapter extends BaseAdapter {
         SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy");
 
         viewHolder.nameTextView.setText(scoreList[position].getName());
-        viewHolder.scoreTextView.setText( scoreList[position].getScore()+"");
+        viewHolder.scoreTextView.setText(scoreList[position].getScore()+"");
         viewHolder.dateTextView.setText(df.format(scoreList[position].getDate()));
         //do what you want with itemLayout;
         return convertView;

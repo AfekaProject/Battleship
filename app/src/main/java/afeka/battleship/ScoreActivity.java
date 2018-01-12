@@ -1,31 +1,21 @@
 package afeka.battleship;
 
-import android.graphics.Color;
-import android.graphics.ColorFilter;
 import android.location.Location;
-import android.net.Uri;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
-import com.google.android.gms.maps.model.MarkerOptions;
-
-import java.util.ArrayList;
 import java.util.Random;
-
 import afeka.battleship.Model.Score;
-import afeka.battleship.logic.Game;
 
 public class ScoreActivity extends FragmentActivity implements OnMapReadyCallback, HighScoreFragment.OnFragmentInteractionListener,GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
-    private Score[] scoreList;
+    private Score[][] scoreList;
     private Marker[] markers;
     private int difficult;
     private HighScoreFragment highScoreFragment;
@@ -36,16 +26,31 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_score);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.mapFargment);
+                .findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
-        highScoreFragment = (HighScoreFragment) getSupportFragmentManager().findFragmentById(R.id.scoreTableFragment);
-       markers = new Marker[10];
-        scoreList = test();
+        highScoreFragment = (HighScoreFragment) getSupportFragmentManager().findFragmentById(R.id.tableFragment);
 
+
+        markers = new Marker[10];
+        scoreList = new Score[3][10];
+        initTables();
 
 
     }
 
+    private void initTables(){ //need to be changed!
+        int score =100;
+        for(int i =0 ;i<scoreList.length; i++){
+            for(int j=0 ; j<scoreList[i].length; j++){
+                Random r = new Random();
+                Location l = new Location("dummy");
+                l.setLatitude(r.nextDouble()*30);
+                l.setLongitude(r.nextDouble()*30);
+               scoreList[i][j] = new Score("id"+i,i,score,l);
+            }
+            score+=score;
+        }
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -59,7 +64,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
-        findViewById(R.id.scoreEasy).performClick();
+//        findViewById(R.id.scoreEasy).performClick();
     }
 
     @Override
@@ -68,13 +73,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
         return false;
     }
 
-    @Override
-    public void onFragmentInteraction(Uri uri) {
-
-    }
-
-
-    public void showScoreList(View view) {
+    public void showScoreList(View view) { //when difficulty was chosen
         switch (view.getId()){
             case R.id.scoreEasy:
                 this.difficult = 3;
@@ -89,10 +88,13 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
                 this.difficult = 1;
                 break;
         }
-        scoreList=test();
+
         difficultButtomMark();
+        if(highScoreFragment!=null)
+        highScoreFragment.showTable(scoreList[difficult-1]);
+
         //updateListView();
-        updateMarkersOnMap();
+        //updateMarkersOnMap();
 
     }
 
@@ -100,7 +102,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
 
     }
 
-    private void updateMarkersOnMap (){
+   /* private void updateMarkersOnMap (){
         if (mMap!=null){
             mMap.clear();
             for (int i= 0 ; i< scoreList.length ; i++){
@@ -114,7 +116,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
 
 
     }
-
+*/
 
     public Score[] test(){
         Score[] arr = new Score[10];
@@ -123,7 +125,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
             Location l = new Location("dummy");
             l.setLatitude(r.nextDouble()*30);
             l.setLongitude(r.nextDouble()*30);
-            arr[i] = new Score("id"+i,1,100,l);
+            arr[i] = new Score("id"+i,1,10,l);
         }
         return arr;
     }
@@ -150,4 +152,8 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
         }
     }
 
+    @Override
+    public void onClickRow(Score score) { //when clicked on a row in the table
+
+    }
 }

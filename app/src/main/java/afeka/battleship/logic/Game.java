@@ -10,6 +10,9 @@ public class Game {
     public static final String DIFFICULTY = "Difficulty";
     public static final String WHO_WIN = "WhoWin";
     public static final String END_BUNDLE = "WinAndDif";
+    public static final String LOCATION_BUNDLE = "Location";
+    public static final String LAT = "latitude";
+    public static final String LONG = "longitude";
 
 
 

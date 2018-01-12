@@ -30,7 +30,7 @@ public class HighScoreFragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private ListView scoreList;
     private ScoreAdapter scoreAdapter;
-    private Score[] scoreData;
+    private Score[] scoreData = null;
 
     public HighScoreFragment() {
         // Required empty public constructor
@@ -52,8 +52,9 @@ public class HighScoreFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        scoreData=test();
+
     }
+
 
     @Override
     public void onStart() {
@@ -66,6 +67,9 @@ public class HighScoreFragment extends Fragment {
 
                 view.getFocusables(position);
                 view.setSelected(true);
+
+                if(scoreData!=null)
+                onButtonPressed(scoreData[position]);
 
             }
 
@@ -80,6 +84,7 @@ public class HighScoreFragment extends Fragment {
 
         View view =inflater.inflate(R.layout.fragment_high_score, container, false);
         scoreList = view.findViewById(R.id.scoreList);
+        scoreData=test();
         scoreAdapter = new ScoreAdapter(getContext(),scoreData);
         scoreList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         scoreList.setAdapter(scoreAdapter);
@@ -88,9 +93,9 @@ public class HighScoreFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(Score score) {
         if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
+            mListener.onClickRow(score);
         }
     }
 
@@ -117,7 +122,7 @@ public class HighScoreFragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onClickRow(Score score);
     }
 
 
@@ -129,6 +134,13 @@ public class HighScoreFragment extends Fragment {
         return arr;
     }
 
+    public void showTable(Score[]scores){
 
+       System.arraycopy(scores,0,scoreData,0,scores.length);
+
+       scoreAdapter.notifyDataSetChanged();
+
+
+    }
 
 }

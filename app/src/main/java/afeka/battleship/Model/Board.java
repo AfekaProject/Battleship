@@ -6,18 +6,21 @@ import java.util.Random;
 
 public class Board {
     public static final int BOARD_SIZE = 10;
+    public static final int SHIP_PER_DIFF = 3;
     private static final int[] SHIPS_SIZES = {4, 3, 2, 4, 3, 2, 5, 3, 1};
     private final int INDEX_X = 0;
     private final int INDEX_Y = 1;
     private  final int INDEX_DIRECTION=2;
     private final int HORIZONTAL = 1;
     private Tile[][] boardMatrix;
+    private int diff;
     private int shipsAlive;
     private Ship[] arrShip;
 
     public Board(int diff) {
+        this.diff = diff;
         boardMatrix = new Tile[BOARD_SIZE][BOARD_SIZE];
-        setShipsAlive(diff * 3);
+        setShipsAlive(diff * SHIP_PER_DIFF);
         for (int i = 0; i < BOARD_SIZE; i++) {
             for (int j = 0; j < BOARD_SIZE; j++)
                 boardMatrix[i][j] = new Tile(i, j);
@@ -157,6 +160,14 @@ public class Board {
            }
         }
 
+    }
+
+    public int numOfMovesToWin(){
+        int totalMoves = 0;
+        for(int i=0 ; i<diff*SHIP_PER_DIFF ; i++){
+            totalMoves += SHIPS_SIZES[i];
+        }
+        return totalMoves;
     }
 
 }

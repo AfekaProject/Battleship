@@ -7,6 +7,10 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Binder;
 import android.os.SystemClock;
@@ -15,33 +19,38 @@ import android.util.Log;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class GameService extends Service implements SensorEventListener {
-
-    private final IBinder mBinder = new MyLocalBinder();
+public class GameService extends Service implements SensorEventListener,LocationListener {
+    //sensors
     private final float SENSITIVE_OF_CHECKING = (float) 0.2;
     private final int SENSOR_COUNTER = 5;
     private final int TIMER_PERIOD = 10000;
-    private boolean isSensorExist = false;
-    private int counterSamples = 0;
-    private Timer clockTimer = new Timer();
-    private TimerListener mTimerListener;
+
     private MySensorListener mMySensorListener;
     private SensorManager mSensorManager;
     private Sensor mAccelerometer;
     private Sensor mMagnetometer;
-
+    private int counterSamples = 0;
+    private boolean isSensorExist = false;
     private float[] mLastAccelerometer = new float[3];
     private float[] mLastMagnetometer = new float[3];
-
     private float[][] mLastOrientationArr = new float[SENSOR_COUNTER][3];
-
-
     private boolean mLastAccelerometerSet = false;
     private boolean mLastMagnetometerSet = false;
-
     private float[] mR = new float[9];
     private float[] firstOrientation = new float[3];
     private float[] mOrientation = new float[3];
+
+    //binder
+    private final IBinder mBinder = new MyLocalBinder();
+    //location
+    private Location lastLocation;
+    LocationManager locationManager;
+    //timer
+    private Timer clockTimer = new Timer();
+    private TimerListener mTimerListener;
+
+
+
 
     public GameService() {
     }
@@ -59,12 +68,13 @@ public class GameService extends Service implements SensorEventListener {
         mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
 
-        if (mAccelerometer != null && mMagnetometer != null) {
+        if (mAccelerometer != null && mMagnetometer != null) { //first orientation
             isSensorExist = true;
             SensorManager.getRotationMatrix(mR, null, mLastAccelerometer, mLastMagnetometer);
             SensorManager.getOrientation(mR, firstOrientation);
         }
         clock();
+        setLocation();
     }
 
     @Override
@@ -95,16 +105,11 @@ public class GameService extends Service implements SensorEventListener {
     }
 
 
-    @Override
-    public void onAccuracyChanged(Sensor sensor, int i) {
-
-    }
-
     public class MyLocalBinder extends Binder {
-       /* LocalService getService() {
+        GameService getService() {
             // returns the local service
-            return LocalService.this;
-        }*/
+            return GameService.this;
+        }
 
         void registerTimeListener(TimerListener listener) {
             mTimerListener = listener;
@@ -152,7 +157,7 @@ public class GameService extends Service implements SensorEventListener {
     }
 
     public void clock() {
-        Thread t = new Thread(new Runnable() {
+        Thread t = new Thread(new Runnable() { //start an event every few seconds
             @Override
             public void run() {
 
@@ -172,7 +177,7 @@ public class GameService extends Service implements SensorEventListener {
 
     }
 
-    private void checkMoves(float[][] mLastOrientationArr) {
+    private void checkMoves(float[][] mLastOrientationArr) { // check if there is exceptional move
         float[]vector = avgMoves(mLastOrientationArr);
 
         for (int i = 0; i < vector.length; i++) {
@@ -183,7 +188,7 @@ public class GameService extends Service implements SensorEventListener {
         mMySensorListener.moveChanged();
     }
 
-    private float[] avgMoves(float[][] matMoves) {
+    private float[] avgMoves(float[][] matMoves) { //calculate average of last moves
         float avgArr[] = new float[matMoves[0].length], sum = 0;
 
 
@@ -196,6 +201,40 @@ public class GameService extends Service implements SensorEventListener {
         }
         return avgArr;
     }
+    private void setLocation() {
+        locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+
+    }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+        lastLocation = location;
+    }
+
+    @Override
+    public void onStatusChanged(String s, int i, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onProviderEnabled(String s) {
+
+    }
+
+    @Override
+    public void onProviderDisabled(String s) {
+
+    }
+
+
+    public Location getLastLocation() {
+        return lastLocation;
+    }
 
 }

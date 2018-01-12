@@ -1,8 +1,9 @@
 package afeka.battleship;
 
+
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
+import android.location.Location;
 import android.media.MediaPlayer;
 import android.os.Vibrator;
 import android.support.v7.app.AppCompatActivity;
@@ -43,9 +44,12 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
     private Animation slideUp;
     private Animation bold;
     private Vibrator v;
+    private Location location;
+    private GameService gameService;
     private GameService.MyLocalBinder mBinder;
     private boolean isBound = false;
     private int countSensorEvent = 0;
+    private int movesCounter = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,6 +82,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
                 enableGrid();
                 playPlayer(position);
                 animateTile(view);
+                getLocationFromService(); //for debugging
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -108,10 +113,9 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
 
     private void playPlayer(int position) {
 
-
             currentGameStatus = game.playerPlay(position);
             updateBoard(Game.Players.PLAYER);
-
+            movesCounter++;
         if (currentGameStatus.equals(Game.GameStatus.WIN)) {
             winEndGame();
         } else {
@@ -220,12 +224,20 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
 
     private void winEndGame() {
         Game.Players whoWin = game.getCurrentTurn();
+
         Intent i = new Intent(this, EndActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(Game.WHO_WIN, whoWin.toString());
         bundle.putInt(Game.DIFFICULTY, difficulty);
 
         i.putExtra(Game.END_BUNDLE, bundle);
+        /*if(whoWin.equals(Game.Players.PLAYER)) {
+            location = gameService.getLastLocation();
+            Bundle bundleLocation = new Bundle();
+            bundleLocation.putDouble(Game.LAT,location.getLatitude());
+            bundleLocation.putDouble(Game.LONG,location.getLongitude());
+            i.putExtra(Game.LOCATION_BUNDLE,bundleLocation);
+        }*/
         startActivity(i);
         finish();
     }
@@ -251,7 +263,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
 
 
-        /*      code for shaffle test
+        /*      code for shuffle test
         game.getBoard(Game.Players.PLAYER).shuffleShips();
         viewBoard.setmBoard(game.getBoard(boardToView), boardToView);
         ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
@@ -285,6 +297,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
             mBinder.registerTimeListener(GameActivity.this);
             mBinder.registerSensorListener(GameActivity.this);
             Log.e("Service Connection", "registered as listener");
+            gameService = mBinder.getService();
             isBound = true;
         }
 
@@ -354,5 +367,20 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         });
 
 
+    }
+
+    private void getLocationFromService(){
+        location = gameService.getLastLocation();
+
+        if(location!=null)
+        Log.e("Location","is" + location.toString());
+    }
+
+    private int calculateScore(){
+        int movesToWin = game.getBoard(Game.Players.PLAYER).numOfMovesToWin();
+        int highestScore = 100;
+        highestScore += movesToWin;
+
+        return highestScore - movesCounter;
     }
 }
