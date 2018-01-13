@@ -1,5 +1,6 @@
 package afeka.battleship;
 
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -117,7 +119,7 @@ public class EndActivity extends AppCompatActivity {
     private boolean checkIfHighScore(){
        ArrayList<Score> allScores = database.getScoreList(difficulty);
 
-        if(allScores.size()<0 || allScores.get(allScores.size()).getScore()< currentScore)
+        if(allScores.size()<10 || allScores.get(allScores.size()).getScore()< currentScore)
             return true;
         else
             return false;
@@ -135,5 +137,13 @@ public class EndActivity extends AppCompatActivity {
         String name = editText.getText().toString();
         Log.e("name",""+name);
         setHighScore(name,location);
+        View tempView = this.getCurrentFocus();
+        if (tempView !=null){
+            InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(tempView.getWindowToken(),0);
+        }
+        view.setVisibility(View.GONE);
+        editText.setVisibility(View.INVISIBLE);
+
     }
 }

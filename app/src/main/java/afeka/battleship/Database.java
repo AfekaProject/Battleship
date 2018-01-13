@@ -21,7 +21,6 @@ public class Database extends SQLiteOpenHelper{
 
     public static final SimpleDateFormat sdt = new SimpleDateFormat("dd-MM-yyyy");
 
-
     public Database(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
@@ -69,7 +68,7 @@ public class Database extends SQLiteOpenHelper{
     private void trimToTopTen (SQLiteDatabase db,int difficult){
         final String DELETE_LAST = "DELETE FROM " + FeedScore.TABLE_NAME +
                 " WHERE " + FeedScore.COLUMN_NAME_DIFFICULT + "=" + difficult + " AND " +
-                FeedScore._ID + " NOT IN ( SELECT" + FeedScore._ID +
+                FeedScore._ID + " NOT IN ( SELECT " + FeedScore._ID +
                 " FROM " + FeedScore.TABLE_NAME +
                 " WHERE " + FeedScore.COLUMN_NAME_DIFFICULT + "=" + difficult +
                 " ORDER BY " + FeedScore.COLUMN_NAME_SCORE + " DESC" +

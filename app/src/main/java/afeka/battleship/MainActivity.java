@@ -1,7 +1,12 @@
 package afeka.battleship;
 
+import android.*;
+import android.Manifest;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -12,6 +17,8 @@ import android.widget.ImageView;
 import afeka.battleship.logic.Game;
 
 public class MainActivity extends AppCompatActivity {
+    public final int MY_PERMISSION_REQUEST_LOCATION = 0;
+
     private int difficulty;
     private ImageView playButton;
     private Animation anim;
@@ -30,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
         easyButton = findViewById(R.id.easy_button);
         mediumButton = findViewById(R.id.medium_button);
         hardButton = findViewById(R.id.hard_button);
+        requestPermission();
         selectSound = MediaPlayer.create(this, R.raw.click);
 
     }
@@ -72,5 +80,13 @@ public class MainActivity extends AppCompatActivity {
     public void clickHighScore(View view) {
         Intent i = new Intent(this,ScoreActivity.class);
         startActivity(i);
+    }
+
+    public void requestPermission (){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED){
+            ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    MY_PERMISSION_REQUEST_LOCATION);
+        }
     }
 }

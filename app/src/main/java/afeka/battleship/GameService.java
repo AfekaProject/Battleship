@@ -198,20 +198,22 @@ public class GameService extends Service implements SensorEventListener, Locatio
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
-            // here to request the missing permissions, and then overriding
-            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //    here to request the missing permissions, and then overriding
+            //    public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
+            lastLocation = new Location("dummy");
+            lastLocation.setLatitude(32.113086);
+            lastLocation.setLongitude(34.818021);
             return;
         }
-
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         Criteria crit = new Criteria();
         crit.setAccuracy(Criteria.ACCURACY_FINE);
         crit.setPowerRequirement(Criteria.NO_REQUIREMENT);
-
         lastLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(crit,true));
+
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
 
 
