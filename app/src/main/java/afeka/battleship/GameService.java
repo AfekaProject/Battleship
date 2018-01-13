@@ -26,7 +26,7 @@ public class GameService extends Service implements SensorEventListener, Locatio
     //sensors
     private final float SENSITIVE_OF_CHECKING = (float) 0.2;
     private final int SENSOR_COUNTER = 5;
-    private final int TIMER_PERIOD = 10000;
+    private final int TIMER_PERIOD = 30*1000;
 
     private MySensorListener mMySensorListener;
     private SensorManager mSensorManager;
@@ -65,13 +65,19 @@ public class GameService extends Service implements SensorEventListener, Locatio
     }
 
     @Override
+    public boolean onUnbind(Intent intent) {
+        locationManager.removeUpdates(this);
+        return super.onUnbind(intent);
+    }
+
+    @Override
     public void onCreate() {
         super.onCreate();
-
         mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-
+        if (mSensorManager != null) {
+            mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+            mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+        }
         if (mAccelerometer != null && mMagnetometer != null) { //first orientation
             isSensorExist = true;
             SensorManager.getRotationMatrix(mR, null, mLastAccelerometer, mLastMagnetometer);
@@ -108,7 +114,6 @@ public class GameService extends Service implements SensorEventListener, Locatio
 
     }
 
-
     public class MyLocalBinder extends Binder {
         GameService getService() {
             // returns the local service
@@ -117,99 +122,66 @@ public class GameService extends Service implements SensorEventListener, Locatio
 
         void registerTimeListener(TimerListener listener) {
             mTimerListener = listener;
-
         }
 
         void registerSensorListener(MySensorListener listener) {
             if (isSensorExist) {
                 mLastAccelerometerSet = false;
-
                 mLastMagnetometerSet = false;
                 mSensorManager.registerListener(GameService.this, mAccelerometer, mSensorManager.SENSOR_DELAY_NORMAL);
                 mSensorManager.registerListener(GameService.this, mMagnetometer, mSensorManager.SENSOR_DELAY_NORMAL);
-
                 mMySensorListener = listener;
             }
         }
 
-        void registerLocationListener(LocationListener listener) {
-            mLocationListener = listener;
-
-        }
-
-        void DeleteLocationListener() {
-            mLocationListener = null;
-
-        }
-
         void DeleteTimerListener() {
             mTimerListener = null;
-
         }
 
         void DeleteSensorListener() {
             if (isSensorExist) {
                 mSensorManager.unregisterListener(GameService.this, mAccelerometer);
                 mSensorManager.unregisterListener(GameService.this, mMagnetometer);
-
                 mMySensorListener = null;
             }
         }
-
     }
 
     public interface TimerListener {
-
         void timePassed();
-
     }
 
     public interface MySensorListener {
-
-        void moveChanged();
-
-    }
-
-    public interface LocationListener{
-        void locationChanged(Location location);
+        void onOrientationChanged();
     }
 
     public void clock() {
         Thread t = new Thread(new Runnable() { //start an event every few seconds
             @Override
             public void run() {
-
                 clockTimer.scheduleAtFixedRate(new TimerTask() {
                     @Override
                     public void run() {
-
-
                         if (mTimerListener != null)
                             mTimerListener.timePassed();
-
                     }
                 }, 0, TIMER_PERIOD);
             }
         });
         t.start();
-
     }
 
     private void checkMoves(float[][] mLastOrientationArr) { // check if there is exceptional move
         float[] vector = avgMoves(mLastOrientationArr);
-
         for (int i = 0; i < vector.length; i++) {
             if (Math.abs(vector[i] - firstOrientation[i]) < SENSITIVE_OF_CHECKING)
                 return;
         }
-
-        mMySensorListener.moveChanged();
+        mMySensorListener.onOrientationChanged();
     }
 
     private float[] avgMoves(float[][] matMoves) { //calculate average of last moves
         float avgArr[] = new float[matMoves[0].length], sum = 0;
-
-
         for (int i = 0; i < matMoves[0].length; i++) {
             for (int j = 0; j < matMoves.length; j++) {
                 sum += matMoves[j][i];
@@ -233,6 +205,7 @@ public class GameService extends Service implements SensorEventListener, Locatio
             // for ActivityCompat#requestPermissions for more details.
             return;
         }
+
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
         Criteria crit = new Criteria();
         crit.setAccuracy(Criteria.ACCURACY_FINE);
@@ -245,30 +218,25 @@ public class GameService extends Service implements SensorEventListener, Locatio
     }
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
-
     }
 
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
-      //  mLocationListener.locationChanged(location);
     }
 
     @Override
     public void onStatusChanged(String s, int i, Bundle bundle) {
-
     }
 
     @Override
     public void onProviderEnabled(String s) {
-
     }
 
     @Override
     public void onProviderDisabled(String s) {
 
     }
-
 
     public Location getLastLocation() {
         return lastLocation;

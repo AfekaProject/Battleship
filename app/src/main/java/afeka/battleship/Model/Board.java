@@ -138,28 +138,24 @@ public class Board {
 
     public void setRandomHit(){
         Random rand = new Random();
-        int index= -1;
-        boolean flag = false;
-        Tile tile = null;
-
+        int index;
+        boolean found = false;
+        Tile tile;
         if(shipsAlive > 0){
-           while(flag == false){
+           while(!found){
                index = rand.nextInt(arrShip.length);
                if(!arrShip[index].isDrowned(this)){
-                   for(int i=0 ; i<arrShip[index].getSize() && flag == false; i++){
+                   for(int i=0 ; i<arrShip[index].getSize() && !found; i++){
                        tile = arrShip[index].getTile(i,this);
                       if(tile.getStatus().equals(Tile.Status.PLACED)) {
                          if(tile.setHit(this))
                              shipsAlive--;
-                          flag = true;
-
+                          found = true;
                       }
-
                    }
                }
            }
         }
-
     }
 
     public int numOfMovesToWin(){

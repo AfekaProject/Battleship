@@ -40,6 +40,7 @@ public class EndActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         initSCREEN();
         if (whoWin.equals(Game.Players.PLAYER.toString())) {
+            database = new Database(this);
             initPlayerInfo();
             winScreen();
         }else
@@ -116,7 +117,7 @@ public class EndActivity extends AppCompatActivity {
     private boolean checkIfHighScore(){
        ArrayList<Score> allScores = database.getScoreList(difficulty);
 
-        if(allScores.get(allScores.size()).getScore() < currentScore)
+        if(allScores.size()<0 || allScores.get(allScores.size()).getScore()< currentScore)
             return true;
         else
             return false;

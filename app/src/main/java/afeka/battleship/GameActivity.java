@@ -23,7 +23,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.content.ComponentName;
 
-public class GameActivity extends AppCompatActivity implements GameService.TimerListener, GameService.MySensorListener, GameService.LocationListener {
+public class GameActivity extends AppCompatActivity implements GameService.TimerListener, GameService.MySensorListener {
 
     private GridView mainGrid;
     private Button buttonSwitch;
@@ -72,7 +72,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         v =  (Vibrator) getSystemService(VIBRATOR_SERVICE);
         currentPlayer.setText(R.string.playerTurn);
 
-
         mainGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(final AdapterView<?> adapterView, View view, final int position, long l) {
@@ -91,8 +90,44 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
                 t.start();
             }
         });
-
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        Intent intent = new Intent(this, GameService.class);
+        Log.d("On start", "binding to service...");
+        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (isBound) {
+            mBinder.DeleteTimerListener();
+            mBinder.DeleteSensorListener();
+            unbindService(mConnection);
+            isBound = false;
+        }
+    }
+
+    private ServiceConnection mConnection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            Log.d("Service Connection", "bound to service");
+            mBinder = (GameService.MyLocalBinder)service;
+            mBinder.registerTimeListener(GameActivity.this);
+            mBinder.registerSensorListener(GameActivity.this);
+            Log.e("Service Connection", "registered as listener");
+            gameService = mBinder.getService();
+            isBound = true;
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            isBound = false;
+        }
+    };
 
     private void enableGrid() {
         runOnUiThread(new Runnable() {
@@ -235,7 +270,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
             i.putExtra(Game.LOCATION_BUNDLE,locationBundle);
             Bundle scoreBundle = new Bundle();
             scoreBundle.putInt(Game.SCORE,calculateScore());
-            i.putExtra(Game.SCORE_BUNDLE,calculateScore());
+            i.putExtra(Game.SCORE_BUNDLE,scoreBundle);
         }
         startActivity(i);
         finish();
@@ -270,44 +305,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-        Intent intent = new Intent(this, GameService.class);
-        Log.d("On start", "binding to service...");
-        bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (isBound) {
-            mBinder.DeleteTimerListener();
-            mBinder.DeleteSensorListener();
-            unbindService(mConnection);
-            isBound = false;
-        }
-    }
-
-    private ServiceConnection mConnection = new ServiceConnection() {
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-            Log.d("Service Connection", "bound to service");
-            mBinder = (GameService.MyLocalBinder)service;
-            mBinder.registerTimeListener(GameActivity.this);
-            mBinder.registerSensorListener(GameActivity.this);
-            Log.e("Service Connection", "registered as listener");
-            gameService = mBinder.getService();
-            isBound = true;
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-            isBound = false;
-        }
-    };
-
-
-    @Override
     public void timePassed() { //shuffle player ships every 10 second
         runOnUiThread(new Runnable() {
             @Override
@@ -321,7 +318,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
     }
 
     @Override
-    public void moveChanged() {
+    public void onOrientationChanged() {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -330,31 +327,25 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
                     alphaAnim.setStartOffset(1000);
                     alphaAnim.setDuration(300);
                     alphaAnim.setAnimationListener(new Animation.AnimationListener() {
-
                         @Override
                         public void onAnimationStart(Animation animation) {
                             statusGameToShow.setText(R.string.intentHit);
                             statusGameToShow.setTextColor(getResources().getColor(R.color.alarmRed));
-
                         }
-
                         @Override
                         public void onAnimationEnd(Animation animation) {
                             statusGameToShow.setTextColor(getResources().getColor(R.color.Black));
                             statusGameToShow.setText("");
                         }
-
                         @Override
                         public void onAnimationRepeat(Animation animation) {
-
                         }
                     });
                     statusGameToShow.setAnimation(alphaAnim);
                     game.getBoard(Game.Players.COMPUTER).setRandomHit();
                     updateBoard(Game.Players.COMPUTER); //only for checking!!
-
-
                     if (game.getBoard(Game.Players.COMPUTER).checkIfLose()) {
+                        mBinder.DeleteSensorListener();
                         game.setCurrentTurn(Game.Players.COMPUTER);
                         winEndGame();
                     }
@@ -363,13 +354,10 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
                 countSensorEvent++;
             }
         });
-
-
     }
 
     private void getLocationFromService(){
         location = gameService.getLastLocation();
-
         if(location!=null)
         Log.e("Location","is" + location.toString());
     }
@@ -382,8 +370,4 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         return highestScore - movesCounter;
     }
 
-    @Override
-    public void locationChanged(Location location) {
-        this.location = location;
-    }
 }

@@ -43,13 +43,8 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
     }
 
     private void initTables(){
-
         for(int i =0 ;i<scoreList.length; i++){
-
-            scoreList[i]=new ArrayList<>();
-
-            if(database.getScoreList(i).size()>0)
-            scoreList[i].addAll(database.getScoreList(i+1));
+            scoreList[i]=database.getScoreList(i+1);
         }
     }
     /**
