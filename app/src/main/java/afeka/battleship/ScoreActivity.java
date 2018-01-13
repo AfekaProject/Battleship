@@ -17,7 +17,7 @@ import afeka.battleship.Model.Score;
 public class ScoreActivity extends FragmentActivity implements OnMapReadyCallback, HighScoreFragment.OnFragmentInteractionListener,GoogleMap.OnMarkerClickListener {
 
     private GoogleMap mMap;
-    private ArrayList[] scoreList;
+    private ArrayList<Score>[] scoreList;
     private Marker[] markers;
     private int difficult=1;
     private HighScoreFragment highScoreFragment;
@@ -46,7 +46,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
 
         for(int i =0 ;i<scoreList.length; i++){
 
-            scoreList[i]=new ArrayList<>();
+            //scoreList[i]=new ArrayList<>();
 
             if(database.getScoreList(i).size()>0)
             scoreList[i].addAll(database.getScoreList(i+1));
@@ -65,7 +65,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
-//        findViewById(R.id.scoreEasy).performClick();
+        findViewById(R.id.scoreEasy).performClick();
     }
 
     @Override

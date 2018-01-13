@@ -5,9 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.location.Location;
-import android.os.AsyncTask;
 import android.provider.BaseColumns;
+import com.google.android.gms.maps.model.LatLng;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -59,8 +58,8 @@ public class Database extends SQLiteOpenHelper{
         values.put(FeedScore.COLUMN_NAME_SCORE,score.getScore());
         String date = sdt.format(score.getDate());
         values.put(FeedScore.COLUMN_NAME_Date,date);
-        values.put(FeedScore.COLUMN_NAME_LATITUDE,score.getLocation().getLatitude());
-        values.put(FeedScore.COLUMN_NAME_LONGITUDE,score.getLocation().getLongitude());
+        values.put(FeedScore.COLUMN_NAME_LATITUDE,score.getLocation().latitude);
+        values.put(FeedScore.COLUMN_NAME_LONGITUDE,score.getLocation().longitude);
         SQLiteDatabase db = getWritableDatabase();
         db.insert(FeedScore.TABLE_NAME,null,values);
         trimToTopTen(db,score.getDifficult());
@@ -69,18 +68,17 @@ public class Database extends SQLiteOpenHelper{
 
     private void trimToTopTen (SQLiteDatabase db,int difficult){
         final String DELETE_LAST = "DELETE FROM " + FeedScore.TABLE_NAME +
-                " WHERE " + FeedScore._ID + " NOT IN ( SELECT" + FeedScore._ID +
+                " WHERE " + FeedScore.COLUMN_NAME_DIFFICULT + "=" + difficult + " AND " +
+                FeedScore._ID + " NOT IN ( SELECT" + FeedScore._ID +
                 " FROM " + FeedScore.TABLE_NAME +
                 " WHERE " + FeedScore.COLUMN_NAME_DIFFICULT + "=" + difficult +
                 " ORDER BY " + FeedScore.COLUMN_NAME_SCORE + " DESC" +
-                " LIMIT 10)";
+                " LIMIT 10" + ")";
         db.execSQL(DELETE_LAST);
     }
 
     public ArrayList<Score> getScoreList (int difficultList){
-        ArrayList<Score> list = new ArrayList<>();
-        int i = 0;
-        
+        ArrayList <Score> list = new ArrayList<>();
         SQLiteDatabase db = getReadableDatabase();
         String[] projection = {FeedScore.COLUMN_NAME_NAME,FeedScore.COLUMN_NAME_SCORE,
                 FeedScore.COLUMN_NAME_DIFFICULT,FeedScore.COLUMN_NAME_Date,
@@ -93,7 +91,7 @@ public class Database extends SQLiteOpenHelper{
             String name = cursor.getString(cursor.getColumnIndexOrThrow(FeedScore.COLUMN_NAME_NAME));
             int score = cursor.getInt(cursor.getColumnIndexOrThrow(FeedScore.COLUMN_NAME_SCORE));
             int difficult = cursor.getInt(cursor.getColumnIndexOrThrow(FeedScore.COLUMN_NAME_DIFFICULT));
-            Date date=null;
+            Date date;
             try {
                 date = sdt.parse(cursor.getString(cursor.getColumnIndexOrThrow(FeedScore.COLUMN_NAME_Date)));
             } catch (ParseException e) {
@@ -102,10 +100,8 @@ public class Database extends SQLiteOpenHelper{
             }
             double latitude = cursor.getDouble(cursor.getColumnIndexOrThrow(FeedScore.COLUMN_NAME_LATITUDE));
             double longitude = cursor.getDouble(cursor.getColumnIndexOrThrow(FeedScore.COLUMN_NAME_LONGITUDE));
-            Location l = new Location(name);
-            l.setLatitude(latitude);
-            l.setLongitude(longitude);
-            list.add(new Score(name,difficult,score,date,l));
+            LatLng location = new LatLng(latitude,longitude);
+            list.add(new Score(name,difficult,score,date,location));
         }
 
         return list;

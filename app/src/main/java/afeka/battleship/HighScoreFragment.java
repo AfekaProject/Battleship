@@ -18,7 +18,6 @@ import java.util.ArrayList;
 import afeka.battleship.Model.Score;
 import afeka.battleship.View.ScoreAdapter;
 
-
 public class HighScoreFragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -54,30 +53,21 @@ public class HighScoreFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-
     }
-
 
     @Override
     public void onStart() {
         super.onStart();
-
         scoreList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-
                 view.getFocusables(position);
                 view.setSelected(true);
-
                 if(scoreData!=null)
-                onButtonPressed(scoreData.get(position));
-
+                    onButtonPressed(scoreData.get(position));
             }
-
         });
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -140,10 +130,6 @@ public class HighScoreFragment extends Fragment {
         if(scores.size()>0)
         scoreData.addAll(0,scores);
       // System.arraycopy(scores,0,scoreData,0,scores.size());
-
        scoreAdapter.notifyDataSetChanged();
-
-
     }
-
 }

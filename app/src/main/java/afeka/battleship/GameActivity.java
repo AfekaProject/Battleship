@@ -1,6 +1,5 @@
 package afeka.battleship;
 
-
 import android.content.Context;
 import android.content.Intent;
 import android.location.Location;
@@ -23,8 +22,6 @@ import afeka.battleship.logic.Game;
 import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.content.ComponentName;
-
-import javax.xml.transform.Source;
 
 public class GameActivity extends AppCompatActivity implements GameService.TimerListener, GameService.MySensorListener {
 
@@ -286,7 +283,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
             mBinder.DeleteSensorListener();
             unbindService(mConnection);
             isBound = false;
-    }
+        }
     }
 
     private ServiceConnection mConnection = new ServiceConnection() {
@@ -303,7 +300,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
 
         @Override
         public void onServiceDisconnected(ComponentName name) {
-
             isBound = false;
         }
     };
@@ -352,11 +348,11 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
                         }
                     });
                     statusGameToShow.setAnimation(alphaAnim);
-                    game.getBoard(Game.Players.PLAYER).setRandomHit();
-                    updateBoard(Game.Players.PLAYER); //only for checking!!
+                    game.getBoard(Game.Players.COMPUTER).setRandomHit();
+                    updateBoard(Game.Players.COMPUTER); //only for checking!!
 
 
-                    if (game.getBoard(Game.Players.PLAYER).checkIfLose()) {
+                    if (game.getBoard(Game.Players.COMPUTER).checkIfLose()) {
                         game.setCurrentTurn(Game.Players.COMPUTER);
                         winEndGame();
                     }

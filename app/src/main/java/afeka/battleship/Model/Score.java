@@ -1,6 +1,9 @@
 package afeka.battleship.Model;
 
 import android.location.Location;
+
+import com.google.android.gms.maps.model.LatLng;
+
 import java.util.Calendar;
 import java.util.Date;
 
@@ -9,15 +12,25 @@ public class Score {
     private int difficult;
     private int score;
     private Date date;
-    private Location location;
+    private LatLng location;
 
     public Score(String name, int difficult, int score, Date date, Location location){
         this.name = name;
         this.difficult = difficult;
         this.score = score;
         this.date = date;
+        this.location = new LatLng(location.getLatitude(),location.getLongitude());
+    }
+
+    public Score(String name, int difficult, int score, Date date, LatLng location){
+        this.name = name;
+        this.difficult = difficult;
+        this.score = score;
+        this.date = date;
         this.location = location;
     }
+
+
 
     public Score (String name ,int difficult, int score,Location location){
         this(name, difficult, score , Calendar.getInstance().getTime(),location);
@@ -46,7 +59,7 @@ public class Score {
         return date;
     }
 
-    public Location getLocation(){
+    public LatLng getLocation(){
         return location;
     }
 

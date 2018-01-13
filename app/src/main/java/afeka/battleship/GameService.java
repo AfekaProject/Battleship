@@ -3,6 +3,7 @@ package afeka.battleship;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -14,12 +15,13 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Binder;
 import android.os.SystemClock;
+import android.support.v4.app.ActivityCompat;
 import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class GameService extends Service implements SensorEventListener,LocationListener {
+public class GameService extends Service implements SensorEventListener, LocationListener {
     //sensors
     private final float SENSITIVE_OF_CHECKING = (float) 0.2;
     private final int SENSOR_COUNTER = 5;
@@ -48,8 +50,6 @@ public class GameService extends Service implements SensorEventListener,Location
     //timer
     private Timer clockTimer = new Timer();
     private TimerListener mTimerListener;
-
-
 
 
     public GameService() {
@@ -91,11 +91,11 @@ public class GameService extends Service implements SensorEventListener,Location
             SensorManager.getRotationMatrix(mR, null, mLastAccelerometer, mLastMagnetometer);
             SensorManager.getOrientation(mR, mOrientation);
 
-          //   Log.e("OrientationTestActivity", String.format("Orientation: %f, %f, %f",
-          //            mOrientation[0], mOrientation[1], mOrientation[2]));
+            //   Log.e("OrientationTestActivity", String.format("Orientation: %f, %f, %f",
+            //            mOrientation[0], mOrientation[1], mOrientation[2]));
         }
-       // mLastOrientationArr[counterSamples++] = mOrientation;
-        System.arraycopy(mOrientation,0,mLastOrientationArr[counterSamples++],0,mOrientation.length);
+        // mLastOrientationArr[counterSamples++] = mOrientation;
+        System.arraycopy(mOrientation, 0, mLastOrientationArr[counterSamples++], 0, mOrientation.length);
 
         if (counterSamples == SENSOR_COUNTER) {
             checkMoves(mLastOrientationArr);
@@ -178,7 +178,7 @@ public class GameService extends Service implements SensorEventListener,Location
     }
 
     private void checkMoves(float[][] mLastOrientationArr) { // check if there is exceptional move
-        float[]vector = avgMoves(mLastOrientationArr);
+        float[] vector = avgMoves(mLastOrientationArr);
 
         for (int i = 0; i < vector.length; i++) {
             if (Math.abs(vector[i] - firstOrientation[i]) < SENSITIVE_OF_CHECKING)
@@ -197,13 +197,24 @@ public class GameService extends Service implements SensorEventListener,Location
                 sum += matMoves[j][i];
             }
             avgArr[i] = sum / matMoves.length;
-            sum=0;
+            sum = 0;
         }
         return avgArr;
     }
+
     private void setLocation() {
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
 
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
 
     }
