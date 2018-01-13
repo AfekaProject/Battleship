@@ -8,7 +8,9 @@ import android.view.View;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -65,7 +67,10 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onMarkerClick(Marker marker) {
+        if(highScoreFragment!=null)
+            highScoreFragment.focusLine((Integer)marker.getTag());
         Log.e("marker tag",marker.getTag().toString());
+
         return false;
     }
 
@@ -87,44 +92,25 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
 
         difficultButtonMark();
         if(highScoreFragment!=null)
-        highScoreFragment.showTable(scoreList[difficult-1]);
-
-        //updateListView();
-        //updateMarkersOnMap();
+            highScoreFragment.showTable(scoreList[difficult-1]);
+        updateMarkersOnMap();
 
     }
 
-    private void updateListView() {
-
-    }
-
-   /* private void updateMarkersOnMap (){
+    private void updateMarkersOnMap (){
         if (mMap!=null){
             mMap.clear();
-            for (int i= 0 ; i< scoreList.length ; i++){
-                String name = scoreList[i].getName();
-                Location location = scoreList[i].getLocation();
-                LatLng convertLatLng = new LatLng(location.getLatitude(), location.getLongitude());
-                markers[i] = mMap.addMarker(new MarkerOptions().title(name).position(convertLatLng));
-                markers[i].setTag((Integer)i);
+            for (int i= 0 ; i< scoreList[difficult-1].size() ; i++){
+                String name = scoreList[difficult-1].get(i).getName();
+                LatLng location = scoreList[difficult-1].get(i).getLocation();
+                markers[i] = mMap.addMarker(new MarkerOptions().title(name).position(location));
+                markers[i].setTag(i);
             }
         }
-
-
     }
-*/
 
-    public Score[] test(){
-        Score[] arr = new Score[10];
-        for (int i = 0 ; i<arr.length ; i++){
-            Random r = new Random();
-            Location l = new Location("dummy");
-            l.setLatitude(r.nextDouble()*30);
-            l.setLongitude(r.nextDouble()*30);
-            arr[i] = new Score("id"+i,1,10,l);
-        }
-        return arr;
-    }
+
+
 
 
     private void difficultButtonMark(){

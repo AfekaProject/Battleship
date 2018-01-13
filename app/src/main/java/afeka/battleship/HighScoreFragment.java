@@ -117,19 +117,14 @@ public class HighScoreFragment extends Fragment {
         void onClickRow(Score score);
     }
 
-
-    public Score[] test(){
-        Score[] arr = new Score[10];
-        for (int i = 0 ; i<arr.length ; i++){
-            arr[i] = new Score("id"+i,1,100);
-        }
-        return arr;
-    }
-
-    public void showTable(ArrayList<Score>scores){
+    public void showTable(ArrayList<Score> scores){
+        scoreData.clear();
         if(scores.size()>0)
         scoreData.addAll(0,scores);
-      // System.arraycopy(scores,0,scoreData,0,scores.size());
        scoreAdapter.notifyDataSetChanged();
+    }
+
+    public void focusLine(int line){
+        scoreList.setSelection(line);
     }
 }
