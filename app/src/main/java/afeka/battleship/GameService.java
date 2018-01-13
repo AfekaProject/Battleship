@@ -17,10 +17,11 @@ import android.os.IBinder;
 import android.os.Binder;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
 
 import java.util.Timer;
 import java.util.TimerTask;
+
+import afeka.battleship.logic.Game;
 
 public class GameService extends Service implements SensorEventListener, LocationListener {
     //sensors
@@ -73,20 +74,24 @@ public class GameService extends Service implements SensorEventListener, Locatio
     @Override
     public void onCreate() {
         super.onCreate();
-        mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        if (mSensorManager != null) {
-            mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-            mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
-        }
-        if (mAccelerometer != null && mMagnetometer != null) { //first orientation
-            isSensorExist = true;
-            SensorManager.getRotationMatrix(mR, null, mLastAccelerometer, mLastMagnetometer);
-            SensorManager.getOrientation(mR, firstOrientation);
-        }
+        initSensors();
         clock();
         setLocation();
     }
 
+
+private void initSensors(){
+    mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+    if (mSensorManager != null) {
+        mAccelerometer = mSensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        mMagnetometer = mSensorManager.getDefaultSensor(Sensor.TYPE_MAGNETIC_FIELD);
+    }
+    if (mAccelerometer != null && mMagnetometer != null) { //first orientation
+        isSensorExist = true;
+        SensorManager.getRotationMatrix(mR, null, mLastAccelerometer, mLastMagnetometer);
+        SensorManager.getOrientation(mR, firstOrientation);
+    }
+}
     @Override
     public void onSensorChanged(SensorEvent event) {
 
@@ -198,8 +203,8 @@ public class GameService extends Service implements SensorEventListener, Locatio
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
-            //    here to request the missing permissions, and then overriding
-            //    public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.

@@ -21,7 +21,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
     private GoogleMap mMap;
     private ArrayList<Score>[] scoreList;
     private Marker[] markers;
-    private int difficult=1;
+    private int difficult = 1;
     private HighScoreFragment highScoreFragment;
     private Database database;
 
@@ -49,15 +49,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
             scoreList[i]=database.getScoreList(i+1);
         }
     }
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
@@ -136,7 +128,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
     }
 
     @Override
-    public void onClickRow(Score score) { //when clicked on a row in the table
+    public void onClickRow(int position) { //when clicked on a row in the table
 
     }
 }

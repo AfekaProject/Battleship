@@ -64,7 +64,7 @@ public class HighScoreFragment extends Fragment {
                 view.getFocusables(position);
                 view.setSelected(true);
                 if(scoreData!=null)
-                    onButtonPressed(scoreData.get(position));
+                    onButtonPressed(position);
             }
         });
     }
@@ -85,9 +85,9 @@ public class HighScoreFragment extends Fragment {
     }
 
     // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Score score) {
+    public void onButtonPressed(int position) {
         if (mListener != null) {
-            mListener.onClickRow(score);
+            mListener.onClickRow(position);
         }
     }
 
@@ -113,14 +113,24 @@ public class HighScoreFragment extends Fragment {
 
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onClickRow(Score score);
+        void onClickRow(int position);
     }
 
-    public void showTable(ArrayList<Score> scores){
+
+    public Score[] test(){
+        Score[] arr = new Score[10];
+        for (int i = 0 ; i<arr.length ; i++){
+            arr[i] = new Score("id"+i,1,100);
+        }
+        return arr;
+    }
+
+    public void showTable(ArrayList<Score>scores){
         scoreData.clear();
+
         if(scores.size()>0)
         scoreData.addAll(0,scores);
+      // System.arraycopy(scores,0,scoreData,0,scores.size());
        scoreAdapter.notifyDataSetChanged();
     }
 

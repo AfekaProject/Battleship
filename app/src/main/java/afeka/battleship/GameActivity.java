@@ -255,7 +255,10 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
 
     private void winEndGame() {
         Game.Players whoWin = game.getCurrentTurn();
+
         mBinder.DeleteSensorListener();
+        mBinder.DeleteTimerListener();
+
         Intent i = new Intent(this, EndActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString(Game.WHO_WIN, whoWin.toString());
@@ -345,6 +348,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
                     game.getBoard(Game.Players.COMPUTER).setRandomHit();
                     updateBoard(Game.Players.COMPUTER); //only for checking!!
                     if (game.getBoard(Game.Players.COMPUTER).checkIfLose()) {
+                        mBinder.DeleteSensorListener();
                         game.setCurrentTurn(Game.Players.COMPUTER);
                         winEndGame();
                     }
