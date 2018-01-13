@@ -8,6 +8,7 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -46,7 +47,10 @@ public class GameService extends Service implements SensorEventListener, Locatio
     private final IBinder mBinder = new MyLocalBinder();
     //location
     private Location lastLocation;
-    LocationManager locationManager;
+    private LocationManager locationManager;
+    private LocationListener mLocationListener;
+    private boolean gpsEnable;
+    private boolean networkEnable;
     //timer
     private Timer clockTimer = new Timer();
     private TimerListener mTimerListener;
@@ -128,6 +132,16 @@ public class GameService extends Service implements SensorEventListener, Locatio
             }
         }
 
+        void registerLocationListener(LocationListener listener) {
+            mLocationListener = listener;
+
+        }
+
+        void DeleteLocationListener() {
+            mLocationListener = null;
+
+        }
+
         void DeleteTimerListener() {
             mTimerListener = null;
 
@@ -154,6 +168,10 @@ public class GameService extends Service implements SensorEventListener, Locatio
 
         void moveChanged();
 
+    }
+
+    public interface LocationListener{
+        void locationChanged(Location location);
     }
 
     public void clock() {
@@ -216,6 +234,13 @@ public class GameService extends Service implements SensorEventListener, Locatio
             return;
         }
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        Criteria crit = new Criteria();
+        crit.setAccuracy(Criteria.ACCURACY_FINE);
+        crit.setPowerRequirement(Criteria.NO_REQUIREMENT);
+
+        lastLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(crit,true));
+
+
 
     }
     @Override
@@ -226,6 +251,7 @@ public class GameService extends Service implements SensorEventListener, Locatio
     @Override
     public void onLocationChanged(Location location) {
         lastLocation = location;
+      //  mLocationListener.locationChanged(location);
     }
 
     @Override

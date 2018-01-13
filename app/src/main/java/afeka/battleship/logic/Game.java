@@ -4,15 +4,17 @@ import afeka.battleship.Model.Board;
 import afeka.battleship.Model.Tile;
 
 public class Game {
-    public static final boolean debug = false;      // enemy ships shown
+    public static final boolean debug = true;      // enemy ships shown
     public static final boolean aiWin = false;      // make the ai win
 
     public static final String DIFFICULTY = "Difficulty";
     public static final String WHO_WIN = "WhoWin";
     public static final String END_BUNDLE = "WinAndDif";
     public static final String LOCATION_BUNDLE = "Location";
-    public static final String LAT = "latitude";
-    public static final String LONG = "longitude";
+    public static final String LAT = "Latitude";
+    public static final String LONG = "Longitude";
+    public static final String SCORE = "currentScore";
+    public static final String SCORE_BUNDLE = "Score";
 
 
 

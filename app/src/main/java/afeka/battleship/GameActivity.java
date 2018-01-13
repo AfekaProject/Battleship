@@ -23,7 +23,7 @@ import android.content.ServiceConnection;
 import android.os.IBinder;
 import android.content.ComponentName;
 
-public class GameActivity extends AppCompatActivity implements GameService.TimerListener, GameService.MySensorListener {
+public class GameActivity extends AppCompatActivity implements GameService.TimerListener, GameService.MySensorListener, GameService.LocationListener {
 
     private GridView mainGrid;
     private Button buttonSwitch;
@@ -79,7 +79,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
                 enableGrid();
                 playPlayer(position);
                 animateTile(view);
-                getLocationFromService(); //for debugging
                 Thread t = new Thread(new Runnable() {
                     @Override
                     public void run() {
@@ -228,13 +227,16 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         bundle.putInt(Game.DIFFICULTY, difficulty);
 
         i.putExtra(Game.END_BUNDLE, bundle);
-        /*if(whoWin.equals(Game.Players.PLAYER)) {
-            location = gameService.getLastLocation();
-            Bundle bundleLocation = new Bundle();
-            bundleLocation.putDouble(Game.LAT,location.getLatitude());
-            bundleLocation.putDouble(Game.LONG,location.getLongitude());
-            i.putExtra(Game.LOCATION_BUNDLE,bundleLocation);
-        }*/
+        if(whoWin.equals(Game.Players.PLAYER)) {
+            getLocationFromService();
+            Bundle locationBundle = new Bundle();
+            locationBundle.putDouble(Game.LAT,location.getLatitude());
+            locationBundle.putDouble(Game.LONG,location.getLongitude());
+            i.putExtra(Game.LOCATION_BUNDLE,locationBundle);
+            Bundle scoreBundle = new Bundle();
+            scoreBundle.putInt(Game.SCORE,calculateScore());
+            i.putExtra(Game.SCORE_BUNDLE,calculateScore());
+        }
         startActivity(i);
         finish();
     }
@@ -378,5 +380,10 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         highestScore += movesToWin;
 
         return highestScore - movesCounter;
+    }
+
+    @Override
+    public void locationChanged(Location location) {
+        this.location = location;
     }
 }

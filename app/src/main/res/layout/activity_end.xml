@@ -63,7 +63,7 @@
         android:src="@drawable/mainbutton" />
 
     <EditText
-        android:id="@+id/editText"
+        android:id="@+id/textPlayerName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/blueFish"
@@ -72,6 +72,23 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:hint="@string/enterYourName" />
+
+    <ImageView
+        android:id="@+id/highscorelabel"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        android:layout_above="@+id/textPlayerName"
+        android:layout_centerHorizontal="true"
+        app:srcCompat="@drawable/newhighscore" />
+
+    <ImageView
+        android:id="@+id/saveButton"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:layout_alignBottom="@+id/textPlayerName"
+        android:layout_toEndOf="@+id/textPlayerName"
+        android:onClick="submitButtonClicked"
+        app:srcCompat="@drawable/savebutton" />
 
 
 </RelativeLayout>

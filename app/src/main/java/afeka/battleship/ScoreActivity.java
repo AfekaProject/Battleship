@@ -46,7 +46,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
 
         for(int i =0 ;i<scoreList.length; i++){
 
-            //scoreList[i]=new ArrayList<>();
+            scoreList[i]=new ArrayList<>();
 
             if(database.getScoreList(i).size()>0)
             scoreList[i].addAll(database.getScoreList(i+1));
@@ -90,7 +90,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
                 break;
         }
 
-        difficultButtomMark();
+        difficultButtonMark();
         if(highScoreFragment!=null)
         highScoreFragment.showTable(scoreList[difficult-1]);
 
@@ -131,7 +131,8 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
         return arr;
     }
 
-    private void difficultButtomMark(){
+
+    private void difficultButtonMark(){
         int darkBlue = getResources().getColor(R.color.darkBlue);
         int lightBlue = getResources().getColor(R.color.blue);
         switch(difficult){

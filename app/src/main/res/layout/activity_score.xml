@@ -21,7 +21,7 @@
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
             android:layout_weight="1"
-            android:background="@color/blue"
+            android:background="@color/darkBlue"
             android:onClick="showScoreList"
             android:text="@string/easyButton" />
         <Button
