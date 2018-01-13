@@ -5,6 +5,8 @@ import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -101,10 +103,6 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
         }
     }
 
-
-
-
-
     private void difficultButtonMark(){
         int darkBlue = getResources().getColor(R.color.darkBlue);
         int lightBlue = getResources().getColor(R.color.blue);
@@ -129,6 +127,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
 
     @Override
     public void onClickRow(int position) { //when clicked on a row in the table
-
+        LatLng latLng = scoreList[difficult-1].get(position).getLocation();
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
     }
 }
