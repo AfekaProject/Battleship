@@ -1,6 +1,8 @@
 package afeka.battleship.View;
 
 import android.content.Context;
+import android.graphics.drawable.AnimationDrawable;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -50,13 +52,16 @@ public class TileAdapter extends BaseAdapter {
         } else {
             tileView = (TileView) view;
         }
-        Tile.Status status = mBoard.getTile(i).getStatus();
+        Tile currentTile = mBoard.getTile(i);
+        Tile.Status status = currentTile.getStatus();
         int size = viewGroup.getWidth() / 10 - 15;
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(size, size);
         tileView.getImg().setLayoutParams(layoutParams);
+        tileView.setLayoutParams(layoutParams);
         switch (status) {
             case NONE:
                 tileView.getImg().setImageResource(R.drawable.img_empty);
+                tileView.setBackgroundResource(R.color.colorPrimary);
                 break;
             case PLACED:
                 tileView.getImg().setImageResource(R.drawable.img_goldfish);
@@ -65,17 +70,51 @@ public class TileAdapter extends BaseAdapter {
                     hideShips(tileView);
                 break;
             case HIT:
-                tileView.getImg().setImageResource(R.drawable.img_hit);
+                if(!currentTile.isWasHitAnimated()) {
+                    tileView.getImg().setImageResource(R.drawable.img_empty);
+                    //tileView.setBackgroundResource(R.color.tranparent);
+                    //   tileView.getImg().setImageResource(R.drawable.img_empty);
+                    //   tileView.getImg().setImageResource(R.drawable.img_hit);
+                    tileView.setBackgroundResource(R.drawable.explosionsprite);
+
+                    //    tileView.getImg().setLayoutParams(layoutParams);
+                    AnimationDrawable animationDrawable = (AnimationDrawable) tileView.getBackground();
+                    animationDrawable.start();
+                    tileView.getImg().setBackgroundResource(R.color.tranparent);
+
+
+                    currentTile.setWasHitAnimated(true);
+
+                }else{
+
+                    tileView.getImg().setImageResource(R.drawable.img_hit);
+                    tileView.setBackgroundResource(R.color.colorPrimary);
+
+                }
+
+
 
                 break;
             case MISS:
                 tileView.getImg().setImageResource(R.drawable.img_miss);
                 break;
             case DROWNED:
-                tileView.getImg().setImageResource(R.drawable.img_deadfish);
+                if(!currentTile.isWasDrawnAnimated()){
+                    tileView.getImg().setImageResource(R.drawable.img_empty);
+
+                    tileView.setBackgroundResource(R.drawable.watersprite);
+
+                    AnimationDrawable animationDrawable = (AnimationDrawable) tileView.getBackground();
+                    animationDrawable.start();
+                    tileView.getImg().setBackgroundResource(R.color.tranparent);
+                    currentTile.setWasDrawnAnimated(true);
+                }else {
+                    tileView.setBackgroundResource(R.color.tranparent);
+                    tileView.getImg().setImageResource(R.drawable.img_deadfish);
+                }
                 break;
             default:
-                tileView.getImg().setImageResource(R.drawable.img_empty);
+              //  tileView.getImg().setImageResource(R.drawable.img_empty);
                 break;
         }
 

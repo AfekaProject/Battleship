@@ -22,4 +22,6 @@ public class TileView extends FrameLayout {
     public ImageView getImg() {
         return img;
     }
+
+
 }

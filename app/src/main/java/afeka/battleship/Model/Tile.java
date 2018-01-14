@@ -8,6 +8,9 @@ public class Tile {
     private Ship ship;
     private Status status;
 
+    private boolean wasHitAnimated = false;
+    private boolean wasDrawnAnimated = false;
+
     public Tile(int x, int y) {
         this.x = x;
         this.y = y;
@@ -77,5 +80,20 @@ public class Tile {
 
     public void setStatus(Status status){
         this.status = status;
+    }
+
+    public boolean isWasHitAnimated() {
+        return wasHitAnimated;
+    }
+
+    public void setWasHitAnimated(boolean wasHitAnimated) {
+        this.wasHitAnimated = wasHitAnimated;
+    }
+    public boolean isWasDrawnAnimated() {
+        return wasDrawnAnimated;
+    }
+
+    public void setWasDrawnAnimated(boolean wasDrawnAnimated) {
+        this.wasDrawnAnimated = wasDrawnAnimated;
     }
 }

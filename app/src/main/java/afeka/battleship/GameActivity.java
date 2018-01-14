@@ -15,6 +15,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import afeka.battleship.View.TileAdapter;
@@ -24,7 +25,7 @@ import android.os.IBinder;
 import android.content.ComponentName;
 
 public class GameActivity extends AppCompatActivity implements GameService.TimerListener, GameService.MySensorListener {
-
+    private enum EventCalled{TIMER, SENSORS}
     private GridView mainGrid;
     private Button buttonSwitch;
     private ProgressBar progressBar;
@@ -47,6 +48,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
     private boolean isBound = false;
     private int countSensorEvent = 0;
     private int movesCounter = 0;
+    private ImageView shuffleView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +72,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
         v =  (Vibrator) getSystemService(VIBRATOR_SERVICE);
+        shuffleView = findViewById(R.id.shuffleView);
         currentPlayer.setText(R.string.playerTurn);
 
         mainGrid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -210,9 +213,10 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if (p.equals(Game.Players.PLAYER))
+                if (p.equals(Game.Players.PLAYER)) {
                     viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER), Game.Players.PLAYER);
-                else
+
+                }  else
                     viewBoard.setmBoard(game.getBoard(Game.Players.COMPUTER), Game.Players.COMPUTER);
                 ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
             }
@@ -244,13 +248,11 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         });
     }
 
-    private void animateTile (View view){
-        if (currentGameStatus.equals(Game.GameStatus.MISS)){
+    private void animateTile (View view) {
+        if (currentGameStatus.equals(Game.GameStatus.MISS)) {
             view.startAnimation(slideUp);
             v.vibrate(150);
         }
-        else if (currentGameStatus.equals(Game.GameStatus.HIT))
-            view.startAnimation(bold);
     }
 
     private void winEndGame() {
@@ -308,13 +310,16 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
     }
 
     @Override
-    public void timePassed() { //shuffle player ships every 10 second
+    public void timePassed() { //shuffle player ships every few seconds
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
                 game.getBoard(Game.Players.PLAYER).shuffleShips();
-                updateBoard(Game.Players.PLAYER); //only for checking!!
+                animateEvent(EventCalled.TIMER);
+                if(currentPlayer.equals(Game.Players.PLAYER)) {
+                    updateBoard(Game.Players.PLAYER);
 
+                }
             }
         });
 
@@ -325,30 +330,11 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                if(countSensorEvent == 3) {
-                    AlphaAnimation alphaAnim = new AlphaAnimation(1.0f, 0.0f);
-                    alphaAnim.setStartOffset(1000);
-                    alphaAnim.setDuration(300);
-                    alphaAnim.setAnimationListener(new Animation.AnimationListener() {
-                        @Override
-                        public void onAnimationStart(Animation animation) {
-                            statusGameToShow.setText(R.string.intentHit);
-                            statusGameToShow.setTextColor(getResources().getColor(R.color.alarmRed));
-                        }
-                        @Override
-                        public void onAnimationEnd(Animation animation) {
-                            statusGameToShow.setTextColor(getResources().getColor(R.color.Black));
-                            statusGameToShow.setText("");
-                        }
-                        @Override
-                        public void onAnimationRepeat(Animation animation) {
-                        }
-                    });
-                    statusGameToShow.setAnimation(alphaAnim);
+                if(countSensorEvent == 5) {
+              animateEvent(EventCalled.SENSORS);
                     game.getBoard(Game.Players.COMPUTER).setRandomHit();
-                    updateBoard(Game.Players.COMPUTER); //only for checking!!
+
                     if (game.getBoard(Game.Players.COMPUTER).checkIfLose()) {
-                        mBinder.DeleteSensorListener();
                         game.setCurrentTurn(Game.Players.COMPUTER);
                         winEndGame();
                     }
@@ -361,8 +347,8 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
 
     private void getLocationFromService(){
         location = gameService.getLastLocation();
-        if(location!=null)
-        Log.e("Location","is" + location.toString());
+   //     if(location!=null)
+   //     Log.e("Location","is" + location.toString());
     }
 
     private int calculateScore(){
@@ -371,6 +357,43 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         highestScore += movesToWin;
 
         return highestScore - movesCounter;
+    }
+
+    private void animateEvent(final EventCalled eventName){
+        AlphaAnimation alphaAnim = new AlphaAnimation(1.0f, 0.0f);
+        alphaAnim.setStartOffset(1000);
+        alphaAnim.setDuration(300);
+        alphaAnim.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                if(eventName.equals(EventCalled.SENSORS)) {
+                    statusGameToShow.setText(R.string.intentHit);
+                    statusGameToShow.setTextColor(getResources().getColor(R.color.alarmRed));
+                }else if(eventName.equals(EventCalled.TIMER)){
+                    shuffleView.setVisibility(View.VISIBLE);
+                }
+            }
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if(eventName.equals(EventCalled.SENSORS)) {
+                    statusGameToShow.setTextColor(getResources().getColor(R.color.Black));
+                    statusGameToShow.setText("");
+                }else if(eventName.equals(EventCalled.TIMER)) {
+                    shuffleView.setVisibility(View.INVISIBLE);
+                }
+
+            }
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+            }
+        });
+        if(eventName.equals(EventCalled.SENSORS)) {
+            statusGameToShow.setAnimation(alphaAnim);
+            statusGameToShow.startAnimation(alphaAnim);
+        }else if(eventName.equals(EventCalled.TIMER)) {
+            shuffleView.setAnimation(alphaAnim);
+            shuffleView.startAnimation(alphaAnim);
+        }
     }
 
 }

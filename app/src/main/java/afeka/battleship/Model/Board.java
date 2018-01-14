@@ -87,16 +87,26 @@ public class Board {
             if (!anArrShip.isDrowned(this)) {
                 vector = findFreePlace(anArrShip);
                 for (int j = 0; j < anArrShip.getSize(); j++) {
+                    Tile currentTile = anArrShip.getTile(j, this);
                     status = anArrShip.getTile(j, this).getStatus();
                     boardMatrix[vector[INDEX_X]][vector[INDEX_Y]].setStatus(status);
                     boardMatrix[vector[INDEX_X]][vector[INDEX_Y]].setShip(anArrShip);
-                    anArrShip.getTile(j, this).setShip(null);
-                    anArrShip.getTile(j, this).setStatus(Tile.Status.NONE);
+                    currentTile.setShip(null);
+                    currentTile.setStatus(status.NONE);
+
+                    if(status.equals(Tile.Status.HIT))
+                    currentTile.setWasHitAnimated(false);
+
                     anArrShip.updateIndex(j, boardMatrix[vector[INDEX_X]][vector[INDEX_Y]]);
+
+                    if(status.equals(Tile.Status.HIT))
+                    anArrShip.getTile(j, this).setWasHitAnimated(true);
                     if (vector[INDEX_DIRECTION] == HORIZONTAL)
                         vector[INDEX_X]++;
                     else
                         vector[INDEX_Y]++;
+
+
                 }
             }
         }
@@ -148,9 +158,10 @@ public class Board {
                    for(int i=0 ; i<arrShip[index].getSize() && !found; i++){
                        tile = arrShip[index].getTile(i,this);
                       if(tile.getStatus().equals(Tile.Status.PLACED)) {
-                         if(tile.setHit(this))
-                             shipsAlive--;
+                          if (tile.setHit(this))
+                              shipsAlive--;
                           found = true;
+                          tile.setWasHitAnimated(true);
                       }
                    }
                }
