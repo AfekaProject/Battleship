@@ -102,7 +102,6 @@ public class Database extends SQLiteOpenHelper{
             LatLng location = new LatLng(latitude,longitude);
             list.add(new Score(name,difficult,score,date,location));
         }
-
         return list;
     }
 

@@ -345,10 +345,10 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
                         }
                     });
                     statusGameToShow.setAnimation(alphaAnim);
+                    statusGameToShow.startAnimation(alphaAnim);
                     game.getBoard(Game.Players.COMPUTER).setRandomHit();
-                    updateBoard(Game.Players.COMPUTER); //only for checking!!
+                   // updateBoard(Game.Players.COMPUTER); //only for checking!!
                     if (game.getBoard(Game.Players.COMPUTER).checkIfLose()) {
-                        mBinder.DeleteSensorListener();
                         game.setCurrentTurn(Game.Players.COMPUTER);
                         winEndGame();
                     }
