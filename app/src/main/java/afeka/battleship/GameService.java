@@ -15,13 +15,9 @@ import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Binder;
-import android.os.SystemClock;
 import android.support.v4.app.ActivityCompat;
-
 import java.util.Timer;
 import java.util.TimerTask;
-
-import afeka.battleship.logic.Game;
 
 public class GameService extends Service implements SensorEventListener, LocationListener {
     //sensors
@@ -49,13 +45,10 @@ public class GameService extends Service implements SensorEventListener, Locatio
     //location
     private Location lastLocation;
     private LocationManager locationManager;
-    private LocationListener mLocationListener;
-    private boolean gpsEnable;
-    private boolean networkEnable;
+
     //timer
     private Timer clockTimer = new Timer();
     private TimerListener mTimerListener;
-
 
     public GameService() {
     }
@@ -78,7 +71,6 @@ public class GameService extends Service implements SensorEventListener, Locatio
         clock();
         setLocation();
     }
-
 
 private void initSensors(){
     mSensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -106,10 +98,7 @@ private void initSensors(){
             SensorManager.getRotationMatrix(mR, null, mLastAccelerometer, mLastMagnetometer);
             SensorManager.getOrientation(mR, mOrientation);
 
-            //   Log.e("OrientationTestActivity", String.format("Orientation: %f, %f, %f",
-            //            mOrientation[0], mOrientation[1], mOrientation[2]));
         }
-        // mLastOrientationArr[counterSamples++] = mOrientation;
         System.arraycopy(mOrientation, 0, mLastOrientationArr[counterSamples++], 0, mOrientation.length);
 
         if (counterSamples == SENSOR_COUNTER) {
@@ -199,7 +188,8 @@ private void initSensors(){
 
     private void setLocation() {
         locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
-
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
         if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
             //    ActivityCompat#requestPermissions
@@ -208,20 +198,38 @@ private void initSensors(){
             //                                          int[] grantResults)
             // to handle the case where the user grants the permission. See the documentation
             // for ActivityCompat#requestPermissions for more details.
-            lastLocation = new Location("dummy");
-            lastLocation.setLatitude(32.113086);
-            lastLocation.setLongitude(34.818021);
+            lastLocation = setDummy();
             return;
         }
-        Criteria crit = new Criteria();
-        crit.setAccuracy(Criteria.ACCURACY_FINE);
-        crit.setPowerRequirement(Criteria.NO_REQUIREMENT);
-        lastLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(crit,true));
+        try {
+            gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+        } catch(Exception ex) {}
+        try {
+            network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+        } catch(Exception ex) {}
 
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+        if(!gps_enabled && !network_enabled) {
+           lastLocation = setDummy();
+        }
+        else{
+            Criteria crit = new Criteria();
+            crit.setAccuracy(Criteria.ACCURACY_FINE);
+            crit.setPowerRequirement(Criteria.NO_REQUIREMENT);
+            lastLocation = locationManager.getLastKnownLocation(locationManager.getBestProvider(crit, true));
+            if (gps_enabled){
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, this);
+            }
+            else if (network_enabled){
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, this);
+            }
+        }
+    }
 
-
-
+    private Location setDummy (){
+        Location lastLocation = new Location("dummy");
+        lastLocation.setLatitude(32.113086);
+        lastLocation.setLongitude(34.818021);
+        return lastLocation;
     }
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {

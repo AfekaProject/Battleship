@@ -1,11 +1,16 @@
 package afeka.battleship;
 
+import android.content.Context;
+import android.content.pm.PackageManager;
 import android.location.Location;
+import android.location.LocationManager;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
+import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -56,17 +61,12 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
+        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(32.113086,34.818021),5));
+        updateLocationUI();
         findViewById(R.id.scoreEasy).performClick();
     }
 
-    @Override
-    public boolean onMarkerClick(Marker marker) {
-        if(highScoreFragment!=null)
-            highScoreFragment.focusLine((Integer)marker.getTag());
-        Log.e("marker tag",marker.getTag().toString());
 
-        return false;
-    }
 
     public void showScoreList(View view) { //when difficulty was chosen
         switch (view.getId()){
@@ -127,7 +127,54 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
 
     @Override
     public void onClickRow(int position) { //when clicked on a row in the table
+        markers[position].showInfoWindow();
         LatLng latLng = scoreList[difficult-1].get(position).getLocation();
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+
+    }
+
+    @Override
+    public boolean onMarkerClick(Marker marker) {
+        if(highScoreFragment!=null)
+            highScoreFragment.focusLine((Integer)marker.getTag());
+        Log.e("marker tag",marker.getTag().toString());
+
+        return false;
+    }
+
+    private void updateLocationUI() {
+        if (mMap == null) {
+            return;
+        }
+        if (checkLocationPremissionAndEnabled()){
+            mMap.setMyLocationEnabled(true);
+            mMap.getUiSettings().setMyLocationButtonEnabled(true);
+        } else {
+            mMap.setMyLocationEnabled(false);
+            mMap.getUiSettings().setMyLocationButtonEnabled(false);
+        }
+    }
+
+    private boolean checkLocationPremissionAndEnabled (){
+        LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        boolean gps_enabled = false;
+        boolean network_enabled = false;
+        if (ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
+                && ActivityCompat.checkSelfPermission(this, android.Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return false;
+        }
+        else{
+            try {
+                gps_enabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+            } catch(Exception ex) {}
+            try {
+                network_enabled = locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+            } catch(Exception ex) {}
+
+            if(!gps_enabled && !network_enabled) {
+                return false;
+            }
+            return true;
+        }
     }
 }

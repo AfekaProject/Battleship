@@ -13,15 +13,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
-
 import com.google.android.gms.maps.model.LatLng;
-
 import java.util.ArrayList;
 import java.util.Date;
-
 import afeka.battleship.Model.Score;
 import afeka.battleship.logic.Game;
-
 
 public class EndActivity extends AppCompatActivity {
     private String whoWin;
@@ -31,18 +27,17 @@ public class EndActivity extends AppCompatActivity {
     private RelativeLayout relativeLayout;
     private ImageView title;
     private MediaPlayer endSound;
-    private EditText editText;
     private Database database;
     private ImageView highScoreLabel;
+    private EditText editText;
+    private ImageView submitButton;
     private LatLng location;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         initSCREEN();
         if (whoWin.equals(Game.Players.PLAYER.toString())) {
-            database = new Database(this);
             initPlayerInfo();
             winScreen();
         }else
@@ -54,7 +49,6 @@ public class EndActivity extends AppCompatActivity {
         i.putExtra(Game.DIFFICULTY, difficulty);
         startActivity(i);
         finish();
-
     }
 
     public void mainClick(View view) {
@@ -70,14 +64,17 @@ public class EndActivity extends AppCompatActivity {
         difficulty = bundle.getInt(Game.DIFFICULTY);
         relativeLayout = findViewById(R.id.relativeLayout);
         title = findViewById(R.id.winLoseTitle);
+        editText = findViewById(R.id.textPlayerName);
+        submitButton = findViewById(R.id.saveButton);
+        highScoreLabel = findViewById(R.id.highscorelabel);
     }
 
     private void initPlayerInfo(){
+        database = new Database(this);
         Bundle locationBundle = getIntent().getBundleExtra(Game.LOCATION_BUNDLE);
         location = new LatLng(locationBundle.getDouble(Game.LAT), locationBundle.getDouble(Game.LONG));
         Bundle scoreBundle = getIntent().getBundleExtra(Game.SCORE_BUNDLE);
         currentScore = scoreBundle.getInt(Game.SCORE);
-
     }
     private void winScreen(){
         relativeLayout.setBackgroundResource(R.drawable.youwinbackground);
@@ -97,18 +94,23 @@ public class EndActivity extends AppCompatActivity {
         blueFish.startAnimation(moveLeft);
 
 
-        if(checkIfHighScore()) {
-            editText = findViewById(R.id.textPlayerName);
-            highScoreLabel = findViewById(R.id.highscorelabel);
-
+        if(!checkIfHighScore()) {
+            editText.setVisibility(View.INVISIBLE);
+            submitButton.setVisibility(View.GONE);
+            highScoreLabel.setVisibility(View.INVISIBLE);
         }
     }
 
     private void loseScreen(){
+
         relativeLayout.setBackgroundResource(R.drawable.youlosebackground);
         title.setImageResource(R.drawable.youlosetitle);
         endSound = MediaPlayer.create(this, R.raw.loser);
         endSound.start();
+
+        editText.setVisibility(View.INVISIBLE);
+        submitButton.setVisibility(View.GONE);
+        highScoreLabel.setVisibility(View.INVISIBLE);
 
         ImageView shark = findViewById(R.id.shark);
         Animation zoomIn = AnimationUtils.loadAnimation(this,R.anim.zoomin);
@@ -119,7 +121,7 @@ public class EndActivity extends AppCompatActivity {
     private boolean checkIfHighScore(){
        ArrayList<Score> allScores = database.getScoreList(difficulty);
 
-        if(allScores.size()<10 || allScores.get(allScores.size()).getScore()< currentScore)
+        if(allScores.size()<10 || allScores.get(allScores.size()-1).getScore()< currentScore)
             return true;
         else
             return false;
@@ -128,7 +130,6 @@ public class EndActivity extends AppCompatActivity {
     private void setHighScore(String name, LatLng latLng){
         Date currentDate = new Date();
         Score newScore = new Score(name,difficulty,currentScore,currentDate,latLng);
-
         database.addScores(newScore);
 
     }

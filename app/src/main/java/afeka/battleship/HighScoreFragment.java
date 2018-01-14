@@ -65,8 +65,6 @@ public class HighScoreFragment extends Fragment {
                 view.setSelected(true);
                 if(scoreData!=null)
                     onButtonPressed(position);
-
-
             }
         });
     }
@@ -136,10 +134,12 @@ public class HighScoreFragment extends Fragment {
     }
 
     public void focusLine(int line){
+        scoreList.requestFocusFromTouch();
         scoreList.setSelection(line);
-        scoreList.performItemClick(scoreList.getChildAt(line), line, scoreList.getItemIdAtPosition(line));
-        scoreList.setItemChecked(line,false);
-
+        scoreList.performItemClick(scoreList.getAdapter().getView(line,null,null),
+                line, line);
 
     }
+
+
 }
