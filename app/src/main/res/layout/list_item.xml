@@ -14,9 +14,9 @@
         <TextView
             android:id="@+id/name"
             android:layout_weight="1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
+            android:textAlignment="viewStart"
             android:textAppearance="?android:attr/textAppearanceMedium">
 
         </TextView>
@@ -24,10 +24,9 @@
         <TextView
             android:id="@+id/score"
             android:layout_weight="1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
-            android:gravity="end"
+            android:gravity="center"
             android:textAppearance="?android:attr/textAppearanceMedium">
 
         </TextView>
@@ -35,9 +34,8 @@
         <TextView
             android:id="@+id/date"
             android:layout_weight="1"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="5dp"
             android:gravity="end"
             android:textAlignment="center"
             android:textAppearance="?android:attr/textAppearanceMedium">

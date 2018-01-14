@@ -2,13 +2,18 @@ package afeka.battleship;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,7 +28,6 @@ public class EndActivity extends AppCompatActivity {
     private String whoWin;
     private int difficulty;
     private int currentScore;
-    private String playerName;
     private RelativeLayout relativeLayout;
     private ImageView title;
     private MediaPlayer endSound;
@@ -32,6 +36,8 @@ public class EndActivity extends AppCompatActivity {
     private EditText editText;
     private ImageView submitButton;
     private LatLng location;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

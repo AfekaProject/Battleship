@@ -72,9 +72,6 @@ public class TileAdapter extends BaseAdapter {
             case HIT:
                 if(!currentTile.isWasHitAnimated()) {
                     tileView.getImg().setImageResource(R.drawable.img_empty);
-                    //tileView.setBackgroundResource(R.color.tranparent);
-                    //   tileView.getImg().setImageResource(R.drawable.img_empty);
-                    //   tileView.getImg().setImageResource(R.drawable.img_hit);
                     tileView.setBackgroundResource(R.drawable.explosionsprite);
 
                     //    tileView.getImg().setLayoutParams(layoutParams);

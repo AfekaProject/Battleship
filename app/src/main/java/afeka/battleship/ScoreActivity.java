@@ -1,5 +1,6 @@
 package afeka.battleship;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.location.Location;
@@ -141,6 +142,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
 
         return false;
     }
+
 
     private void updateLocationUI() {
         if (mMap == null) {
