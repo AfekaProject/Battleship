@@ -16,8 +16,6 @@ public class Game {
     public static final String SCORE = "currentScore";
     public static final String SCORE_BUNDLE = "Score";
 
-
-
     public enum GameStatus {HIT, MISS, WRONG_MOVE, DROWN, WIN}
 
     public enum Players {PLAYER, COMPUTER}

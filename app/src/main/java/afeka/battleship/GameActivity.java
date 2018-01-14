@@ -318,7 +318,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
                 animateEvent(EventCalled.TIMER);
                 if(boardToView.equals(Game.Players.PLAYER)) {
                     updateBoard(Game.Players.PLAYER);
-
                 }
             }
         });
