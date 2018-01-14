@@ -1,7 +1,5 @@
 package afeka.battleship.Model;
 
-import android.util.Log;
-
 import java.util.Random;
 
 public class Board {
@@ -81,40 +79,38 @@ public class Board {
         }
     }
     public void shuffleShips (){
-        int[] vector;
+        int[] vector ;
         Tile.Status status;
         for (Ship anArrShip : arrShip) {
             if (!anArrShip.isDrowned(this)) {
                 vector = findFreePlace(anArrShip);
-                for (int j = 0; j < anArrShip.getSize(); j++) {
-                    Tile currentTile = anArrShip.getTile(j, this);
-                    status = anArrShip.getTile(j, this).getStatus();
-                    boardMatrix[vector[INDEX_X]][vector[INDEX_Y]].setStatus(status);
-                    boardMatrix[vector[INDEX_X]][vector[INDEX_Y]].setShip(anArrShip);
-                    currentTile.setShip(null);
-                    currentTile.setStatus(status.NONE);
-
-                    if(status.equals(Tile.Status.HIT))
-                    currentTile.setWasHitAnimated(false);
-
-                    anArrShip.updateIndex(j, boardMatrix[vector[INDEX_X]][vector[INDEX_Y]]);
-
-                    if(status.equals(Tile.Status.HIT))
-                    anArrShip.getTile(j, this).setWasHitAnimated(true);
-                    if (vector[INDEX_DIRECTION] == HORIZONTAL)
-                        vector[INDEX_X]++;
-                    else
-                        vector[INDEX_Y]++;
-
-
+                if (vector != null){
+                    for (int j = 0; j < anArrShip.getSize(); j++) {
+                        Tile currentTile = anArrShip.getTile(j, this);
+                        status = anArrShip.getTile(j, this).getStatus();
+                        boardMatrix[vector[INDEX_X]][vector[INDEX_Y]].setStatus(status);
+                        boardMatrix[vector[INDEX_X]][vector[INDEX_Y]].setShip(anArrShip);
+                        currentTile.setShip(null);
+                        currentTile.setStatus(status.NONE);
+                        if(status.equals(Tile.Status.HIT))
+                            currentTile.setWasHitAnimated(false);
+                        anArrShip.updateIndex(j, boardMatrix[vector[INDEX_X]][vector[INDEX_Y]]);
+                        if(status.equals(Tile.Status.HIT))
+                            anArrShip.getTile(j, this).setWasHitAnimated(true);
+                        if (vector[INDEX_DIRECTION] == HORIZONTAL)
+                            vector[INDEX_X]++;
+                        else
+                            vector[INDEX_Y]++;
+                    }
                 }
+
             }
         }
     }
 
     private int[] findFreePlace (Ship ship){
         int[] vector = new int[3];
-        int direction, x, y, firstX, firstY;
+        int direction, x, y, firstX, firstY,counter=0;
         Random r = new Random();
         boolean okToPlace, readyToPlaced;
         direction = r.nextInt(2); // 1 = horizontal , 2 = vertical
@@ -122,6 +118,7 @@ public class Board {
             readyToPlaced = false;
             firstX = x = r.nextInt(BOARD_SIZE);
             firstY = y = r.nextInt(BOARD_SIZE);
+            counter++;
             okToPlace = true;
             for (int k = 0; k < ship.getSize() && okToPlace; k++) {
                 if (x < BOARD_SIZE && y < BOARD_SIZE) {
@@ -138,12 +135,16 @@ public class Board {
             }
             if (okToPlace)
                 readyToPlaced = true;
-        } while (!readyToPlaced);
-        // the ship can be placed
-        vector[INDEX_X] = firstX;
-        vector[INDEX_Y] = firstY;
-        vector[INDEX_DIRECTION] = direction;
-        return vector;
+        } while (!readyToPlaced && counter<20);
+        if (readyToPlaced){
+            // the ship can be placed
+            vector[INDEX_X] = firstX;
+            vector[INDEX_Y] = firstY;
+            vector[INDEX_DIRECTION] = direction;
+            return vector;
+        }
+        else
+            return null;
     }
 
     public void setRandomHit(){

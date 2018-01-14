@@ -316,9 +316,8 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
             public void run() {
                 game.getBoard(Game.Players.PLAYER).shuffleShips();
                 animateEvent(EventCalled.TIMER);
-                if(currentPlayer.equals(Game.Players.PLAYER)) {
+                if(boardToView.equals(Game.Players.PLAYER)) {
                     updateBoard(Game.Players.PLAYER);
-
                 }
             }
         });

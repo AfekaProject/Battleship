@@ -4,7 +4,7 @@ import afeka.battleship.Model.Board;
 import afeka.battleship.Model.Tile;
 
 public class Game {
-    public static final boolean debug = false;      // enemy ships shown
+    public static final boolean debug = true;      // enemy ships shown
     public static final boolean aiWin = false;      // make the ai win
 
     public static final String DIFFICULTY = "Difficulty";
@@ -15,8 +15,6 @@ public class Game {
     public static final String LONG = "Longitude";
     public static final String SCORE = "currentScore";
     public static final String SCORE_BUNDLE = "Score";
-
-
 
     public enum GameStatus {HIT, MISS, WRONG_MOVE, DROWN, WIN}
 
