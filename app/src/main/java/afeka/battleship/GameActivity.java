@@ -324,7 +324,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         });
 
     }
-
     @Override
     public void onOrientationChanged() {
         runOnUiThread(new Runnable() {
