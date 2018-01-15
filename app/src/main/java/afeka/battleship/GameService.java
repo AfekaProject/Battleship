@@ -16,13 +16,15 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Binder;
 import android.support.v4.app.ActivityCompat;
+import android.util.Log;
+
 import java.util.Timer;
 import java.util.TimerTask;
 
 public class GameService extends Service implements SensorEventListener, LocationListener {
     //sensors
     private final float SENSITIVE_OF_CHECKING = (float) 0.2;
-    private final int SENSOR_COUNTER = 5;
+    private final int SENSOR_COUNTER = 15;
     private final int TIMER_PERIOD = 30*1000;
 
     private MySensorListener mMySensorListener;
@@ -212,6 +214,7 @@ private void initSensors(){
            lastLocation = setDummy();
         }
         else{
+
             Criteria crit = new Criteria();
             crit.setAccuracy(Criteria.ACCURACY_FINE);
             crit.setPowerRequirement(Criteria.NO_REQUIREMENT);

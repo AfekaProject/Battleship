@@ -36,7 +36,7 @@ public class EndActivity extends AppCompatActivity {
     private EditText editText;
     private ImageView submitButton;
     private LatLng location;
-    
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

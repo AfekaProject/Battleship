@@ -58,6 +58,7 @@ public class TileAdapter extends BaseAdapter {
         FrameLayout.LayoutParams layoutParams = new FrameLayout.LayoutParams(size, size);
         tileView.getImg().setLayoutParams(layoutParams);
         tileView.setLayoutParams(layoutParams);
+        tileView.setBackgroundResource(R.color.colorPrimary);
         switch (status) {
             case NONE:
                 tileView.getImg().setImageResource(R.drawable.img_empty);
@@ -73,8 +74,6 @@ public class TileAdapter extends BaseAdapter {
                 if(!currentTile.isWasHitAnimated()) {
                     tileView.getImg().setImageResource(R.drawable.img_empty);
                     tileView.setBackgroundResource(R.drawable.explosionsprite);
-
-                    //    tileView.getImg().setLayoutParams(layoutParams);
                     AnimationDrawable animationDrawable = (AnimationDrawable) tileView.getBackground();
                     animationDrawable.start();
                     tileView.getImg().setBackgroundResource(R.color.tranparent);
@@ -111,7 +110,7 @@ public class TileAdapter extends BaseAdapter {
                 }
                 break;
             default:
-              //  tileView.getImg().setImageResource(R.drawable.img_empty);
+                tileView.getImg().setImageResource(R.drawable.img_empty);
                 break;
         }
 

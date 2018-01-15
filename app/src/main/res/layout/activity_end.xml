@@ -90,15 +90,7 @@
         android:onClick="submitButtonClicked"
         app:srcCompat="@drawable/savebutton" />
 
-    <ImageView
-        android:id="@+id/bubble"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/redFish"
-        android:layout_marginTop="43dp"
-        android:visibility="invisible"
-        app:srcCompat="@drawable/bubblesprite" />
+
 
 
 </RelativeLayout>

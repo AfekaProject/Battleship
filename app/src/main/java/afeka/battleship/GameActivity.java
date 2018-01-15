@@ -227,6 +227,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
+                statusGameToShow.setTextColor(getResources().getColor(R.color.Black));
                 if (status.equals(Game.GameStatus.HIT)) {
                     playSoundHit.start();
                     if (turn.equals(Game.Players.PLAYER))
@@ -301,12 +302,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         viewBoard.setmBoard(game.getBoard(boardToView), boardToView);
         ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
 
-
-        /*      code for shuffle test
-        game.getBoard(Game.Players.PLAYER).shuffleShips();
-        viewBoard.setmBoard(game.getBoard(boardToView), boardToView);
-        ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
-        */
     }
 
     @Override
@@ -345,8 +340,7 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
 
     private void getLocationFromService(){
         location = gameService.getLastLocation();
-   //     if(location!=null)
-   //     Log.e("Location","is" + location.toString());
+
     }
 
     private int calculateScore(){
