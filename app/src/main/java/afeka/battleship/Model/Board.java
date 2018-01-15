@@ -27,7 +27,6 @@ public class Board {
         generateShips(getShipsAlive());
     }
 
-
     public int getShipsAlive() {
         return shipsAlive;
     }
@@ -66,9 +65,7 @@ public class Board {
             arrShip [i] = new Ship(SHIPS_SIZES[i]);
             arrShip[i].setId(i);
             vector = findFreePlace(arrShip[i]);
-
             for (int k = 0; k < arrShip[i].getSize(); k++) {
-
                 boardMatrix[vector[INDEX_X]][vector[INDEX_Y]].setPlaced(arrShip[i]);
                 arrShip[i].addTile(boardMatrix[vector[INDEX_X]][vector[INDEX_Y]]);
                 if (vector[INDEX_DIRECTION] == HORIZONTAL)
@@ -78,6 +75,7 @@ public class Board {
             }
         }
     }
+
     public void shuffleShips (){
         int[] vector ;
         Tile.Status status;
@@ -147,11 +145,11 @@ public class Board {
             return null;
     }
 
-    public void setRandomHit(){
+    public int setRandomHit(){
         Random rand = new Random();
         int index;
         boolean found = false;
-        Tile tile;
+        Tile tile=null;
         if(shipsAlive > 0){
            while(!found){
                index = rand.nextInt(arrShip.length);
@@ -167,7 +165,10 @@ public class Board {
                    }
                }
            }
+           if (tile != null)
+               return tile.getId();
         }
+        return -1;
     }
 
     public int numOfMovesToWin(){
@@ -177,5 +178,4 @@ public class Board {
         }
         return totalMoves;
     }
-
 }

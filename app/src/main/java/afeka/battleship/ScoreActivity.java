@@ -3,15 +3,11 @@ package afeka.battleship;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.location.Location;
 import android.location.LocationManager;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-
-import com.google.android.gms.maps.CameraUpdate;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -19,9 +15,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-
 import java.util.ArrayList;
-import java.util.Random;
 import afeka.battleship.Model.Score;
 
 public class ScoreActivity extends FragmentActivity implements OnMapReadyCallback, HighScoreFragment.OnFragmentInteractionListener,GoogleMap.OnMarkerClickListener {
@@ -42,7 +36,6 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
                 .findFragmentById(R.id.mapFragment);
         mapFragment.getMapAsync(this);
         database = new Database(this);
-
         markers = new Marker[10];
         scoreList = new ArrayList[3];
         initTables();
@@ -62,12 +55,9 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMarkerClickListener(this);
-        //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(32.113086,34.818021),5));
         updateLocationUI();
         findViewById(R.id.scoreEasy).performClick();
     }
-
-
 
     public void showScoreList(View view) { //when difficulty was chosen
         switch (view.getId()){
@@ -89,7 +79,6 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
         if(highScoreFragment!=null)
             highScoreFragment.showTable(scoreList[difficult-1]);
         updateMarkersOnMap();
-
     }
 
     private void updateMarkersOnMap (){
@@ -131,24 +120,21 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
         markers[position].showInfoWindow();
         LatLng latLng = scoreList[difficult-1].get(position).getLocation();
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
         if(highScoreFragment!=null)
             highScoreFragment.focusLine((Integer)marker.getTag());
-        Log.e("marker tag",marker.getTag().toString());
-
         return false;
     }
 
-
+    @SuppressLint("MissingPermission")
     private void updateLocationUI() {
         if (mMap == null) {
             return;
         }
-        if (checkLocationPremissionAndEnabled()){
+        if (checkLocationPermissionAndEnabled()){
             mMap.setMyLocationEnabled(true);
             mMap.getUiSettings().setMyLocationButtonEnabled(true);
         } else {
@@ -157,7 +143,7 @@ public class ScoreActivity extends FragmentActivity implements OnMapReadyCallbac
         }
     }
 
-    private boolean checkLocationPremissionAndEnabled (){
+    private boolean checkLocationPermissionAndEnabled (){
         LocationManager locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         boolean gps_enabled = false;
         boolean network_enabled = false;

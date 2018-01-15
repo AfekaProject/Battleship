@@ -52,6 +52,7 @@
         android:weightSum="2"
         android:id="@+id/listAndMap"
         android:layout_below="@id/difficultBar">
+
         <fragment
             android:id="@+id/tableFragment"
             android:name="afeka.battleship.HighScoreFragment"
@@ -71,4 +72,5 @@
             tools:context="afeka.battleship.ScoreActivity"
             android:layout_weight="1" />
     </LinearLayout>
+
 </RelativeLayout>

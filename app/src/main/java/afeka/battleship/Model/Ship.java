@@ -8,15 +8,14 @@ public class Ship {
     private int id;
     private int[][] tileIndex;
 
-
-    public int getSize() {
-        return size;
-    }
-
     public Ship(int size) {
         this.size = size;
         liveCounter = 0;
         tileIndex = new int[size][2];
+    }
+
+    public int getSize() {
+        return size;
     }
 
     public int getId() {
@@ -59,6 +58,4 @@ public class Ship {
         tileIndex[i][INDEX_X] = t.getX();
         tileIndex[i][INDEX_Y] = t.getY();
     }
-
-
 }

@@ -40,7 +40,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
     private MediaPlayer playSoundMiss;
     private MediaPlayer playSoundDrown;
     private Animation slideUp;
-    private Animation bold;
     private Vibrator v;
     private Location location;
     private GameService gameService;
@@ -68,7 +67,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         playSoundMiss = MediaPlayer.create(getApplicationContext(), R.raw.blup);
         playSoundDrown = MediaPlayer.create(getApplicationContext(), R.raw.splash);
         slideUp= AnimationUtils.loadAnimation(this,R.anim.slideup);
-        bold= AnimationUtils.loadAnimation(this,R.anim.bold);
         progressBar = findViewById(R.id.progressBar);
         progressBar.setVisibility(View.INVISIBLE);
         v =  (Vibrator) getSystemService(VIBRATOR_SERVICE);
@@ -136,7 +134,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-
                 if (mainGrid.isEnabled())
                     mainGrid.setEnabled(false);
                 else
@@ -146,7 +143,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
     }
 
     private void playPlayer(int position) {
-
             currentGameStatus = game.playerPlay(position);
             updateBoard(Game.Players.PLAYER);
             movesCounter++;
@@ -159,7 +155,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
 
     private void playComputer() {
         pause(2);
-
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -203,7 +198,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
             public void run() {
                 progressBar.setVisibility(View.INVISIBLE);
                 currentPlayer.setText(R.string.playerTurn);
-
             }
         });
         updateBoard(Game.Players.PLAYER);
@@ -214,10 +208,12 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
             @Override
             public void run() {
                 if (p.equals(Game.Players.PLAYER)) {
+                    boardToView = Game.Players.PLAYER;
                     viewBoard.setmBoard(game.getBoard(Game.Players.PLAYER), Game.Players.PLAYER);
-
-                }  else
+                }  else{
+                    boardToView = Game.Players.COMPUTER;
                     viewBoard.setmBoard(game.getBoard(Game.Players.COMPUTER), Game.Players.COMPUTER);
+                }
                 ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
             }
         });
@@ -291,7 +287,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
     }
 
     public void switchBoard(View view) {
-
         if (boardToView.equals(Game.Players.PLAYER)) {
             boardToView = Game.Players.COMPUTER;
             buttonSwitch.setText(R.string.computerBoard);
@@ -301,7 +296,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
         }
         viewBoard.setmBoard(game.getBoard(boardToView), boardToView);
         ((TileAdapter) mainGrid.getAdapter()).notifyDataSetChanged();
-
     }
 
     @Override
@@ -316,7 +310,6 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
                 }
             }
         });
-
     }
     @Override
     public void onOrientationChanged() {
@@ -324,9 +317,11 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
             @Override
             public void run() {
                 if(countSensorEvent == 5) {
-              animateEvent(EventCalled.SENSORS);
-                    game.getBoard(Game.Players.COMPUTER).setRandomHit();
-
+                    animateEvent(EventCalled.SENSORS);
+                    int  index = game.getBoard(Game.Players.COMPUTER).setRandomHit();
+                    game.getCpu().removeFromPlaces(index);
+                    if (boardToView.equals(Game.Players.COMPUTER))
+                        updateBoard(Game.Players.COMPUTER);
                     if (game.getBoard(Game.Players.COMPUTER).checkIfLose()) {
                         game.setCurrentTurn(Game.Players.COMPUTER);
                         winEndGame();
@@ -340,14 +335,14 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
 
     private void getLocationFromService(){
         location = gameService.getLastLocation();
-
+        if (location==null)
+            location = gameService.setDummy();
     }
 
     private int calculateScore(){
         int movesToWin = game.getBoard(Game.Players.PLAYER).numOfMovesToWin();
         int highestScore = 100;
         highestScore += movesToWin;
-
         return highestScore - movesCounter;
     }
 
@@ -387,5 +382,4 @@ public class GameActivity extends AppCompatActivity implements GameService.Timer
             shuffleView.startAnimation(alphaAnim);
         }
     }
-
 }

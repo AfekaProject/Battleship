@@ -2,18 +2,12 @@ package afeka.battleship;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.drawable.AnimationDrawable;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.Display;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.TranslateAnimation;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -97,7 +91,6 @@ public class EndActivity extends AppCompatActivity {
         blueFish.setVisibility(View.VISIBLE);
         blueFish.startAnimation(moveLeft);
 
-
         if(!checkIfHighScore()) {
             editText.setVisibility(View.INVISIBLE);
             submitButton.setVisibility(View.GONE);
@@ -135,12 +128,10 @@ public class EndActivity extends AppCompatActivity {
         Date currentDate = new Date();
         Score newScore = new Score(name,difficulty,currentScore,currentDate,latLng);
         database.addScores(newScore);
-
     }
 
     public void submitButtonClicked(View view) {
         String name = editText.getText().toString();
-        Log.e("name",""+name);
         setHighScore(name,location);
         View tempView = this.getCurrentFocus();
         if (tempView !=null){
@@ -149,6 +140,5 @@ public class EndActivity extends AppCompatActivity {
         }
         view.setVisibility(View.GONE);
         editText.setVisibility(View.INVISIBLE);
-
     }
 }

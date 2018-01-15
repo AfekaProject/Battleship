@@ -4,7 +4,7 @@ import afeka.battleship.Model.Board;
 import afeka.battleship.Model.Tile;
 
 public class Game {
-    public static final boolean debug = true;      // enemy ships shown
+    public static final boolean debug = false;      // enemy ships shown
     public static final boolean aiWin = false;      // make the ai win
 
     public static final String DIFFICULTY = "Difficulty";
@@ -17,13 +17,11 @@ public class Game {
     public static final String SCORE_BUNDLE = "Score";
 
     public enum GameStatus {HIT, MISS, WRONG_MOVE, DROWN, WIN}
-
     public enum Players {PLAYER, COMPUTER}
 
     private ComputerPlayer cpu;
     private Board bPlayer;
     private Board bComputer;
-
     private Players CurrentTurn;
 
     public Game(int difficult) {
@@ -33,6 +31,9 @@ public class Game {
         CurrentTurn = Players.PLAYER;
     }
 
+    public ComputerPlayer getCpu(){
+        return cpu;
+    }
     public Players getCurrentTurn() {
         return CurrentTurn;
     }
@@ -55,7 +56,6 @@ public class Game {
         Board currentBoard;
         Tile currentTile;
         GameStatus lastTurnStatus;
-
         if (getCurrentTurn() == Players.PLAYER) {
             currentBoard = bPlayer;
             currentTile = bPlayer.getTile(position);
@@ -84,7 +84,6 @@ public class Game {
     }
 
     public GameStatus computerPlay(Board board) {
-
         return playGame(cpu.playTurn(board));
     }
 

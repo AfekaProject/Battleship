@@ -7,7 +7,6 @@ public class Tile {
     private int y;
     private Ship ship;
     private Status status;
-
     private boolean wasHitAnimated = false;
     private boolean wasDrawnAnimated = false;
 
@@ -15,7 +14,6 @@ public class Tile {
         this.x = x;
         this.y = y;
         status = Status.NONE;
-
     }
 
     @Override
@@ -46,6 +44,10 @@ public class Tile {
 
     public Ship getShip() {
         return ship;
+    }
+
+    public int getId (){
+        return y*Board.BOARD_SIZE+x;
     }
 
     public void setShip(Ship ship) {
@@ -89,6 +91,7 @@ public class Tile {
     public void setWasHitAnimated(boolean wasHitAnimated) {
         this.wasHitAnimated = wasHitAnimated;
     }
+
     public boolean isWasDrawnAnimated() {
         return wasDrawnAnimated;
     }

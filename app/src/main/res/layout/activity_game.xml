@@ -36,7 +36,6 @@
         android:scaleY="1"
         />
 
-
     <TextView
         android:id="@+id/statusText"
         android:layout_width="match_parent"
@@ -74,7 +73,7 @@
     <ImageView
         android:id="@+id/shuffleView"
         android:layout_width="100dp"
-        android:layout_height="wrap_content"
+        android:layout_height="100dp"
         android:layout_alignParentBottom="true"
         android:layout_alignBottom="@id/progressBar"
         android:layout_alignParentRight="true"

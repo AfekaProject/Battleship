@@ -2,7 +2,6 @@ package afeka.battleship.View;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -11,7 +10,6 @@ import afeka.battleship.Model.Board;
 import afeka.battleship.Model.Tile;
 import afeka.battleship.R;
 import afeka.battleship.logic.Game;
-
 
 public class TileAdapter extends BaseAdapter {
 
@@ -77,18 +75,11 @@ public class TileAdapter extends BaseAdapter {
                     AnimationDrawable animationDrawable = (AnimationDrawable) tileView.getBackground();
                     animationDrawable.start();
                     tileView.getImg().setBackgroundResource(R.color.tranparent);
-
-
                     currentTile.setWasHitAnimated(true);
-
                 }else{
-
                     tileView.getImg().setImageResource(R.drawable.img_hit);
                     tileView.setBackgroundResource(R.color.colorPrimary);
-
                 }
-
-
 
                 break;
             case MISS:
@@ -97,9 +88,7 @@ public class TileAdapter extends BaseAdapter {
             case DROWNED:
                 if(!currentTile.isWasDrawnAnimated()){
                     tileView.getImg().setImageResource(R.drawable.img_empty);
-
                     tileView.setBackgroundResource(R.drawable.watersprite);
-
                     AnimationDrawable animationDrawable = (AnimationDrawable) tileView.getBackground();
                     animationDrawable.start();
                     tileView.getImg().setBackgroundResource(R.color.tranparent);
@@ -113,7 +102,6 @@ public class TileAdapter extends BaseAdapter {
                 tileView.getImg().setImageResource(R.drawable.img_empty);
                 break;
         }
-
         return tileView;
     }
 
@@ -123,5 +111,4 @@ public class TileAdapter extends BaseAdapter {
         else
             tileView.getImg().setImageResource(R.drawable.img_goldfish);
     }
-
 }

@@ -105,7 +105,6 @@ public class Database extends SQLiteOpenHelper{
         return list;
     }
 
-
     public class FeedScore implements BaseColumns {
         private static final String TABLE_NAME = "highScore";
         private static final String COLUMN_NAME_NAME = "name";

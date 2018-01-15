@@ -32,7 +32,6 @@ public class ComputerPlayer {
         // make ai win (for debug)  disable for game
         if (Game.aiWin)
             temp = cpuAutoWin(board);
-
         lastPosition = temp;
         return temp;
     }
@@ -51,5 +50,9 @@ public class ComputerPlayer {
 
     public int getLastPosition(){
         return lastPosition;
+    }
+
+    public void removeFromPlaces (Integer i){
+        places.remove(i);
     }
 }

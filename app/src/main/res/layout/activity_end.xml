@@ -90,7 +90,4 @@
         android:onClick="submitButtonClicked"
         app:srcCompat="@drawable/savebutton" />
 
-
-
-
 </RelativeLayout>

@@ -7,12 +7,10 @@
     android:weightSum="3"
     tools:context="afeka.battleship.HighScoreFragment">
 
-
-
     <TableRow
-    android:layout_width="match_parent"
+        android:layout_width="match_parent"
         android:weightSum="3"
-    android:layout_height="match_parent">
+        android:layout_height="match_parent">
 
         <TextView
             android:layout_width="match_parent"
@@ -40,8 +38,8 @@
         android:textSize="20sp"
         android:text="@string/dateTitle"
         android:textStyle="bold" />
-</TableRow>
 
+</TableRow>
 
     <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
@@ -55,20 +53,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
-        android:divider="#000000"
+        android:divider="@color/Black"
         android:dividerHeight="2dp"
         android:isScrollContainer="true"
         android:focusableInTouchMode="true"
         android:listSelector="@color/darkBlue"
         >
 
-
-
     </ListView>
 
-
     </RelativeLayout>
-
-
 
 </TableLayout>

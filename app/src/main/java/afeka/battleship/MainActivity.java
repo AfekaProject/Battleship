@@ -1,6 +1,5 @@
 package afeka.battleship;
 
-import android.*;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
@@ -13,7 +12,6 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-
 import afeka.battleship.logic.Game;
 
 public class MainActivity extends AppCompatActivity {
@@ -39,7 +37,6 @@ public class MainActivity extends AppCompatActivity {
         hardButton = findViewById(R.id.hard_button);
         requestPermission();
         selectSound = MediaPlayer.create(this, R.raw.click);
-
     }
 
     public void clickStart(View view) {
@@ -54,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.medium_button:
                 difficulty = 2;
                 mediumButton.startAnimation(anim);
-
                 hardButton.clearAnimation();
                 easyButton.clearAnimation();
                 break;

@@ -5,21 +5,17 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
 import afeka.battleship.Model.Score;
 import afeka.battleship.View.ScoreAdapter;
 
 public class HighScoreFragment extends Fragment {
-
 
     private OnFragmentInteractionListener mListener;
     private ListView scoreList;
@@ -40,7 +36,6 @@ public class HighScoreFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -64,11 +59,9 @@ public class HighScoreFragment extends Fragment {
         scoreData=new ArrayList<>();
         View view =inflater.inflate(R.layout.fragment_high_score, container, false);
         scoreList = view.findViewById(R.id.scoreList);
-
         scoreAdapter = new ScoreAdapter(getContext(),scoreData);
         scoreList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
         scoreList.setAdapter(scoreAdapter);
-
         return view;
     }
 
@@ -79,8 +72,6 @@ public class HighScoreFragment extends Fragment {
         }
     }
 
-
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
@@ -90,7 +81,6 @@ public class HighScoreFragment extends Fragment {
             throw new RuntimeException(context.toString()
                     + " must implement OnFragmentInteractionListener");
         }
-
     }
 
     @Override
@@ -104,7 +94,6 @@ public class HighScoreFragment extends Fragment {
         void onClickRow(int position);
     }
 
-
     public Score[] test(){
         Score[] arr = new Score[10];
         for (int i = 0 ; i<arr.length ; i++){
@@ -115,7 +104,6 @@ public class HighScoreFragment extends Fragment {
 
     public void showTable(ArrayList<Score>scores){
         scoreData.clear();
-
         if(scores.size()>0)
         scoreData.addAll(0,scores);
         scoreAdapter.notifyDataSetChanged();
@@ -124,10 +112,6 @@ public class HighScoreFragment extends Fragment {
     public void focusLine(int line){
         scoreList.requestFocusFromTouch();
         scoreList.setSelection(line);
-        scoreList.performItemClick(scoreList.getAdapter().getView(line,null,null),
-                line, line);
-
+        scoreList.performItemClick(scoreList.getAdapter().getView(line,null,null), line, line);
     }
-
-
 }

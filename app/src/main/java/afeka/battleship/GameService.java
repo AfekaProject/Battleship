@@ -16,8 +16,6 @@ import android.os.Bundle;
 import android.os.IBinder;
 import android.os.Binder;
 import android.support.v4.app.ActivityCompat;
-import android.util.Log;
-
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -107,7 +105,6 @@ private void initSensors(){
             checkMoves(mLastOrientationArr);
             counterSamples = 0;
         }
-
     }
 
     public class MyLocalBinder extends Binder {
@@ -228,7 +225,7 @@ private void initSensors(){
         }
     }
 
-    private Location setDummy (){
+    public Location setDummy (){
         Location lastLocation = new Location("dummy");
         lastLocation.setLatitude(32.113086);
         lastLocation.setLongitude(34.818021);
@@ -240,7 +237,8 @@ private void initSensors(){
 
     @Override
     public void onLocationChanged(Location location) {
-        lastLocation = location;
+        if (location!=null)
+            lastLocation = location;
     }
 
     @Override
